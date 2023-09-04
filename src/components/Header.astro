@@ -14,7 +14,7 @@ const isActive = (href) => {
 };
 ---
 
-<header class="surface-base nav sticky top-0 z-50">
+<header class="surface-menu nav sticky top-0 z-50">
   <nav class="container-xl flex flex-nowrap items-stretch gap-6">
     <a
       href="/"
@@ -24,7 +24,7 @@ const isActive = (href) => {
     >
     {
       menu && (
-        <ul class="nav-underline relative hidden flex-nowrap pl-4 uppercase tracking-wide before:absolute before:inset-y-4 before:left-0 before:border-l-2 before:border-primary before:border-opacity-50 md:flex ">
+        <ul class="nav-underline nav-links relative hidden flex-nowrap pl-4 uppercase tracking-wide before:absolute before:inset-y-4 before:left-0 before:border-l-2 before:border-primary before:border-opacity-50 md:flex ">
           {menu.map((link) => (
             <li class={`${isActive(link.href) ? "active font-semibold" : ""}`}>
               <a href={link.href} class={`block py-3`}>
@@ -76,7 +76,10 @@ const isActive = (href) => {
 
               <Icon name="close" class="h-10 w-10" slot="close" />
               <Icon name="logo" class="w-full" slot="logo" />
-              <ul class="mobile-links mt-3 w-full text-center" slot="links">
+              <ul
+                class="mobile-links nav-links mt-3 w-full text-center"
+                slot="links"
+              >
                 {menu.map((link, index) => (
                   <li
                     style={`--animation-delay: ${(index + 1) * 100}ms`}

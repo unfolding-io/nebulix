@@ -39,12 +39,12 @@ const render = async (content) => {
       </div>
     </div>
     <div
-      class="grid w-full flex-wrap justify-between gap-8 text-center sm:flex sm:text-left lg:w-2/3"
+      class="grid w-full flex-wrap justify-center sm:justify-between gap-8 text-center sm:flex sm:text-left lg:w-2/3"
     >
       {
         navigation.data.footer_menus &&
           navigation.data.footer_menus.map((menu) => (
-            <div class="min-w-[12rem] space-y-3 sm:max-w-[14rem] ">
+            <div class="min-w-[12rem] space-y-3 sm:max-w-[14rem]">
               <h3 class="font-semibold uppercase">{menu.label}</h3>
               <ul class="space-y-1">
                 {menu.links.map((link) => (

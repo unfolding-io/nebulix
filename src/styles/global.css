@@ -99,7 +99,10 @@
 }
 
 .surface-menu {
-  @apply bg-light bg-opacity-90 text-primary backdrop-blur-sm;
+  @apply bg-light bg-opacity-90 text-primary  dark:bg-black dark:bg-opacity-90;
+  .nav-links {
+    @apply text-dark dark:text-white;
+  }
 }
 
 .surface-light {
