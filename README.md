@@ -9,7 +9,7 @@ A Universe of Possibilities: Blogs, Portfolios, Webshop, Restaurant Menus, and B
 
 
 
-![Nebulix](https://nebulix.unfolding.io/screenshot.png)
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-00-start.jpg)
 
 ## Notice
 
@@ -161,4 +161,25 @@ For those seeking priority assistance, we offer premium support services. Feel f
 ## 🚕 Roadmap
 
 As we journey towards v1.0, our path includes enriching the page builder with a diverse array of new blocks, upgrading dependencies to ensure optimal performance, and introducing exciting features. We're eager to hear from you! If you have any feature requests, please feel free to reach out and let us know.
+
+## 📸 Screenshots
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-01-shop.jpg)
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-02-shop-category.jpg)
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-03-shop-product.jpg)
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-04-shop-product.jpg)
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-05-shop-product-dark.jpg)
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-06-blogpost.jpg)
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-07-portfolio.jpg)
+
+![Nebulix](https://nebulix.unfolding.io/screenshots/nebulix-08-footer.jpg)
+
+
+
 
