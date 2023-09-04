@@ -13,7 +13,7 @@ A Universe of Possibilities: Blogs, Portfolios, Webshop, Restaurant Menus, and B
 
 ## Notice
 
-__This theme is still in development, till we reach v1.0.0 it can be that upgrading will cause errors.__
+__This theme is currently under development, and until we reach version 1.0.0, there is a possibility that upgrading could lead to errors.__
 
 
 ## Constellations of Features:
