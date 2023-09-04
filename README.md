@@ -102,7 +102,7 @@ $ npm install
 ### 🛠️ 5. Start Development server
 
 ```bash
-$ npm r
+$ npm run dev
 ```
 
 If you wish to engage the local backend:
