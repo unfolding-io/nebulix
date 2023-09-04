@@ -15,6 +15,10 @@ A Universe of Possibilities: Blogs, Portfolios, Webshop, Restaurant Menus, and B
 
 __This theme is still in development, till we reach v1.0.0 it can be that upgrading will cause errors.__
 
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/unfolding-io/nebulix
+
+)
+
 
 ## Constellations of Features:
 
