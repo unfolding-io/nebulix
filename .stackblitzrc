@@ -1,5 +1,4 @@
 {
-  "startCommand": "npm run dev",
   "env": {
     "BLOG_SLUG": "blog",
     "PORTFOLIO_SLUG": "work",
