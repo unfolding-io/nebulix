@@ -1,0 +1,80 @@
+---
+import { Icon } from "astro-icon";
+import { t } from "@util/translate";
+export interface Props {
+  currentPage: Number;
+  totalPage: Number;
+  url: string;
+}
+
+const { currentPage, totalPage, url } = Astro.props as Props;
+
+let pageStatuses = Array.from({ length: totalPage }, (v, i) => i + 1).map(
+  (i) => {
+    var item = {
+      pageNumber: i,
+      isActive: currentPage == i,
+      isDisabled: isDisabled(i),
+    };
+    return item;
+  },
+);
+
+function isDisabled(i) {
+  if (Number(totalPage) <= 6) return false;
+  if (i <= 2 || i >= Number(totalPage) - 1) return false;
+  if (currentPage == i - 1 || currentPage == i || currentPage == i + 1)
+    return false;
+  return true;
+}
+const prevUrl =
+  Number(currentPage) <= 2 ? `/${url}` : `/${url}/${Number(currentPage) - 1}`;
+---
+
+<div class="flex items-center justify-end">
+  <div class="flex items-center gap-1 text-lg">
+    {
+      Number(currentPage) > 1 && (
+        <a href={prevUrl} aria-label={t("previous")} class={` h-6 w-6`}>
+          <Icon name="left" class="w6 h6" />
+        </a>
+      )
+    }
+    {
+      pageStatuses.map((pageStatus, index) =>
+        pageStatus.isActive ? (
+          <span class={`surface-primary rounded-md px-2 py-1`}>
+            {currentPage}
+          </span>
+        ) : pageStatus.isDisabled && !pageStatuses[index - 1].isDisabled ? (
+          <span class={`opacity-70`}>...</span>
+        ) : (
+          !pageStatus.isDisabled && (
+            <a
+              aria-label={`${t("go_to_page")} ${pageStatus.pageNumber}`}
+              class="px-2 py-1 "
+              href={`/${url}${
+                Number(pageStatus.pageNumber) > 1
+                  ? `/${pageStatus.pageNumber}`
+                  : ""
+              }`}
+            >
+              {pageStatus.pageNumber}
+            </a>
+          )
+        ),
+      )
+    }
+    {
+      currentPage < totalPage && (
+        <a
+          href={`/${url}/${Number(currentPage) + 1}`}
+          aria-label={t("next")}
+          class={`h-6 w-6 `}
+        >
+          <Icon name="right" class="w6 h6" />
+        </a>
+      )
+    }
+  </div>
+</div>

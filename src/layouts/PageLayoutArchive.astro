@@ -1,0 +1,133 @@
+---
+import { renderMarkdown } from "@astrojs/markdown-remark";
+import { getGridImageSizes } from "@util/helpers";
+import PageLayoutWide from "@layouts/PageLayoutWide.astro";
+import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
+import Pager from "@components/navigation/Pager.astro";
+import Intersecting from "@components/common/Intersecting.vue";
+import ItemCard from "@components/cards/ItemCard.astro";
+import ItemCardFlex from "@components/cards/ItemCardFlex.astro";
+import ItemCardSmall from "@components/cards/ItemCardSmall.astro";
+import { slugify } from "@util/helpers";
+
+const { data, page, filters, base_url, filter, filter_type, tag } = Astro.props;
+const style = data?.style ? data.style : page.data.style;
+const sizes = getGridImageSizes(data?.style?.container || "md");
+const template = style?.template ? data.style.template : "split";
+const pagerSlug = `${base_url}/${filter_type}/${slugify(filter)}`;
+
+const productWrapClass = () => {
+  if (style.card_template === "grid")
+    return `grid auto-grid-${data.style.container} gap-4 pb-32`;
+  return `flex flex-wrap gap-4 justify-center pb-32 flex-grid`;
+};
+
+const render = async (content) => {
+  return await renderMarkdown(content, {}).then((r) => r.code);
+};
+---
+
+{
+  template === "split" && (
+    <PageLayoutSplit
+      {...page}
+      {...data}
+      {base_url}
+      {filters}
+      {filter}
+      {filter_type}
+      {tag}
+    >
+      {data.body && data.body !== " " && (
+        <div
+          class={`richtext ${data.style.content_class || "pb-14"}`}
+          set:html={render(data.body)}
+        />
+      )}
+      <ul class={`bloglist grid gap-4 pb-14`} data-pagefind-ignore="all">
+        {page.data.map((post) => (
+          <li>
+            <Intersecting client:visible>
+              <ItemCardSmall content={post} {base_url} animate={true} />
+            </Intersecting>
+          </li>
+        ))}
+      </ul>
+
+      {page.lastPage > 1 && (
+        <div class="-mb-14 mt-auto w-full pb-4 pt-20">
+          <Pager
+            totalPage={page.lastPage}
+            currentPage={page.currentPage}
+            url={pagerSlug}
+          />
+        </div>
+      )}
+    </PageLayoutSplit>
+  )
+}
+
+{
+  template === "full" && (
+    <PageLayoutWide
+      {...page}
+      {...data}
+      {filters}
+      {filter}
+      {filter_type}
+      {base_url}
+      {tag}
+    >
+      {data.body && data.body !== "" && (
+        <section class={` ${data.style.content_class || "pb-14"}`}>
+          <div
+            class={`richtext container-${data.style.container}`}
+            set:html={render(data.body)}
+          />
+        </section>
+      )}
+
+      <section data-pagefind-ignore="all">
+        <ul class={`${productWrapClass()}`}>
+          {page.data.map((post) => (
+            <li>
+              <Intersecting client:visible>
+                {style.card_template === "grid" && (
+                  <ItemCard content={post} {base_url} {sizes} animate={true} />
+                )}
+                {style.card_template === "flex" && (
+                  <ItemCardFlex content={post} {base_url} animate={true} />
+                )}
+              </Intersecting>
+            </li>
+          ))}
+        </ul>
+        {page.lastPage > 1 && (
+          <div class="container-md pb-4">
+            <Pager
+              totalPage={page.lastPage}
+              currentPage={page.currentPage}
+              url={pagerSlug}
+            />
+          </div>
+        )}
+      </section>
+    </PageLayoutWide>
+  )
+}
+
+<style lang="postcss">
+	ul.bloglist {
+		width: calc(100% + var(--container-spacing));
+		margin-left: calc(var(--spacing) * -1);
+		@screen sm {  
+			width: 100%;
+			margin-left: 0;                      
+		}
+	}
+	.flex-grid {
+		li {
+			@apply flex-1 flex justify-center;
+		}
+	}
+</style>

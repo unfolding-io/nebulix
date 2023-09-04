@@ -1,0 +1,286 @@
+---
+import { Picture } from "astro-imagetools/components";
+import { Icon } from "astro-icon";
+import { renderMarkdown } from "@astrojs/markdown-remark";
+import Intersecting from "@components/common/Intersecting.vue";
+import Button from "@components/navigation/Button.astro";
+import { t } from "@util/translate";
+
+const {
+  title,
+  content,
+  thumbnail,
+  template,
+  reverse,
+  container,
+  buttons,
+  aspect,
+  image_size,
+  animate,
+} = Astro.props;
+
+const renderedContent = await renderMarkdown(content, {}).then((r) => r.code);
+const containerSizes = {
+  sm: "40rem", //640px
+  md: "55rem", // 880px
+  lg: "65rem", //1040
+  xl: "75rem", // 1200
+  full: "100vw", // 1200
+  none: "100vw", // 1200
+};
+const roundedClass =
+  template == "column" && container !== "none" ? "rounded-md" : "";
+/* IMAGES SIZES */
+let sizes = "100vw";
+if (template === "column") {
+  const percent = (100 / parseInt(image_size)).toFixed(2);
+  sizes = `(max-width: 767px) calc(100vw - 4rem), (min-width: ${containerSizes[container]} ) calc(${containerSizes[container]} / ${percent}), calc(100vw / 4rem), calc(${containerSizes[container]} / ${percent})`;
+} else {
+  sizes = `min(100vw, ${containerSizes[container]})`;
+}
+
+const imageName = thumbnail.split("/").pop().split(".")[0];
+
+const columnClass = () => {
+  if (template !== "column") return "";
+  return `column-grid column-grid-${image_size || 50}`;
+};
+
+const animation = `image_${animate ? imageName : Math.random()}`;
+---
+
+<Intersecting client:visible className="w-full">
+  <div
+    class={`container-${container} ${columnClass()} text-image gap-8 text-image__${template} ${
+      reverse ? "reverse" : "normal"
+    } ${template === "banner" ? "nebulix-parallax bg-dark" : ""}`}
+  >
+    <div class="media">
+      {
+        imageName && (
+          <>
+            {template !== "banner" && (
+              <a
+                class={`img text-lightgroup group relative block overflow-hidden ${roundedClass}`}
+                href={`/images/${imageName}`}
+                transition:name={`${animation}`}
+                aria-label={t("enlarge_image")}
+                data-animation={animation}
+              >
+                <div
+                  class={`transition-transform duration-1000 ease-in hover:scale-105 hover:duration-[1s]`}
+                >
+                  <Picture
+                    src={thumbnail}
+                    breakpoints={[
+                      360, 390, 412, 601, 768, 820, 962, 1280, 1440, 1536, 1920,
+                    ]}
+                    alt={title}
+                    layout="fullWidth"
+                    aspect={aspect}
+                    position="attention"
+                    sizes={sizes}
+                  />
+                </div>
+                <div class="absolute right-2 top-2 z-10 h-14 w-14 rounded-full bg-dark bg-opacity-40 text-white opacity-0 transition-all duration-1000 group-hover:opacity-100">
+                  <Icon
+                    name="zoom"
+                    class="pointer-events-none absolute right-4 top-4 h-6 w-6 opacity-80"
+                  />
+                </div>
+              </a>
+            )}
+
+            {template === "banner" && (
+              <Picture
+                attributes={{ picture: { class: "parallax" } }}
+                src={thumbnail}
+                width={1920}
+                height={900}
+                ar={2.25}
+                alt={title}
+                layout="fill"
+                breakpoints={[1000, 1280, 1440, 1536, 1920]}
+                position="attention"
+                sizes={sizes}
+                artDirectives={[
+                  {
+                    media: "(max-width: 500px)",
+                    ar: 0.7,
+                    src: thumbnail,
+                    breakpoints: [
+                      320, 360, 390, 412, 500, 601, 768, 1024, 1200,
+                    ],
+                  },
+                  {
+                    media: "(max-width: 1000px)",
+                    ar: 1,
+                    src: thumbnail,
+                    breakpoints: [
+                      500, 601, 768, 820, 962, 1280, 1440, 1536, 1920,
+                    ],
+                  },
+                ]}
+              />
+            )}
+          </>
+        )
+      }
+    </div>
+
+    <div class="text-image__content my-auto h-full flex-1 flex">
+      <div class="my-auto">
+        <div
+          set:html={renderedContent}
+          class="richtext fade-up"
+          style="--animation-delay: 0.4s"
+        />
+
+        {
+          buttons && (
+            <div
+              style="--animation-delay: 0.6s"
+              class={`inline-flex flex-wrap gap-4 fade-up  ${
+                template === "banner"
+                  ? "mb-8 w-full justify-center py-0"
+                  : "py-8"
+              }`}
+            >
+              {buttons.map((btn) => (
+                <Button {...btn} />
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</Intersecting>
+
+<style lang="postcss">
+	.text-image {
+        @apply gap-8;
+
+		&__row {
+			@apply flex relative flex-col flex-nowrap ;
+			&.reverse {
+				@apply flex-col-reverse;
+			}
+
+			.media {
+				width: calc(100% + var(--container-spacing));
+				margin-inline: calc(var(--spacing) * -1);
+				 
+				.img {
+					@apply sticky top-8;
+				}
+			}
+		}
+		&__banner {
+			@apply relative overflow-hidden;  
+			&:not(.container-none){
+				@apply rounded-md;
+
+			} 
+			 
+			.media {
+				@apply absolute inset-0 pointer-events-none;
+			}
+            .text-image__content {
+                @apply relative z-10 w-full h-full  grid place-items-center py-20 bg-dark bg-opacity-30;
+                .richtext {
+                    @apply p-8 text-white max-w-2xl text-center;
+                }
+                
+            }
+		}
+
+	}
+
+	.column-grid {
+
+		.img {
+					@apply sticky top-8;
+				}
+		&-25 {
+			@apply grid ;
+			@screen md { 
+			    grid-template-columns: minmax(0,3fr) minmax(0,1fr);
+				&.reverse {
+					grid-template-columns: minmax(0,1fr) minmax(0,3fr);
+				}
+			}
+			
+		}
+		&-33 {
+			@apply grid;
+			@screen md {
+				grid-template-columns: minmax(0,2fr) minmax(0,1fr);
+				   &.reverse {
+					   grid-template-columns: minmax(0,1fr) minmax(0,2fr);
+				   }
+			}
+		}
+
+		&-50 {
+			@apply grid md:grid-cols-2;
+			
+		}
+		&-66 {
+			@apply grid ;
+			@screen md {
+				 grid-template-columns: minmax(0,1fr) minmax(0,2fr);
+				&.reverse {
+					grid-template-columns: minmax(0,2fr) minmax(0,1fr);
+				}
+
+			}
+			
+			
+		}
+		&-75 {
+			@apply grid ;
+			@screen md {
+
+				grid-template-columns: minmax(0,1fr) minmax(0,3fr);
+				   &.reverse {
+					   grid-template-columns: minmax(0,3fr) minmax(0,1fr);
+				   }
+			}
+			
+		}
+
+
+
+		&.normal {
+
+			@screen md {
+
+				.media {
+					@apply col-start-2 row-start-1;
+					
+				}
+				.text-image__content {
+					@apply col-start-1 row-start-1 ;
+				}
+			}
+		}	
+		
+		&.container-none {
+			.text-image__content {
+				padding-inline: var(--spacing);
+					@screen md {
+						padding-inline: var(--container-spacing);
+					}
+				}
+
+				.img {
+					@apply sticky top-0;
+				}
+			
+		}
+			
+	}
+
+	
+</style>

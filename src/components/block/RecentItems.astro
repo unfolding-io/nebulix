@@ -1,0 +1,155 @@
+---
+import { getCollection } from "astro:content";
+import { renderMarkdown } from "@astrojs/markdown-remark";
+import ItemCard from "@components/cards/ItemCard.astro";
+import ItemCardSmall from "@components/cards/ItemCardSmall.astro";
+import Intersecting from "@components/common/Intersecting.vue";
+import { Icon } from "astro-icon";
+import { t } from "@util/translate";
+import { getGridImageSizes, slugify } from "@util/helpers";
+
+const {
+  title,
+  container,
+  template,
+  content,
+  count,
+  page_type,
+  post_tag,
+  portfolio_tag,
+  animate,
+} = Astro.props;
+
+const render = async (content) => {
+  return await renderMarkdown(content, {}).then((r) => r.code);
+};
+let base_url;
+let posts;
+if (page_type === "blog") {
+  base_url = import.meta.env.BLOG_SLUG;
+  posts = (await getCollection("blog")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+
+  if (post_tag && post_tag.length > 0)
+    posts = posts.filter(
+      (post) =>
+        post.data?.tag &&
+        post_tag.some((t) => post.data?.tag && post.data.tag.includes(t)),
+    );
+}
+
+if (page_type === "menu") {
+  base_url = import.meta.env.MENU_SLUG;
+  posts = (await getCollection("menu")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+}
+
+if (page_type === "project") {
+  base_url = import.meta.env.PORTFOLIO_SLUG;
+  posts = (await getCollection("project")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  if (portfolio_tag && portfolio_tag.length > 0)
+    posts = posts.filter(
+      (post) =>
+        post.data?.tag &&
+        portfolio_tag.some((t) => post.data?.tag && post.data.tag.includes(t)),
+    );
+}
+
+if (count && count > 0) posts = posts.slice(0, count);
+
+const sizes = getGridImageSizes(container);
+---
+
+<Intersecting client:visible className="w-full">
+  <div
+    class={`recent-blogs grid gap-8 fade-up container-${container || "md"} `}
+  >
+    {
+      template === "grid" && (
+        <>
+          <h2 class="title-sm" id={slugify(title)}>
+            {title}
+          </h2>
+          {content && <div class="richtext" set:html={render(content)} />}
+          <div
+            class={`auto-grid-${container || "md"} gap-4`}
+            data-pagefind-ignore="all"
+          >
+            {posts.map((post, index) => (
+              <div style={`--animation-delay: ${(index + 1) * 150}ms`}>
+                <ItemCard
+                  content={post}
+                  base_url={base_url}
+                  {sizes}
+                  {animate}
+                />
+              </div>
+            ))}
+            <a
+              href={`/${base_url}`}
+              aria-label={t("show_more")}
+              class="fade-up surface-primary group grid aspect-square h-full w-full place-items-center py-8 transition-colors duration-500 hover:bg-dark"
+            >
+              <span class="subtitle">
+                <Icon
+                  name="right"
+                  class="w-20 transition-transform duration-500 group-hover:scale-110"
+                />
+              </span>
+            </a>
+          </div>
+        </>
+      )
+    }
+
+    {
+      template === "list" && (
+        <div class="grid gap-14 md:grid-cols-2">
+          <div>
+            <div class="sticky top-8 grid gap-4">
+              <h2 class="title-sm" id={slugify(title)}>
+                {title}
+              </h2>
+              {content && <div class="richtext" set:html={render(content)} />}
+            </div>
+          </div>
+          <ul class={`bloglist grid gap-4`} data-pagefind-ignore="all">
+            {posts.map((post, index) => (
+              <li style={`--animation-delay: ${(index + 1) * 150}ms`}>
+                <ItemCardSmall content={post} base_url={base_url} {animate} />
+              </li>
+            ))}
+            <li class="fade-up flex justify-end">
+              <a
+                href={`/${base_url}`}
+                aria-label={t("show_more")}
+                class=" btn btn-icon surface-primary mr-2"
+              >
+                <Icon
+                  name="right"
+                  class="w-6 transition-transform duration-500 group-hover:scale-110"
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</Intersecting>
+
+<style lang="postcss">
+.recent-blogs ul.bloglist {
+		width: calc(100% + var(--container-spacing));
+		margin-left: calc(var(--spacing) * -1);
+		
+		@screen md {  
+			width: 100%;
+			margin-left: 0;                      
+		}
+	}
+</style>

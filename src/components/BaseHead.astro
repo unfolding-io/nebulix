@@ -1,0 +1,65 @@
+---
+import { getEntry } from "astro:content";
+import { ViewTransitions } from "astro:transitions";
+import { importImage } from "astro-imagetools/api";
+import "../styles/global.css";
+
+const { data } = await getEntry("config", "about");
+
+interface Props {
+  title: string;
+  description: string;
+  thumbnail?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const { title, description, thumbnail } = Astro.props;
+const searchImage = !!thumbnail
+  ? await importImage(`${thumbnail}?w=120&h=120&ar=1&position=entropy`)
+  : null;
+const socialImage = !!thumbnail
+  ? await importImage(`${thumbnail}?w=1200&h=630&ar=1&position=entropy`)
+  : null;
+
+const pageTitle = `${title} | ${data.sitename}`;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel="canonical" data-pagefind-meta="url[href]" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={description} />
+{
+  searchImage && (
+    <meta
+      data-pagefind-meta="image[content]"
+      content={searchImage}
+      property="search:image"
+    />
+  )
+}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{socialImage && <meta property="og:image" content={socialImage} />}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+{socialImage && <meta property="twitter:image" content={socialImage} />}
+
+<ViewTransitions />
+<script src="/scroll-timeline.js" is:inline defer></script>

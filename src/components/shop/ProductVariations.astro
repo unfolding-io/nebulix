@@ -1,0 +1,97 @@
+---
+import { formatPrice } from "@util/toLocale";
+import { Picture } from "astro-imagetools/components";
+import VariationButton from "./VariationButton.vue";
+import VariationInput from "./VariationInput.vue";
+
+const { thumbnail, variations } = Astro.props;
+const optionsArr = variations.map((option, index) => {
+  if (option?.options) {
+    return {
+      name: option.name,
+      id: option.id,
+      show_images: option.show_images,
+      key: `data-item-custom${index + 1}-value`,
+      options: option.options.map((opt) => {
+        const file = opt.thumbnail ? opt.thumbnail : thumbnail;
+        return {
+          ...opt,
+          value: `${opt.label}`,
+          id: opt.id,
+          thumbnail: file,
+          hasImage: !!opt.thumbnail,
+        };
+      }),
+    };
+  } else {
+    return {
+      name: option.name,
+      key: `data-item-custom${index + 1}-value`,
+    };
+  }
+});
+---
+
+<div class="grid gap-4 py-10">
+  {
+    optionsArr.map((option) => (
+      <div class="grid gap-2">
+        <div class="title-xs font-bold">{option.name}</div>
+        {option.options && option.options.length > 0 && (
+          <div class=" flex flex-wrap justify-stretch gap-4">
+            {option.options.map((opt, idx) => (
+              <VariationButton
+                value={opt.value}
+                option={option.key}
+                price={opt.price}
+                hasImage={opt.hasImage}
+                id={opt.id}
+                group={option.id}
+                className={`variation-item$${
+                  opt.thumbnail ? "" : "fit"
+                } rounded-md overflow-hidden px-2 py-4  flex-1 group surface-overlay-hover-btn z-10`}
+                client:visible
+              >
+                {opt.thumbnail && option.show_images && (
+                  <div class="transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-105">
+                    <Picture
+                      attributes={{
+                        picture: {
+                          style: "--animation-delay: 0.6s",
+                          class: "z-0  fade-in  overflow-hidden rounded-md",
+                        },
+                      }}
+                      position="attention"
+                      src={opt.thumbnail}
+                      width={70}
+                      height={70}
+                      ar={1}
+                      alt={opt.label}
+                      layout="fixed"
+                    />
+                  </div>
+                )}
+                <div class="pt-1 text-xs group-hover:text-primary">
+                  <span>{opt.label}</span>
+                  {opt.price > 0 && (
+                    <span class="font-bold"> +{formatPrice(opt.price)}</span>
+                  )}
+                </div>
+              </VariationButton>
+            ))}
+          </div>
+        )}
+
+        {!option.options && (
+          <VariationInput option={option.key} client:visible />
+        )}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .variation-item {
+    min-width: max(20%, 8rem);
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+const { nav, base_url } = Astro.props;
+import { t } from "@util/translate";
+---
+
+<div class="mb-8 grid w-full gap-5 border-t-2 pt-8">
+  <div class="text-overline text-left text-sm">{t("previous_and_next")}</div>
+  <div class="grid w-full grid-cols-2 justify-stretch gap-4">
+    {
+      nav.prev && nav.prev.title && (
+        <a
+          href={`/${base_url}/${nav.prev.slug}`}
+          class="balanced subtitle line-clamp-2 block w-full text-left"
+        >
+          {nav.prev.title}
+        </a>
+      )
+    }
+    {
+      nav.next && nav.next?.title && (
+        <a
+          href={`/${base_url}/${nav.next.slug}`}
+          class="balanced subtitle col-start-2 line-clamp-2  block w-full text-right"
+        >
+          {nav.next.title}
+        </a>
+      )
+    }
+  </div>
+</div>

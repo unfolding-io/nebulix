@@ -1,0 +1,62 @@
+{
+  "name": "nebulix",
+  "type": "module",
+  "license": "CC BY-ND 4.0",
+  "version": "0.1.2",
+  "keywords": [
+    "astro",
+    "Static CMS",
+    "Vue 3",
+    "mdx",
+    "markdown"
+  ],
+  "description": "Fast & Green Theme Based on Astro + Static CMS. A Universe of Possibilities: Blogs, Portfolios, Menus, Webshop & Beyond",
+  "scripts": {
+    "postbuild": "pagefind --source dist --bundle-dir _pagefind",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "cms-proxy-server": "npx @staticcms/proxy-server"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.2.0",
+    "@astrojs/mdx": "^1.0.0",
+    "@astrojs/prefetch": "^0.4.0",
+    "@astrojs/rss": "^3.0.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "@astrojs/tailwind": "^5.0.0",
+    "@astrojs/vue": "^3.0.0",
+    "@fontsource-variable/inter-tight": "^5.0.9",
+    "@nanostores/vue": "^0.10.0",
+    "@panzoom/panzoom": "^4.5.1",
+    "@remark-embedder/core": "^3.0.2",
+    "@remark-embedder/transformer-oembed": "^3.0.0",
+    "@vueuse/components": "^10.4.1",
+    "astro": "^3.0.3",
+    "astro-compress": "^2.0.15",
+    "astro-critters": "^2.0.11",
+    "astro-icon": "^0.8.1",
+    "astro-imagetools": "^0.9.0",
+    "astro-m2dx": "^0.7.16",
+    "convert": "^4.13.1",
+    "js-convert-case": "^4.2.0",
+    "nanostores": "^0.9.3",
+    "rehype-external-links": "^2.1.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
+    "vue": "^3.3.4",
+    "vue3-popper": "^1.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
+    "dotenv": "^16.3.1",
+    "pagefind": "^0.12.0",
+    "postcss-import": "^15.1.0",
+    "postcss-nesting": "^12.0.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0",
+    "prettier-plugin-tailwindcss": "^0.5.4"
+  }
+}

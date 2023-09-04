@@ -1,0 +1,55 @@
+---
+import { renderMarkdown } from "@astrojs/markdown-remark";
+import Intersecting from "@components/common/Intersecting.vue";
+import { Icon } from "astro-icon";
+import { getIconName } from "@util/helpers";
+const { content, container, features } = Astro.props;
+
+const render = async (content) => {
+  return await renderMarkdown(content, {}).then((r) => r.code);
+};
+---
+
+<Intersecting client:visible className="w-full">
+  <div
+    class={`container-${container} fade-up rounded-md surface-white features grid gap-8`}
+  >
+    <div set:html={render(content)} class="richtext fade-up" />
+
+    {
+      features && (
+        <ul class="features my-10 flex flex-wrap justify-center gap-4 ">
+          {features.map((feature, index) => (
+            <li
+              class={`features__item fade-up flex flex-1 flex-col items-center rounded-md text-center`}
+              style={`--animation-delay: ${(index + 1) * 150}ms`}
+            >
+              {feature.icon && (
+                <div
+                  class={`${
+                    feature.color || "surface-primary"
+                  } grid h-14 w-14 place-items-center overflow-hidden rounded-full`}
+                >
+                  <Icon name={getIconName(feature.icon)} class={`h-8 w-8 `} />
+                </div>
+              )}
+              <div
+                set:html={render(feature.content)}
+                class="richtext no-lead px-4 py-8"
+              />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</Intersecting>
+
+<style>
+  .features {
+    &__item {
+      min-width: min(100vw - var(--spacing), 16rem);
+      max-width: 22rem;
+    }
+  }
+</style>

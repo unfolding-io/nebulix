@@ -1,0 +1,78 @@
+---
+import { getEntry } from "astro:content";
+import BaseHead from "@components/BaseHead.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Init from "@components/common/Init.vue";
+import SnipCart from "@components/shop/SnipCartInit.vue";
+import { Icon } from "astro-icon";
+import { t } from "@util/translate";
+import "@fontsource-variable/inter-tight";
+import "@fontsource-variable/inter-tight/wght-italic.css";
+
+const lang = import.meta.env.WEBSITE_LANGUAGE;
+const currency = import.meta.env.CURRENCY;
+const snipcartKey = import.meta.env.SNIPCART_KEY;
+const { title, description, pageClass, thumbnail } = Astro.props;
+const navigation = await getEntry("config", "navigation");
+const about = await getEntry("config", "about");
+const contact = await getEntry("config", "contact");
+---
+
+<!doctype html>
+<html lang={lang} data-currency={currency}>
+  <head>
+    <BaseHead title={title} description={description} {thumbnail} />
+  </head>
+  <body class={`surface-base ${pageClass || ""}`}>
+    {
+      snipcartKey && (
+        <SnipCart
+          transition:persist
+          transition:name="snipcart-base"
+          snipcartKey={snipcartKey}
+          client:idle
+        />
+      )
+    }
+    <Header
+      title={title}
+      menu={navigation.data.main_menu}
+      social={contact.data.social}
+      about={about.data}
+    />
+    <main>
+      <slot />
+    </main>
+    <Footer>
+      <slot name="footer" />
+      <div class="pointer-events-none fixed bottom-0 right-0 z-50 w-full">
+        <div class="container-xl flex justify-end pb-4">
+          <a
+            href="#top"
+            aria-label={t("back_to_top")}
+            class="btn btn-icon surface-primary btn-to-top pointer-events-auto opacity-0"
+          >
+            <Icon name="up" class="w-6" /></a
+          >
+        </div>
+      </div>
+    </Footer>
+    <Init client:idle />
+
+    <script>
+      const html = document.getElementsByTagName("html")[0];
+      const setDarkMode = () => {
+        if (localStorage.darkMode) {
+          document.documentElement.dataset.dark = "";
+        }
+      };
+
+      const SmoothScroll = () => {
+        html.style["scroll-behavior"] = "auto";
+      };
+      SmoothScroll();
+      document.addEventListener("astro:beforeload", SmoothScroll);
+    </script>
+  </body>
+</html>

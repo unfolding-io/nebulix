@@ -1,0 +1,17 @@
+---
+import { formatPrice } from "@util/toLocale";
+import { t } from "@util/translate";
+const { price, offer_price, in_stock } = Astro.props;
+---
+
+<div class={`${!in_stock ? "opacity-90" : ""}`}>
+  {!in_stock && <span class=" text-xs font-normal ">{t("out_of_stock")}</span>}
+  <div class="grid gap-0 font-bold leading-none">
+    <span
+      class={offer_price > 0 ? "muted text-xs text-danger line-through" : ""}
+    >
+      {formatPrice(price)}
+    </span>
+    {offer_price > 0 && <span>{formatPrice(offer_price)}</span>}
+  </div>
+</div>

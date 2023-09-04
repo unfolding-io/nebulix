@@ -1,0 +1,53 @@
+---
+import BaseHead from "@components/BaseHead.astro";
+import PanZoom from "@components/media/PanZoom.vue";
+import { toHeaderCase } from "js-convert-case";
+import ImageNav from "@components/navigation/ImageNav.vue";
+import { Icon } from "astro-icon";
+import { t } from "@util/translate";
+import { getImageTransitionName } from "@util/helpers";
+
+export async function getStaticPaths() {
+  const images = await Astro.glob("../../assets/*");
+
+  let params = images
+    .filter((img) => ["jpeg", "jpg", "png", "gif"].includes(img.default.format))
+    .flatMap((img) => {
+      return {
+        params: { slug: img.default.src.split("/").pop().split(".")[0] },
+        props: {
+          image: img.default.src,
+        },
+      };
+    });
+
+  return params;
+}
+const { image } = Astro.props;
+const { slug } = Astro.params;
+const title = toHeaderCase(slug);
+---
+
+<!doctype html>
+<html lang="en" data-pagefind-ignore="all">
+  <head>
+    <BaseHead title={title} description={`${t("image")}: ${title}`} />
+  </head>
+  <body class="surface-dark relative grid h-screen w-full place-items-center">
+    <ImageNav
+      client:idle
+      translations={{ next: t("next"), prev: t("prev"), close: t("close") }}
+    >
+      <Icon name="close" class="w-8" slot="close" />
+      <Icon name="right" class="w-8" slot="next" />
+      <Icon name="left" class="w-8" slot="prev" />
+
+      <PanZoom
+        image={image}
+        alt={`image: ${title}`}
+        client:idle
+        transition:name={`${getImageTransitionName(image)}`}
+      />
+    </ImageNav>
+  </body>
+</html>

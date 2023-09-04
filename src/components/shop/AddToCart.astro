@@ -1,0 +1,145 @@
+---
+import { Icon } from "astro-icon";
+import { t } from "@util/translate";
+import { importImage } from "astro-imagetools/api";
+import ProductPrice from "./ProductPrice.vue";
+const {
+  thumbnail,
+  slug,
+  id,
+  price,
+  offer_price,
+  variations,
+  title,
+  is_digital,
+  description,
+  taxable,
+  tax_included,
+  categories,
+  shipping,
+  guid,
+  min,
+  max,
+  in_stock,
+} = Astro.props;
+const bas_url = import.meta.env.SHOP_SLUG;
+const productPrice = offer_price > 0 ? offer_price : price;
+const thumb = await importImage(
+  `${thumbnail}?w=120&h=120&ar=1&position=entropy`,
+);
+let customOption = {};
+/* SET ALL PRODUCT OPTIONS */
+if (is_digital) {
+  customOption = {
+    ...customOption,
+    "data-item-file-guid": guid,
+    "data-item-shippable": false,
+  };
+}
+if (!taxable) {
+  customOption = {
+    ...customOption,
+    "data-item-taxable": false,
+  };
+}
+if (tax_included) {
+  customOption = {
+    ...customOption,
+    "data-item-tax-included": true,
+  };
+}
+
+if (categories) {
+  customOption = {
+    ...customOption,
+    "data-item-categories": categories.join("|"),
+  };
+}
+
+if (shipping && shipping.weight) {
+  customOption = {
+    ...customOption,
+    "data-item-weight": shipping.weight,
+  };
+}
+
+if (shipping && shipping.length) {
+  customOption = {
+    ...customOption,
+    "data-item-length": shipping.length,
+  };
+}
+
+if (shipping && shipping.height) {
+  customOption = {
+    ...customOption,
+    "data-item-height": shipping.height,
+  };
+}
+
+if (shipping && shipping.width) {
+  customOption = {
+    ...customOption,
+    "data-item-width": shipping.width,
+  };
+}
+
+if (min) {
+  customOption = {
+    ...customOption,
+    "data-item-min-quantity": min,
+  };
+}
+
+if (max) {
+  customOption = {
+    ...customOption,
+    "data-item-max-quantity": max,
+  };
+}
+
+if (variations && variations.length > 0) {
+  variations.map((option, index) => {
+    let vals: string[] = [];
+    if (option?.options) {
+      option.options.forEach((opt) => {
+        vals = [...vals, `${opt.label}${opt.price ? `[+${opt.price}]` : ""}`];
+      });
+    }
+
+    customOption[`data-item-custom${index + 1}-name`] = `${option.name}`;
+    if (option?.options)
+      customOption[`data-item-custom${index + 1}-options`] = vals.join("|");
+  });
+}
+---
+
+<div class="flex items-center gap-4">
+  <div
+    class="surface-base grid rounded-md px-2 py-1 text-lg font-bold leading-none shadow-md"
+  >
+    <span class={`${!in_stock ? "opacity-70" : ""}`}>
+      <ProductPrice price={price} offer={offer_price} client:idle />
+      {
+        !in_stock && (
+          <span class=" text-xs font-normal ">{t("out_of_stock")}</span>
+        )
+      }
+    </span>
+  </div>
+  <button
+    disabled={!in_stock}
+    id="add-to-card"
+    aria-label={t("add_to_cart")}
+    class="snipcart-add-item btn surface-primary btn-icon pointer-events-auto"
+    data-item-id={id}
+    data-item-price={productPrice}
+    data-item-url={`/${bas_url}/${slug}`}
+    data-item-description={description}
+    data-item-image={thumb}
+    data-item-name={title}
+    {...customOption}
+  >
+    <Icon name="shop" class="h-6 w-6" />
+  </button>
+</div>

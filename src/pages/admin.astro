@@ -1,0 +1,193 @@
+---
+/* STATIC CMS ADMIN PAGE */
+import { menu, page, settings, post, project, product } from "@cms/index.mjs";
+import logo from "@icons/logo.svg";
+import newsIcon from "@icons/news.svg";
+import pageIcon from "@icons/page.svg";
+import menuIcon from "@icons/menu.svg";
+import settingsIcon from "@icons/settings.svg";
+import portfolioIcon from "@icons/portfolio.svg";
+import shopIcon from "@icons/shop.svg";
+
+const lang = import.meta.env.WEBSITE_LANGUAGE;
+const url = Astro.site;
+
+const config = {
+  locale: lang,
+  site_url: url,
+  logo_url: "https://nebulix.unfolding.io/logo.svg",
+  local_backend: true,
+  backend: {
+    name: "test-repo",
+    /* name: "gitlab",
+    repo: "/astro-themes/nebulala",
+    auth_type: "pkce", // Required for pkce
+    app_id: "48458142", // Application ID from your GitLab settings
+    commit_messages: {
+      create: 'Create {{collection}} "{{slug}}"',
+      update: 'Update {{collection}} "{{slug}}"',
+      delete: 'Delete {{collection}} "{{slug}}"',
+      uploadMedia: 'Upload "{{path}}"',
+      deleteMedia: 'Delete "{{path}}"',
+    }, */
+  },
+  search: "true",
+  media_folder: "src/assets",
+  public_folder: "/src/assets",
+  media_library: {
+    max_file_size: 2012000,
+    folder_support: true,
+  },
+  collections: [page, post, project, product, menu, settings],
+};
+---
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nebulix Admin | by unfolding.io</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@staticcms/app@^v3.1.2/dist/main.css"
+    />
+
+    <style is:inline>
+      .flex.flex-col.min-h-full,
+      .w-editor-only.max-w-full {
+        padding-bottom: 10rem;
+      }
+
+      .flex.flex-col.min-h-full.w-full {
+        @apply pb-20;
+      }
+
+      .btn-contained-primary {
+        background-color: #0070f3 !important;
+      }
+
+      .btn-contained-success {
+        background-color: green !important;
+      }
+
+      .btn-contained-error {
+        background: red !important;
+      }
+
+      [data-testid="expand-button"] label,
+      [data-testid="list-expand-button"] label {
+        font-size: 1rem !important;
+        text-transform: uppercase;
+      }
+
+      .MuiCollapse-wrapperInner > div {
+        border-bottom: 5px dotted rgba(59, 130, 246, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <script
+      is:inline
+      src="https://unpkg.com/@staticcms/app@^v3.1.2/dist/static-cms-app.js"
+    ></script>
+    <script
+      is:inline
+      define:vars={{
+        config,
+        logo,
+        newsIcon,
+        pageIcon,
+        menuIcon,
+        settingsIcon,
+        portfolioIcon,
+        shopIcon,
+      }}
+    >
+      window.CMS.init({ config });
+
+      const ProductPreviewCard = ({ entry, widgetFor }) => {
+        return h(
+          "div",
+          { style: { width: "100%" } },
+          h(
+            "div",
+            { style: { width: "100%", height: "170px", overflow: "hidden" } },
+            widgetFor("thumbnail"),
+          ),
+
+          h(
+            "div",
+            { style: { padding: "16px", width: "100%" } },
+            h(
+              "div",
+              {
+                style: {
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "start",
+                },
+              },
+              h(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "baseline",
+                    gap: "2px",
+                  },
+                },
+                h(
+                  "div",
+                  {
+                    style: {
+                      fontSize: "18px",
+                      whiteSpace: "no-wrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "block",
+                    },
+                  },
+                  entry.data.title,
+                ),
+                h(
+                  "span",
+                  { style: { fontSize: "12px" } },
+                  parseFloat(entry.data.price).toFixed(2),
+                ),
+              ),
+              h(
+                "div",
+                {
+                  style: {
+                    backgroundColor:
+                      entry.data.in_stock === true ? "green" : "red",
+                    color: "white",
+                    border: "none",
+                    padding: "4px",
+                    textAlign: "center",
+                    textDecoration: "none",
+                    display: "inline-block",
+                    cursor: "pointer",
+                    borderRadius: "100px",
+                  },
+                },
+                " ",
+              ),
+            ),
+          ),
+        );
+      };
+      CMS.registerPreviewCard("product", ProductPreviewCard, () => 240);
+      CMS.registerIcon("house", () => h("img", { src: logo.src }));
+      CMS.registerIcon("news", () => h("img", { src: newsIcon.src }));
+      CMS.registerIcon("page", () => h("img", { src: pageIcon.src }));
+      CMS.registerIcon("menu", () => h("img", { src: menuIcon.src }));
+      CMS.registerIcon("settings", () => h("img", { src: settingsIcon.src }));
+      CMS.registerIcon("portfolio", () => h("img", { src: portfolioIcon.src }));
+      CMS.registerIcon("shop", () => h("img", { src: shopIcon.src }));
+    </script>
+  </body>
+</html>

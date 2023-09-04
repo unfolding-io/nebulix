@@ -1,0 +1,129 @@
+---
+import { getCollection } from "astro:content";
+import { renderMarkdown } from "@astrojs/markdown-remark";
+import ItemCard from "@components/cards/ItemCard.astro";
+import ItemCardSmall from "@components/cards/ItemCardSmall.astro";
+import ItemCardFlex from "@components/cards/ItemCardFlex.astro";
+import Intersecting from "@components/common/Intersecting.vue";
+import { slugify, getGridImageSizes } from "@util/helpers";
+
+const base_url = import.meta.env.SHOP_SLUG;
+const { title, container, template, content, categories, products, count } =
+  Astro.props;
+
+const render = async (content) => {
+  return await renderMarkdown(content, {}).then((r) => r.code);
+};
+
+let posts = (await getCollection("product")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+if (products && products.length > 0) {
+  posts = products
+    .map((productId) =>
+      posts.filter((product) => product.data.id === productId).pop(),
+    )
+    .filter((val) => !!val);
+} else if (categories) {
+  
+  posts = posts.filter((post) =>
+    categories.some(
+      (cat) => post.data.category && post.data.category.includes(cat.trim()),
+    ),
+  );
+}
+
+posts = posts.slice(0, count);
+
+const sizes = getGridImageSizes(container);
+---
+
+<Intersecting client:visible className="w-full">
+  <div
+    class={`recent-blogs grid gap-8 fade-up container-${container || "md"} `}
+  >
+    {
+      template === "grid" && (
+        <>
+          <h2 class="title-sm" id={slugify(title)}>
+            {title}
+          </h2>
+          {content && <div class="richtext" set:html={render(content)} />}
+          <div
+            class={`auto-grid-${container || "md"} gap-4`}
+            data-pagefind-ignore="all"
+          >
+            {posts.map((post, index) => (
+              <div style={`--animation-delay: ${(index + 1) * 150}ms`}>
+                <ItemCard content={post} {base_url} {sizes} />
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    }
+
+    {
+      template === "list" && (
+        <div class="grid gap-14 md:grid-cols-2">
+          <div>
+            <div class="sticky top-8 grid gap-4">
+              <h2 class="title-sm" id={slugify(title)}>
+                {title}
+              </h2>
+              {content && <div class="richtext" set:html={render(content)} />}
+            </div>
+          </div>
+          <ul class={`bloglist grid gap-4`} data-pagefind-ignore="all">
+            {posts.map((post, index) => (
+              <li style={`--animation-delay: ${(index + 1) * 150}ms`}>
+                <ItemCardSmall content={post} {base_url} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    {
+      template === "flex" && (
+        <>
+          <h2 class="title-sm" id={slugify(title)}>
+            {title}
+          </h2>
+          {content && <div class="richtext" set:html={render(content)} />}
+          <ul
+            class={`flex flex-wrap gap-4 justify-center flex-grid `}
+            data-pagefind-ignore="all"
+          >
+            {posts.map((post, index) => (
+              <li
+                style={`--animation-delay: ${(index + 1) * 150}ms`}
+                class="flex-1 flex justify-center"
+              >
+                <ItemCardFlex content={post} {base_url} {sizes} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </div>
+</Intersecting>
+
+<style lang="postcss">
+.recent-blogs ul.bloglist {
+		width: calc(100% + var(--container-spacing));
+		margin-left: calc(var(--spacing) * -1);
+		
+		@screen md {  
+			width: 100%;
+			margin-left: 0;                      
+		}
+	}
+
+	 
+
+ 
+</style>

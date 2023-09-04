@@ -1,0 +1,62 @@
+---
+import { t } from "@util/translate";
+const { shipping } = Astro.props;
+import convert from "convert";
+
+let units = import.meta.env.UNITS;
+if (!units) units = "metric";
+const convertUnit = (val, unit) => {
+  const obj = convert(val, unit).to("best", units);
+  return `${obj.quantity.toFixed(2)} ${obj.unit}`;
+};
+---
+
+<div class="grid content-start gap-4">
+  <h2 class="title-xs font-bold">{t("label_parcel_info")}</h2>
+
+  <div class="grid auto-rows-min gap-1 text-sm">
+    {
+      shipping.weight && (
+        <div class="flex justify-stretch gap-4">
+          <div class="flex-0 sm:fex-1  min-w-[120px] font-bold">
+            {t("weight")}
+          </div>
+          <div class="flex-1">{convertUnit(shipping.weight, "g")}</div>
+        </div>
+      )
+    }
+
+    {
+      shipping.width && (
+        <div class="flex justify-stretch gap-4">
+          <div class="flex-0 sm:fex-1  min-w-[120px] font-bold">
+            {t("width")}
+          </div>
+          <div class="flex-1">{convertUnit(shipping.width, "cm")}</div>
+        </div>
+      )
+    }
+
+    {
+      shipping.length && (
+        <div class="flex justify-stretch gap-4">
+          <div class="flex-0 sm:fex-1  min-w-[120px] font-bold">
+            {t("length")}
+          </div>
+          <div class="flex-1"> {convertUnit(shipping.length, "cm")}</div>
+        </div>
+      )
+    }
+
+    {
+      shipping.height && (
+        <div class="flex justify-stretch gap-4">
+          <div class="flex-0 sm:fex-1  min-w-[120px] font-bold">
+            {t("height")}
+          </div>
+          <div class="flex-1"> {convertUnit(shipping.height, "cm")}</div>
+        </div>
+      )
+    }
+  </div>
+</div>

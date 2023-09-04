@@ -1,0 +1,165 @@
+---
+/* PRODUCT PAGES */
+import type { CollectionEntry } from "astro:content";
+import { getArchiveNav } from "@util/helpers";
+import { getCollection } from "astro:content";
+import Breadcrumb from "@components/navigation/Breadcrumb.astro";
+import ItemNav from "@components/navigation/ItemNav.astro";
+import ProductLayoutSplit from "@layouts/ProductLayoutSplit.astro";
+import AddToCart from "@components/shop/AddToCart.astro";
+import ProductVariations from "@components/shop/ProductVariations.astro";
+import ShippingDimensions from "@components/shop/ShippingDimensions.astro";
+import { t } from "@util/translate";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("product")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  const count = posts.length;
+  return posts.flatMap((post, index) => {
+    let next: CollectionEntry<"product"> | null = null;
+    let prev: CollectionEntry<"product"> | null = null;
+    const archiveNav = getArchiveNav(count, index, posts);
+
+    next = archiveNav.next;
+    prev = archiveNav.prev;
+
+    return {
+      params: { slug: post.slug },
+      props: {
+        ...post,
+        data: {
+          ...post.data,
+          nav: {
+            next: {
+              slug: next?.slug,
+              title: next?.data?.title,
+            },
+            prev: {
+              slug: prev?.slug,
+              title: prev?.data?.title,
+            },
+            index: index,
+          },
+        },
+      },
+    };
+  });
+}
+
+type Props = CollectionEntry<"product">;
+const base_url = import.meta.env.SHOP_SLUG;
+const post = Astro.props;
+const { Content } = await post.render();
+let searchFilters = [`${t("content")}:${base_url}`];
+
+if (post?.data?.category) {
+  const searchCategorys = post.data.category.map(
+    (cat) => `${t("category")}:${cat}`,
+  );
+  searchFilters = [...searchFilters, ...searchCategorys];
+}
+
+const product = {
+  title: post.data.title,
+  thumbnail: post.data.thumbnail,
+  description: post.data.description,
+  intro: post.data.intro,
+  id: post.data.id,
+  min: post.data.min,
+  in_stock: post.data.in_stock,
+  max: post.data.max,
+  price: post.data.price,
+  offer_price: post.data.offer_price,
+  variations: post.data.variations,
+  taxable: post.data.taxable,
+  is_digital: post.data.is_digital,
+  tax_included: post.data.tax_included,
+  shipping: post.data.shipping,
+  category: post.data.category,
+  guid: post.data.guid,
+  slug: post.slug,
+};
+let variation_images;
+const variations = post.data.variations
+  ? post.data.variations
+      .map((option) => {
+        if (!option?.options) return;
+        return option.options
+          .map((opt) => {
+            if (!opt.thumbnail) return;
+            return {
+              thumbnail: opt.thumbnail,
+              id: opt.id,
+              name: `${post.data.title} - ${opt.label}`,
+            };
+          })
+          .filter((val) => !!val);
+      })
+      .filter((val) => !!val)
+  : [];
+if (variations.length > 0) variation_images = [...new Set(variations.flat(1))];
+
+const filter = post.data?.category
+  ? {
+      name: post.data.category[0],
+      type: "category",
+    }
+  : null;
+---
+
+<ProductLayoutSplit {...post.data} {base_url} {variation_images}>
+  <Breadcrumb title={post.data.title} slot="breadcrumb" filter={filter} />
+  <div class="richtext">
+    <Content />
+  </div>
+  {
+    product.variations && (
+      <ProductVariations
+        variations={product.variations}
+        thumbnail={product.thumbnail}
+        price={product.price}
+      />
+    )
+  }
+
+  <div
+    class="mt-auto flex flex-wrap content-end justify-between gap-8 border-t-2 py-8"
+  >
+    {
+      post.data.features && (
+        <div class="grid content-start gap-4">
+          <h2 class="title-xs font-bold">{t("label_product_features")}</h2>
+          <div class="grid auto-rows-min gap-1 text-sm">
+            {post.data.features.map((feature) => (
+              <div class="flex justify-stretch gap-4">
+                <div class="flex-0 sm:fex-1  w-[120px] font-bold">
+                  {" "}
+                  {feature.name}
+                </div>
+                <div class="flex-1"> {feature.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
+    {product.shipping && <ShippingDimensions shipping={product.shipping} />}
+  </div>
+
+  <div slot="cart" class="container-xl flex justify-end">
+    <div class="flex pb-4 pl-2 pt-2">
+      <AddToCart {...product} />
+      <div
+        class="add-to-cart-spacer transition-width pointer-events-none w-0 duration-700"
+      >
+      </div>
+    </div>
+  </div>
+
+  <ItemNav nav={post.data.nav} {base_url} slot="nav" />
+
+  <div class="search-indexing hidden">
+    {searchFilters.map((filter) => <meta data-pagefind-filter={filter} />)}
+  </div>
+</ProductLayoutSplit>

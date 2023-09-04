@@ -1,0 +1,51 @@
+---
+/* SHOP ARCHIVE PAGES BY CATEGORY */
+import { getEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import PageLayoutArchive from "@layouts/PageLayoutArchive.astro";
+import { getPagination, getCategoryData } from "@util/helpers";
+
+export async function getStaticPaths({ paginate }) {
+  let posts = await getCollection("product");
+
+  posts
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+    .filter((post) => !!post.data?.category);
+
+  const { data } = await getEntry("config", "shop");
+  const allFilters = posts
+    .map((post) => post.data.category)
+    .filter((post) => !!post);
+
+  const filters = [...new Set(allFilters.flat(1))];
+
+  return getPagination(posts, filters, data, "category");
+}
+const base_url = import.meta.env.SHOP_SLUG;
+const { lastPage, currentPage, page, filter, filters, filter_type } =
+  Astro.props;
+let { data } = await getEntry("config", "shop");
+
+/* GET HERO INFO FROM CONFIG */
+delete data.hero_buttons;
+const pageData = getCategoryData(data.product_categories, filter);
+ 
+if (pageData && !pageData.overwrite_style) delete pageData.style;
+data = {
+  ...data,
+  ...pageData,
+};
+---
+
+<PageLayoutArchive
+  page={{
+    data: page,
+    lastPage: lastPage,
+    currentPage: currentPage,
+  }}
+  {filters}
+  {filter}
+  {filter_type}
+  {data}
+  {base_url}
+/>

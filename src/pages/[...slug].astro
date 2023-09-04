@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
+import PageLayoutWide from "@layouts/PageLayoutWide.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("page");
+  let params = posts.map((post) => {
+    let slug = post.slug != "index" ? post.slug : undefined;
+    return {
+      params: { slug: slug },
+      props: { ...post },
+    };
+  });
+  return params;
+}
+
+type Props = CollectionEntry<"page">;
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+{
+  // Render a full-width page layout
+  post.data.style.template === "full" && (
+    <PageLayoutWide {...post.data}>
+      <div class="richtext">
+        <Content />
+      </div>
+    </PageLayoutWide>
+  )
+}
+{
+  // Render a split-width page layout
+  post.data.style.template === "split" && (
+    <PageLayoutSplit {...post.data}>
+      <div class="richtext">
+        <Content />
+      </div>
+    </PageLayoutSplit>
+  )
+}

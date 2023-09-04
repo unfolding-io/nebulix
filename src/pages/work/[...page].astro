@@ -1,0 +1,25 @@
+---
+/* BLOG ARCHIVE PAGES */
+import { getEntry } from "astro:content";
+import PageLayoutArchive from "@layouts/PageLayoutArchive.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths({ paginate }) {
+  const posts = (await getCollection("project")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  const { data } = await getEntry("config", "project");
+  return paginate(posts, { pageSize: data.per_page });
+}
+
+const posts = (await getCollection("project")).sort(
+  (a, b) => a.data.date.valueOf() - b.data.date.valueOf(),
+);
+const allTags = posts.map((post) => post.data.tag).filter((post) => !!post);
+const tag = [...new Set(allTags.flat(1))];
+const base_url = import.meta.env.PORTFOLIO_SLUG;
+const { page } = Astro.props;
+const { data } = await getEntry("config", "project");
+---
+
+<PageLayoutArchive {page} {tag} {data} {base_url} />

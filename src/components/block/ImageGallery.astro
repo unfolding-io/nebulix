@@ -1,0 +1,99 @@
+---
+import { Picture } from "astro-imagetools/components";
+import { Icon } from "astro-icon";
+import { t } from "@util/translate";
+import Intersecting from "@components/common/Intersecting.vue";
+import { getImageUrl, getImageTransitionName } from "@util/helpers";
+const { title, images, container, aspect, animate } = Astro.props;
+const getAnimation = (image) => {
+  return animate
+    ? getImageTransitionName(image.image)
+    : `image_${Math.random()}`;
+};
+const gallery = images.map((image) => getImageUrl(image.image));
+
+let sizes = "calc(50vw - 2.5rem)";
+
+if (container === "full")
+  sizes =
+    "(min-width: 640px) calc(55rem / 3 - 0.66rem), (min-width: 1024px) calc(65rem / 4 - 0.66rem), (min-width: 1536px) calc(75rem / 4 - 0.66rem), calc(50vw - 2.5rem)";
+if (container === "xl")
+  sizes =
+    "(min-width: 640px) calc(55rem / 3 - 0.66rem), (min-width: 1024px) calc(65rem / 4 - 0.66rem), calc(50vw - 2.5rem)";
+
+if (container === "lg" || container === "md")
+  sizes = "(min-width: 640px) calc(55rem / 3 - 0.66rem), calc(50vw - 2.5rem)";
+
+if (container === "sm")
+  sizes = "(min-width: 640px) calc(55rem / 3 - 0.66rem), calc(50vw - 2.5rem)";
+---
+
+<Intersecting className="w-full" client:visible>
+  <div class={`container-${container} gap-8 grid`}>
+    <h2 class="title-sm fade-in">{title}</h2>
+    <div class={`image-grid-${container}`}>
+      {
+        images.map((image, index) => (
+          <a
+            aria-label={t("enlarge_image")}
+            transition:name={getAnimation(image)}
+            style={`--animation-delay: ${(index + 1) * 150}ms`}
+            class="fade-up  group relative overflow-hidden rounded-md"
+            href={`${getImageUrl(
+              image.image,
+            )}?index=${index}&gallery=${gallery.join(",")}`}
+          >
+            <div class="transition-transform duration-1000 ease-in group-hover:scale-110 group-hover:duration-[2s]">
+              <Picture
+                src={image.image}
+                aspect={aspect}
+                position="entropy"
+                alt={image.title}
+                sizes={sizes}
+                layout="fullWidth"
+              />
+            </div>
+            <div class=" absolute inset-0 z-10  opacity-0 transition-all duration-1000 hover:opacity-100">
+              <Icon
+                name="zoom"
+                class="pointer-events-none absolute right-4 top-4 h-6 w-6 opacity-80"
+              />
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Intersecting>
+
+<style>
+  .image-grid {
+    @apply grid;
+    gap: var(--grid-spacing);
+
+    &-sm {
+      gap: var(--grid-spacing);
+      @apply grid grid-cols-2 sm:grid-cols-3;
+    }
+
+    &-md {
+      gap: var(--grid-spacing);
+      @apply grid grid-cols-2 sm:grid-cols-3;
+    }
+
+    &-lg {
+      gap: var(--grid-spacing);
+      @apply grid grid-cols-2	sm:grid-cols-3;
+    }
+
+    &-xl {
+      gap: var(--grid-spacing);
+      @apply grid grid-cols-2	sm:grid-cols-3 lg:grid-cols-4;
+    }
+
+    &-full {
+      gap: var(--grid-spacing);
+      @apply grid grid-cols-2	sm:grid-cols-3 lg:grid-cols-4  2xl:grid-cols-5;
+    }
+  }
+</style>

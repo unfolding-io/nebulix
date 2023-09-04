@@ -1,0 +1,81 @@
+---
+tag:
+  - Docs
+title: How to customize the theme
+description: Customize your Nebulix template effortlessly with these quick tips
+  on colors, fonts, logos, and icons
+intro: Customize your Nebulix template effortlessly with these quick tips on
+  colors, fonts, logos, and icons
+blocks: []
+style:
+  template: split
+  card_template: grid
+  hero_template: image
+  container: md
+  hero_image_opacity: ""
+pubDate: 2023-09-03T12:14:45.064+02:00
+thumbnail: /src/assets/nebulix-style.jpeg
+---
+## Tailwind, Tailwind, Tailwind
+
+This template is built upon the versatile Tailwind CSS framework. If you wish to modify elements styled with Tailwind, take a look at the `tailwind.config.cjs` file and the `src/style/global.css` file.
+
+### Colors
+
+When it comes to customizing the color scheme of your content, this template employs a concept known as "surfaces." A surface combines background and foreground colors and also provides optional color settings for dark mode. The foundational surfaces are predefined in `src/style/global.css`, and you are encouraged to make adjustments as needed.
+
+In this template, we have established the following color categories: `primary`, `secondary`, `accent`, `dark`, `light`, `success`, `info`, `warning`, and `danger`. To tailor these colors to your specific requirements, navigate to the `/src/style/global.css` file. Here, we use only RGB values to seamlessly integrate with Tailwind.
+
+```css
+:root {
+	--color-primary: 75 38 143;
+	--color-secondary: 107 154 199;
+	--color-accent: 119 112 150;
+	--color-warning: 202 121 45;
+	--color-danger: 244 67 54;
+	--color-success: 77 137 101;
+	--color-dark: 25 28 38;
+	--color-light: 243 241 239;
+	--color-info: 25 28 38;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-primary: 135 94 212;
+		--color-secondary: 107 154 199;
+		--color-accent: 119 112 150;
+		--color-warning: 202 121 45;
+		--color-danger: 244 67 54;
+		--color-success: 77 137 101;
+		--color-dark: 25 28 38;
+		--color-light: 243 241 239;
+		--color-info: 25 28 38;
+	}
+}
+```
+
+### Defining Surfaces in the CMS
+
+Certain elements like blocks, buttons, and various components offer a surface selection feature. To manage these surface classes, visit the CMS under SETTINGS > STYLE > SURFACES. Here, you can create your own custom classes or use existing Tailwind classes.
+
+**For instance:**
+
+**Name**: Pink
+
+**CSS**: `bg-pink-500 text-black dark:bg-pink-900 dark:text-white`
+
+### Fonts
+
+To optimize website loading speed, we utilize Fontsource for fonts. However, you are not bound to this choice; feel free to use any font of your preference. Ensure that you set the font family in the body of `/src/styles/global.css` and in `tailwind.config.cjs`. The fonts are imported in `src/layouts/BaseLayout.astro`.
+
+```javascript
+import '@fontsource-variable/inter-tight'
+import '@fontsource-variable/inter-tight/wght-italic.css'
+```
+
+### Logo
+
+For the logo, you have the flexibility to use an SVG file. Simply replace the existing logo file located at `src/icons/logo.svg` with your own logo.
+
+### Icons
+
+All icons used in this template are stored in `src/icons`. These icons are not only employed by the theme but are also accessible for use in the Button and Feature components. Should you wish to add new icons, you can do so via the CMS under SETTINGS > STYLE > ICONS.

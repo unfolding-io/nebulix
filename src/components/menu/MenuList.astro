@@ -1,0 +1,138 @@
+---
+import { formatPrice } from "@util/toLocale";
+import Intersecting from "@components/common/Intersecting.vue";
+import { Picture } from "astro-imagetools/components";
+import { renderMarkdown } from "@astrojs/markdown-remark";
+import Label from "@components/menu/Label.astro";
+import { slugify } from "@util/helpers";
+import { t } from "@util/translate";
+
+const render = async (content) => {
+  return await renderMarkdown(content, {}).then((r) => r.code);
+};
+
+const getImageName = (url) => {
+  return url.split("/").pop().split(".")[0];
+};
+
+const { categories } = Astro.props;
+---
+
+<div class="grid gap-20 pb-20">
+  {
+    categories.map((cat) => (
+      <div class="grid gap-20">
+        <Intersecting
+          client:visible
+          className="balance mx-auto grid max-w-2xl gap-4 text-center"
+        >
+          <div class="fade-up grid gap-4">
+            <h2 class="title-md scroll-mt-20" id={`${slugify(cat.title)}`}>
+              {cat.title}
+            </h2>
+            {cat.intro && <p class="lead"> {cat.intro}</p>}
+          </div>
+        </Intersecting>
+
+        <ul class="auto-grid-lg menu-grid my-8 gap-10">
+          {cat.menu_items.map((item) => (
+            <li>
+              <Intersecting client:visible className="flex h-full">
+                <div class="fade-up flex h-full scroll-m-0 flex-col ">
+                  {item.thumbnail && (
+                    <a
+                      class="img block  pb-2"
+                      href={`/images/${getImageName(item.thumbnail)}`}
+                      transition:name={`image_${getImageName(item.thumbnail)}`}
+                      aria-label={t("enlarge_image")}
+                    >
+                      <div class="overflow-hidden rounded-md">
+                        <Picture
+                          src={item.thumbnail}
+                          width={500}
+                          breakpoints={[
+                            320, 360, 390, 412, 500, 601, 768, 1024, 1200,
+                          ]}
+                          sizes="(min-width: 640px) calc(55rem / 2 - 0.66rem),(min-width: 768px) calc(55rem / 3 - 0.66rem), 100vw"
+                          position="attention"
+                          fit="fullWidth"
+                          alt={item.title}
+                          height={400}
+                          ar={1.25}
+                        />
+                      </div>
+                    </a>
+                  )}
+
+                  <div>
+                    <h3 class="subtitle balance flex w-full flex-wrap font-bold">
+                      {item.title}
+                      <span class="ml-auto" />
+
+                      {item.details.labels &&
+                        item.details.labels.map((name) => (
+                          <Label name={name} />
+                        ))}
+                    </h3>
+                  </div>
+
+                  {item.intro && (
+                    <div
+                      class="balance richtext"
+                      set:html={render(item.intro)}
+                    />
+                  )}
+
+                  {item.price && (
+                    <div class="mt-auto flex w-full justify-between  gap-4 pt-4">
+                      <div class="flex flex-wrap content-end justify-start">
+                        {item.details.allergens &&
+                          item.details.allergens.map((name) => (
+                            <Label name={name} />
+                          ))}
+                      </div>
+                      <div class="align-end flex flex-col justify-end">
+                        {item.price.map((price, index) => (
+                          <div class="ml-auto flex items-center justify-between gap-4">
+                            {price.label && (
+                              <span class="text-xs"> {price.label}</span>
+                            )}
+                            {price.price && (
+                              <span
+                                class={` ${
+                                  index == 0 ? "text-lg font-bold" : ""
+                                }`}
+                              >
+                                {formatPrice(price.price)}
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Intersecting>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .menu-grid {
+    --grid-spacing: 3rem;
+    .img {
+      @apply block;
+      width: calc(100% + var(--container-spacing));
+      margin-inline: calc(var(--spacing) * -1);
+
+      @screen sm {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  }
+</style>

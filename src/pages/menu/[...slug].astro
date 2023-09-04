@@ -1,0 +1,95 @@
+---
+/* MENU PAGES */
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import PageLayoutWide from "@layouts/PageLayoutWide.astro";
+import ItemNav from "@components/navigation/ItemNav.astro";
+import MenuList from "@components/menu/MenuList.astro";
+import { slugify, getArchiveNav } from "@util/helpers";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("menu")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  const count = posts.length;
+  return posts.map((post, index) => {
+    let next: CollectionEntry<"menu"> | null = null;
+    let prev: CollectionEntry<"menu"> | null = null;
+    const archiveNav = getArchiveNav(count, index, posts);
+
+    next = archiveNav.next;
+    prev = archiveNav.prev;
+
+    const postcontent = {
+      ...post,
+      data: {
+        ...post.data,
+        nav: {
+          next: {
+            slug: next?.slug,
+            title: next?.data?.title,
+          },
+          prev: {
+            slug: prev?.slug,
+            title: prev?.data?.title,
+          },
+          index: index,
+        },
+      },
+    };
+
+    return {
+      params: { slug: post.slug },
+      props: {
+        ...postcontent,
+      },
+    };
+  });
+}
+type Props = CollectionEntry<"menu">;
+const base_url = import.meta.env.MENU_SLUG;
+const post = Astro.props;
+const { Content } = await post.render();
+const { data } = Astro.props;
+---
+
+<PageLayoutWide {...post.data}>
+  <div
+    class={`mt-4 flex flex-wrap justify-${
+      data.style.hero_template === "image" ? "start" : "center"
+    } gap-2`}
+    slot="hero"
+  >
+    {
+      data.categories.map((cat) => (
+        <a href={`#${slugify(cat.title)}`} class="btn surface-dark">
+          {cat.title}
+        </a>
+      ))
+    }
+  </div>
+  <div class={` ${data.style.hero_template === "image" ? "pt-14" : ""}`}>
+    <MenuList categories={data.categories} />
+  </div>
+  <div class={`richtext menu__content mx-auto max-w-3xl text-center`}>
+    <Content />
+    <div class="container-md pb-20" slot="nav">
+      <ItemNav nav={post.data.nav} {base_url} />
+    </div>
+  </div>
+</PageLayoutWide>
+
+<style is:global>
+  .menu__content {
+    .img,
+    iframe {
+      width: calc(100% + var(--container-spacing));
+      margin-left: calc(var(--spacing) * -1);
+      @apply my-10 aspect-video h-auto;
+      @screen md {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  }
+</style>

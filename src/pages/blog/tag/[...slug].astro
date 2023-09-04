@@ -1,0 +1,45 @@
+---
+/* BLOG ARCHIVE PAGES BY TAG */
+import { getEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import PageLayoutArchive from "@layouts/PageLayoutArchive.astro";
+import { getPagination, getCategoryData } from "@util/helpers";
+
+export async function getStaticPaths({ paginate }) {
+  const posts = (await getCollection("blog"))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .filter((post) => !!post.data?.tag);
+
+  const { data } = await getEntry("config", "blog");
+  const allFilters = posts
+    .map((post) => post.data.tag)
+    .filter((post) => !!post);
+  const filters = [...new Set(allFilters.flat(1))];
+
+  return getPagination(posts, filters, data, "tag");
+}
+
+const { lastPage, currentPage, page, filter, filters } = Astro.props;
+let { data } = await getEntry("config", "blog");
+
+delete data.hero_buttons;
+const base_url = import.meta.env.BLOG_SLUG;
+/* GET HERO INFO FROM CONFIG */
+const pageData = getCategoryData(data.blog_tags, filter);
+data = {
+  ...data,
+  ...pageData,
+};
+---
+
+<PageLayoutArchive
+  page={{
+    data: page,
+    lastPage: lastPage,
+    currentPage: currentPage,
+  }}
+  {filters}
+  {filter}
+  {data}
+  {base_url}
+/>

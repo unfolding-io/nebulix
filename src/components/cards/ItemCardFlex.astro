@@ -1,0 +1,81 @@
+---
+import FormattedDate from "../FormattedDate.astro";
+import ItemFilter from "../navigation/ItemFilter.astro";
+import { Picture } from "astro-imagetools/components";
+import ProductPrice from "@components/shop/ProductPrice.astro";
+
+const { content, base_url, animate } = Astro.props;
+
+const animation = `hero_${animate ? content.slug : Math.random()}`;
+---
+
+<a
+  href={`/${base_url}/${content.slug}/`}
+  class="flex-card fade-up group relative z-10 flex max-w-md flex-1 flex-col items-center gap-4 rounded-md text-center"
+>
+  <div class="h-40 w-40 shrink-0 grow-0 overflow-hidden rounded-md">
+    {
+      content.data.thumbnail && (
+        <div
+          class="transition-transform duration-500 group-hover:scale-110 group-hover:duration-[3s]"
+          transition:name={`${animation}`}
+        >
+          <Picture
+            attributes={{
+              picture: {
+                class: "z-0 w-40 fade-in ",
+              },
+            }}
+            position="attention"
+            src={content.data.thumbnail}
+            width={200}
+            height={200}
+            ar={1}
+            alt={content.data.title}
+            layout="fullWidth"
+          />
+        </div>
+      )
+    }
+  </div>
+  <div class="opacity-90 group-hover:opacity-100">
+    {
+      content.data.pubDate && (
+        <span class="text-overline text-xs">
+          <FormattedDate date={content.data.pubDate} />
+        </span>
+      )
+    }
+    <h2 class="subtitle balance font-bold group-hover:text-primary">
+      {content.data.title}
+    </h2>
+    {
+      content.data.intro && (
+        <p class=" line-clamp-3 py-1">{content.data.intro}</p>
+      )
+    }
+
+    {
+      content.data.price && (
+        <ProductPrice
+          price={content.data.price}
+          offer_price={content.data.offer_price}
+          in_stock={content.data.in_stock}
+        />
+      )
+    }
+
+    {
+      content.data.tag && !content.data.price && (
+        <ItemFilter filters={content.data.tag} className="mt-2" {base_url} />
+      )
+    }
+  </div>
+</a>
+<style lang="postcss">
+	.flex-card {
+			min-width: min(100vw - var(--spacing), 14rem);
+			max-width: 22rem;
+	}
+
+</style>

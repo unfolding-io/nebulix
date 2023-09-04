@@ -1,0 +1,8 @@
+---
+import Intersecting from "@components/common/Intersecting.vue";
+const { slot, ...props } = Astro.props;
+---
+
+<Intersecting client:visible noSsr={true}>
+  <iframe {...props} loading="lazy" class="fade-up"> </iframe>
+</Intersecting>

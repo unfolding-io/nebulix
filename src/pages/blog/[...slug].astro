@@ -1,0 +1,100 @@
+---
+/* BLOG POST PAGES */
+import { getArchiveNav } from "@util/helpers";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import Breadcrumb from "@components/navigation/Breadcrumb.astro";
+import ItemNav from "@components/navigation/ItemNav.astro";
+import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
+import PageLayoutWide from "@layouts/PageLayoutWide.astro";
+import { t } from "@util/translate";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("blog")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+  const count = posts.length;
+  return posts.map((post, index) => {
+    let next: CollectionEntry<"blog"> | null = null;
+    let prev: CollectionEntry<"blog"> | null = null;
+    const archiveNav = getArchiveNav(count, index, posts);
+    next = archiveNav.next;
+    prev = archiveNav.prev;
+
+    return {
+      params: { slug: post.slug },
+      props: {
+        ...post,
+        data: {
+          ...post.data,
+          nav: {
+            next: {
+              slug: next?.slug,
+              title: next?.data?.title,
+            },
+            prev: {
+              slug: prev?.slug,
+              title: prev?.data?.title,
+            },
+            index: index,
+          },
+        },
+      },
+    };
+  });
+}
+
+type Props = CollectionEntry<"blog">;
+const base_url = import.meta.env.BLOG_SLUG;
+const post = Astro.props;
+const { Content } = await post.render();
+
+let searchFilters = [`${t("content")}:${base_url}`];
+if (post?.data?.tag) {
+  const searchTags = post.data.tag.map((tag) => `${t("tag")}:${tag}`);
+  searchFilters = [...searchFilters, ...searchTags];
+}
+
+const filter = post.data?.tag
+  ? {
+      name: post.data.tag[0],
+      type: "tag",
+    }
+  : null;
+---
+
+{
+  post.data.style.template === "full" && (
+    <PageLayoutWide {...post.data} {base_url}>
+      <Breadcrumb title={post.data.title} filter={filter} />
+      <div class="richtext">
+        <Content />
+      </div>
+      <div class="container-md pb-20" slot="nav">
+        <ItemNav nav={post.data.nav} {base_url} />
+      </div>
+
+      <div class="search-indexing hidden">
+        {searchFilters.map((filter) => (
+          <meta data-pagefind-filter={filter} />
+        ))}
+      </div>
+    </PageLayoutWide>
+  )
+}
+{
+  post.data.style.template === "split" && (
+    <PageLayoutSplit {...post.data} {base_url}>
+      <Breadcrumb title={post.data.title} filter={filter} />
+      <div class="richtext pb-8">
+        <Content />
+      </div>
+      <ItemNav nav={post.data.nav} {base_url} slot="nav" />
+      <div class="search-indexing hidden">
+        {searchFilters.map((filter) => (
+          <meta data-pagefind-filter={filter} />
+        ))}
+      </div>
+    </PageLayoutSplit>
+  )
+}
