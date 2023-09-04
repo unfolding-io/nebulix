@@ -19,7 +19,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "cms-proxy-server": "npx @staticcms/proxy-server",
-    "dev:demo": "cross-env BLOG_SLUG=blog PORTFOLIO_SLUG=work SHOP_SLUG=shop MENU_SLUG=menu WEBSITE_LANGUAGE=en CURRENCY=USD UNITS=metric SNIPCART_KEY=ZDVjZmQwYmUtMzNlYy00OGEyLTkxMTItMTg4YTI5NGQxN2I3NjM4MjgzOTQyMzA2MTM1NjI1 astro dev"
+    "dev:demo": "cross-env BLOG_SLUG=blog PORTFOLIO_SLUG=work SHOP_SLUG=shop MENU_SLUG=menu WEBSITE_LANGUAGE=en CURRENCY=USD UNITS=metric NODE_VERSION=18 SNIPCART_KEY=ZDVjZmQwYmUtMzNlYy00OGEyLTkxMTItMTg4YTI5NGQxN2I3NjM4MjgzOTQyMzA2MTM1NjI1 astro dev"
   },
   "dependencies": {
     "@astrojs/check": "^0.2.0",
