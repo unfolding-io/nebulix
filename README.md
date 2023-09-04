@@ -29,7 +29,7 @@ __This theme is currently under development, and until we reach version 1.0.0, t
 -   🕵 Unveil Hidden Constellations with Full Text Search using Pagefind
 
 ## ♻️ Page Speed and Emissions
-Experience the green and swift capabilities of Nebulix. With an impressively low emission of 0.08g CO2 per page visit and consistently achieving a lighthouse score between 99 and 100, Nebulix ensures both speed and environmental consciousness for your website.
+Experience the green and swift capabilities of Nebulix. With an impressively low emission of 0.05g - 0.07g CO2 per page visit and consistently achieving a lighthouse score between 99 and 100, Nebulix ensures both speed and environmental consciousness for your website.
 
 ## 🚀 Getting Started
 
