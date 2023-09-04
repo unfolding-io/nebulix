@@ -1,3 +1,13 @@
 {
-  "startCommand": "npm run dev:demo"
+  "startCommand": "npm run dev",
+  "env": {
+    "BLOG_SLUG": "blog",
+    "PORTFOLIO_SLUG": "work",
+    "SHOP_SLUG": "shop",
+    "MENU_SLUG": "menu",
+    "WEBSITE_LANGUAGE": "en",
+    "CURRENCY": "USD",
+    "UNITS": "metric",
+    "SNIPCART_KEY": "ZDVjZmQwYmUtMzNlYy00OGEyLTkxMTItMTg4YTI5NGQxN2I3NjM4MjgzOTQyMzA2MTM1NjI1"
+  }
 }
