@@ -26,7 +26,6 @@ if (products && products.length > 0) {
     )
     .filter((val) => !!val);
 } else if (categories) {
-  
   posts = posts.filter((post) =>
     categories.some(
       (cat) => post.data.category && post.data.category.includes(cat.trim()),
@@ -40,9 +39,7 @@ const sizes = getGridImageSizes(container);
 ---
 
 <Intersecting client:visible className="w-full">
-  <div
-    class={`recent-blogs grid gap-8 fade-up container-${container || "md"} `}
-  >
+  <div class={`shop-items grid gap-8 fade-up container-${container || "md"} `}>
     {
       template === "grid" && (
         <>
@@ -75,7 +72,7 @@ const sizes = getGridImageSizes(container);
               {content && <div class="richtext" set:html={render(content)} />}
             </div>
           </div>
-          <ul class={`bloglist grid gap-4`} data-pagefind-ignore="all">
+          <ul class={`list grid gap-4`} data-pagefind-ignore="all">
             {posts.map((post, index) => (
               <li style={`--animation-delay: ${(index + 1) * 150}ms`}>
                 <ItemCardSmall content={post} {base_url} />
@@ -94,13 +91,13 @@ const sizes = getGridImageSizes(container);
           </h2>
           {content && <div class="richtext" set:html={render(content)} />}
           <ul
-            class={`flex flex-wrap gap-4 justify-center flex-grid `}
+            class={`flex-grid flex flex-wrap justify-center gap-x-4 gap-y-8 `}
             data-pagefind-ignore="all"
           >
             {posts.map((post, index) => (
               <li
                 style={`--animation-delay: ${(index + 1) * 150}ms`}
-                class="flex-1 flex justify-center"
+                class="flex flex-1 justify-center"
               >
                 <ItemCardFlex content={post} {base_url} {sizes} />
               </li>
@@ -113,7 +110,7 @@ const sizes = getGridImageSizes(container);
 </Intersecting>
 
 <style lang="postcss">
-.recent-blogs ul.bloglist {
+.shop-items  ul.list {
 		width: calc(100% + var(--container-spacing));
 		margin-left: calc(var(--spacing) * -1);
 		
@@ -122,8 +119,5 @@ const sizes = getGridImageSizes(container);
 			margin-left: 0;                      
 		}
 	}
-
-	 
-
  
 </style>
