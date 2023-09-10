@@ -1,7 +1,5 @@
-import { load } from "https://deno.land/std/dotenv/mod.ts";
-
 const { MAILCHIMP_API_KEY, MAILCHIMP_SERVER_PREFIX, MAILCHIMP_LIST_ID } =
-  await load();
+  Deno.env.toObject();
 
 export default async (request, context) => {
   if (!MAILCHIMP_API_KEY || !MAILCHIMP_SERVER_PREFIX || !MAILCHIMP_LIST_ID)

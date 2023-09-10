@@ -1,9 +1,6 @@
 <template>
   <form
     name="newsletter-subscribes"
-    method="POST"
-    action="/"
-    data-netlify="true"
     class="relative inline-flex items-center gap-4 py-4"
     @submit.prevent="submit"
   >
