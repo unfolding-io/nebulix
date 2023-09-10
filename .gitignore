@@ -16,8 +16,8 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
-
 .vscode/
+.netlify/
 
 # macOS-specific files
 .DS_Store

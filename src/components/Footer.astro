@@ -3,6 +3,7 @@ import { getEntry } from "astro:content";
 import { renderMarkdown } from "@astrojs/markdown-remark";
 import { Icon } from "astro-icon";
 import { t } from "@util/translate";
+import Newsletter from "@components/newsletter/Newsletter.vue";
 
 const today = new Date();
 let about = await getEntry("config", "about");
@@ -12,6 +13,8 @@ let navigation = await getEntry("config", "navigation");
 const render = async (content) => {
   return await renderMarkdown(content, {}).then((r) => r.code);
 };
+
+const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
 ---
 
 <footer class="surface-footer relative grid">
@@ -33,57 +36,71 @@ const render = async (content) => {
           />
         )
       }
-      <div class="mt-auto pt-4 text-xs opacity-70">
-        &copy; {today.getFullYear()}
-        {about.data.sitename}
+      <div class="mt-auto flex gap-2 pt-4 text-xs opacity-70">
+        <span>&copy;{today.getFullYear()}</span>
+        <span> {about.data.sitename}</span>
       </div>
     </div>
-    <div
-      class="grid w-full flex-wrap justify-center sm:justify-between gap-8 text-center sm:flex sm:text-left lg:w-2/3"
-    >
-      {
-        navigation.data.footer_menus &&
-          navigation.data.footer_menus.map((menu) => (
-            <div class="min-w-[12rem] space-y-3 sm:max-w-[14rem]">
-              <h3 class="font-semibold uppercase">{menu.label}</h3>
-              <ul class="space-y-1">
-                {menu.links.map((link) => (
-                  <li>
-                    <a
-                      rel="noopener noreferrer"
-                      href={link.href}
-                      class="link-underline"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-      }
-      <div class="min-w-[12rem] space-y-3 sm:max-w-[14rem]">
-        <div class="font-semibold uppercase">{t("social")}</div>
-        <div class="flex flex-col">
-          {
-            contact.data.social && (
-              <ul class="-ml-1 flex  flex-wrap justify-center gap-2 sm:justify-start ">
-                {contact.data.social.map((link) => (
-                  <li>
-                    <a
-                      href={link.href}
-                      class="grid h-full place-items-center transition-transform duration-500 hover:scale-110 "
-                      target="_blank"
-                      aria-label={link.label}
-                    >
-                      <Icon name={link.icon} class="h-8 w-8" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )
-          }
+    <div class="grid w-full lg:w-2/3">
+      <div
+        class="flex-wrap justify-center gap-8 text-center sm:flex sm:justify-between sm:text-left"
+      >
+        {
+          navigation.data.footer_menus &&
+            navigation.data.footer_menus.map((menu) => (
+              <div class="min-w-[12rem] space-y-3 sm:max-w-[14rem]">
+                <h3 class="font-semibold uppercase">{menu.label}</h3>
+                <ul class="space-y-1">
+                  {menu.links.map((link) => (
+                    <li>
+                      <a
+                        rel="noopener noreferrer"
+                        href={link.href}
+                        class="link-underline"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+        }
+        <div class="min-w-[12rem] space-y-3 sm:max-w-[14rem]">
+          <div class="font-semibold uppercase">{t("social")}</div>
+          <div class="flex flex-col">
+            {
+              contact.data.social && (
+                <ul class="-ml-1 flex  flex-wrap justify-center gap-2 sm:justify-start ">
+                  {contact.data.social.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        class="grid h-full place-items-center transition-transform duration-500 hover:scale-110 "
+                        target="_blank"
+                        aria-label={link.label}
+                      >
+                        <Icon name={link.icon} class="h-8 w-8" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )
+            }
+          </div>
         </div>
+
+        {
+          showNewsletter && (
+            <div class="gap:10 flex-col content-end  items-end justify-end  py-0 pt-8 sm:ml-auto sm:flex sm:max-w-md sm:pt-0 sm:text-right">
+              <div
+                class="richtext dense no-lead balance leading-none opacity-80"
+                set:html={render(about.data.newsletter_text)}
+              />
+              <Newsletter client:visible />
+            </div>
+          )
+        }
       </div>
     </div>
   </div>

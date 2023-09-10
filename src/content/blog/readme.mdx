@@ -13,6 +13,7 @@ style:
 pubDate: 2023-09-03T12:18:03.122+02:00
 thumbnail: /src/assets/nebulala_rocket.jpeg
 ---
+
 ## 1. Setting up the .env file
 
 rename the `env.txt` to `.env` and fill in your details
@@ -26,6 +27,10 @@ WEBSITE_LANGUAGE=en
 CURRENCY=USD
 UNITS=metric
 SNIPCART_KEY=<your-snipcart-public-key>
+NEWSLETTER_PROVIDER=mailchimp
+MAILCHIMP_API_KEY=XXXXXXXXXXXXXXXX-us21
+MAILCHIMP_SERVER_PREFIX=us21
+MAILCHIMP_LIST_ID=XXXXXXXXX
 NODE_VERSION=18
 ```
 
@@ -34,7 +39,7 @@ NODE_VERSION=18
 Navigate to `src/pages/admin.astro` and provide your Git repository details. You can find a list of all supported Git backends at:
 [https://www.staticcms.org/docs/backends-overview](https://www.staticcms.org/docs/backends-overview)
 
-***Gitlab Example:***
+**_Gitlab Example:_**
 
 ```javascript
 
@@ -100,15 +105,15 @@ If your cosmic journey excludes a blog, portfolio, shop, or restaurant menu, sim
 
 All commands are run from the root of the project, from a terminal:
 
-|Command|Action|
-|---|---|
-|`npm install`|Installs dependencies|
-|`npm run dev`|Starts local dev server at `localhost:3000`|
-|`npm run cms-proxy-server`|Starts Staticcms proxy server for local-backend|
-|`npm run build`|Build your production site to `./dist/`|
-|`npm run preview`|Preview your build locally, before deploying|
-|`npm run astro ...`|Run CLI commands like `astro add`, `astro check`|
-|`npm run astro -- --help`|Get help using the Astro CL|
+| Command                    | Action                                           |
+| -------------------------- | ------------------------------------------------ |
+| `npm install`              | Installs dependencies                            |
+| `npm run dev`              | Starts local dev server at `localhost:4321`      |
+| `npm run cms-proxy-server` | Starts Staticcms proxy server for local-backend  |
+| `npm run build`            | Build your production site to `./dist/`          |
+| `npm run preview`          | Preview your build locally, before deploying     |
+| `npm run astro ...`        | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help`  | Get help using the Astro CL                      |
 
 ## 👀 Want to learn more about Astro?
 

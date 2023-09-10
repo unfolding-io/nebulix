@@ -19,17 +19,6 @@ const config = {
   local_backend: true,
   backend: {
     name: "test-repo",
-    /* name: "gitlab",
-    repo: "/astro-themes/nebulala",
-    auth_type: "pkce", // Required for pkce
-    app_id: "48458142", // Application ID from your GitLab settings
-    commit_messages: {
-      create: 'Create {{collection}} "{{slug}}"',
-      update: 'Update {{collection}} "{{slug}}"',
-      delete: 'Delete {{collection}} "{{slug}}"',
-      uploadMedia: 'Upload "{{path}}"',
-      deleteMedia: 'Delete "{{path}}"',
-    }, */
   },
   search: "true",
   media_folder: "src/assets",
@@ -50,7 +39,7 @@ const config = {
     <title>Nebulix Admin | by unfolding.io</title>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/@staticcms/app@^v3.1.2/dist/main.css"
+      href="https://unpkg.com/@staticcms/app@^v3.2.0/dist/main.css"
     />
 
     <style is:inline>
@@ -89,7 +78,7 @@ const config = {
   <body>
     <script
       is:inline
-      src="https://unpkg.com/@staticcms/app@^v3.1.2/dist/static-cms-app.js"
+      src="https://unpkg.com/@staticcms/app@^v3.2.0/dist/static-cms-app.js"
     ></script>
     <script
       is:inline

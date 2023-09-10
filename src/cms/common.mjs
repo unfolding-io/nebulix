@@ -360,6 +360,7 @@ export const blocks = {
           widget: "markdown",
           comment: "This is a multiline\\ncomment",
           toolbar_buttons: toolbarButtonsInline,
+          show_raw: true,
         },
         buttons,
 
@@ -448,6 +449,7 @@ export const blocks = {
           widget: "markdown",
           comment: "This is a multiline\\ncomment",
           toolbar_buttons: toolbarButtonsInline,
+          show_raw: true,
         },
         buttons,
 
@@ -501,6 +503,7 @@ export const blocks = {
           comment: "This is a multiline\\ncomment",
           toolbar_buttons: toolbarButtonsInline,
           required: false,
+          show_raw: true,
         },
         {
           name: "features",
@@ -550,6 +553,7 @@ export const blocks = {
               comment: "This is a multiline\\ncomment",
               toolbar_buttons: toolbarButtonsInline,
               required: false,
+              show_raw: true,
             },
           ],
         },
@@ -644,6 +648,7 @@ export const blocks = {
           comment: "This is a multiline\\ncomment",
           toolbar_buttons: toolbarButtonsInline,
           required: false,
+          show_raw: true,
         },
         {
           label: t("container_size"),
@@ -729,6 +734,7 @@ export const blocks = {
           comment: "This is a multiline\\ncomment",
           toolbar_buttons: toolbarButtonsInline,
           required: false,
+          show_raw: true,
         },
         {
           label: t("container_size"),
@@ -836,6 +842,7 @@ export const blocks = {
           comment: "This is a multiline\\ncomment",
           toolbar_buttons: toolbarButtonsInline,
           required: false,
+          show_raw: true,
         },
         {
           label: t("container_size"),

@@ -25,6 +25,7 @@ const props = defineProps({
 
 const stop = watchEffect(() => {
   count.value++;
+
   if (
     (count.value > 1 && pointer.y.value) ||
     pointer.x.value ||
@@ -55,7 +56,6 @@ function LoadJS() {
 
 function loadCSS() {
   if (!scripLoaded.value) {
-    console.log("css loaded?");
     styleSrc.value = "/snipcart.css";
   }
 }

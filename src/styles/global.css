@@ -18,6 +18,7 @@
     --w-md: 55rem;
     --w-sm: 40rem;
     --w-container: 55rem;
+
     --popper-theme-background-color: theme(colors.primary);
     --popper-theme-background-color-hover: theme(colors.primary);
     --popper-theme-text-color: theme(colors.light);
@@ -44,6 +45,15 @@
 }
 
 /* SURFACES */
+
+body {
+  --toastify-color-light: theme(colors.light);
+  --toastify-color-dark: theme(colors.dark);
+  --toastify-color-info: theme(colors.primary);
+  --toastify-color-success: theme(colors.primary);
+  --toastify-color-warning: theme(colors.warning);
+  --toastify-color-error: theme(colors.danger);
+}
 
 .surface-base {
   @apply bg-light text-dark dark:bg-dark dark:text-light;
@@ -214,10 +224,12 @@ body {
       background-position-x: left;
     }
   }
-
-  * + p {
-    @apply pt-4;
+  &:not(.dense) {
+    * + p {
+      @apply pt-4;
+    }
   }
+
   p {
     @apply text-lg;
   }
@@ -360,11 +372,11 @@ a.link-underline {
 @media screen and (prefers-reduced-motion: no-preference) {
   .fade-up {
     @apply ease-in;
-    transition: all 0.5s var(--animation-delay);
+    transition: all 0.5s var(--animation-delay, 0ms);
   }
 
   .fade-in {
-    transition: opacity 0.5s var(--animation-delay);
+    transition: opacity 0.5s var(--animation-delay, 0ms);
   }
 
   .is-inactive {

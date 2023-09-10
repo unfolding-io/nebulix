@@ -42,6 +42,7 @@ export const page = {
       required: false,
       comment: "This is a multiline\\ncomment",
       toolbar_buttons: toolbarButtons,
+      show_raw: true,
     },
     {
       name: "hero_buttons",

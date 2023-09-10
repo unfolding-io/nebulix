@@ -439,6 +439,7 @@ const config = defineCollection({
 		sitename: z.string().optional(),
 		title: z.string().optional(),
 		description: z.string().optional(),
+		newsletter_text: z.string().optional(),
 		footer_text: z.string().optional(),
 		per_page: z.number().optional(),
 		intro: z.string().optional(),

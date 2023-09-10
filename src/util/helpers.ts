@@ -22,7 +22,7 @@ export function getArchiveNav(
 	index: number,
 	posts: any[]
 ): { prev: any; next: any } {
-	console.log("count", count, index)
+	 
 	if (count < 2) return { prev: null, next: null }
 	if (count === 2 && index === 0) return { prev: null, next: posts[1] }
 	if (count === 2 && index === 1) return { prev: posts[0], next: null }

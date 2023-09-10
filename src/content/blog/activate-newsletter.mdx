@@ -1,0 +1,28 @@
+---
+tag:
+  - Docs
+  - Features
+title: Activate Newsletter
+description: How to activate a newsletter in Nebulix
+intro: How to activate a newsletter in Nebulix.
+style:
+  template: split
+  card_template: grid
+  hero_template: image
+  hero_image_opacity: ""
+  container: md
+pubDate: 2023-09-02T15:59:01.000+02:00
+thumbnail: /src/assets/cosmic_contact_settings.jpeg
+---
+## Mailing list
+
+Our newsletter feature is currently powered by Netlify edge functions and is compatible exclusively with Mailchimp. Set up your newsletter by providing your Mailchimp credentials in the .env file
+
+```.env
+NEWSLETTER_PROVIDER=mailchimp
+MAILCHIMP_API_KEY=XXXXXXXXXXXXXXXX-us21
+MAILCHIMP_SERVER_PREFIX=us21	
+MAILCHIMP_LIST_ID=XXXXXXXXX
+```
+
+You can edit the **Join Us** text in your site settings `SETTINGS > ABOUT`

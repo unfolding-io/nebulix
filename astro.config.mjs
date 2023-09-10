@@ -27,7 +27,9 @@ export default defineConfig({
     mdx({}),
     sitemap(),
     tailwind(),
-    vue(),
+    vue({
+      appEntrypoint: "/src/pages/_app",
+    }),
     astroImageTools,
     prefetch(),
     compress({

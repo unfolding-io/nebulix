@@ -146,5 +146,10 @@
   "weight": "Weight",
   "weight_in_grams": "Weight in grams",
   "width": "Width",
-  "width_in_cm": "Width in cm"
+  "width_in_cm": "Width in cm",
+  "newsletter_thanks": "Thank you for subscribing to our newsletter. Please check your email to confirm.",
+  "newsletter_already_subscribed": "You are already subscribed. Thank you for being a subscriber!",
+  "newsletter_error": "We could not subscribe you. Please try again.",
+  "subscribe": "Join",
+  "newsletter_text": "Newsletter form text"
 }

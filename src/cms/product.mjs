@@ -107,6 +107,7 @@ export const product = {
       comment: "This is a multiline\\ncomment",
       toolbar_buttons: toolbarButtons,
       required: false,
+      show_raw: true,
     },
     {
       name: "min",

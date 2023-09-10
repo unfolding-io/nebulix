@@ -289,6 +289,7 @@ export const menu = {
       comment: "This is a multiline\\ncomment",
       toolbar_buttons: toolbarButtons,
       required: false,
+      show_raw: true,
     },
 
     {

@@ -17,6 +17,7 @@
       "@locales/*": ["src/locales/*"]
     },
 
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "types": ["vue3-toastify/global"]
   }
 }

@@ -1,0 +1,9 @@
+[build]
+  publish = "dist"
+  edge_functions = "edge-functions"
+
+[[edge_functions]]
+  function = "subscribe-mailchimp"
+  path = "/api/subscribe-mailchimp"
+
+

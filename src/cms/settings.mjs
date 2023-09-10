@@ -22,6 +22,13 @@ export const settings = {
         { name: "sitename", label: t("site_name"), widget: "string" },
         { name: "intro", label: t("intro"), widget: "markdown" },
         { name: "footer_text", label: t("footer_text"), widget: "markdown" },
+
+        {
+          name: "newsletter_text",
+          label: t("newsletter_text"),
+          widget: "markdown",
+          required: false,
+        },
         {
           name: "team",
           label: t("team"),
@@ -91,6 +98,7 @@ export const settings = {
               label: t("body"),
               widget: "markdown",
               required: false,
+              show_raw: true,
             },
             {
               name: "hero_buttons",
@@ -166,6 +174,7 @@ export const settings = {
               label: t("body"),
               widget: "markdown",
               required: false,
+              show_raw: true,
             },
             {
               name: "hero_buttons",
@@ -227,6 +236,7 @@ export const settings = {
               label: t("body"),
               widget: "markdown",
               required: false,
+              show_raw: true,
             },
             {
               name: "hero_buttons",

@@ -53,6 +53,7 @@ export const project = {
       widget: "markdown",
       comment: "This is a multiline\\ncomment",
       toolbar_buttons: toolbarButtons,
+      show_raw: true,
     },
     {
       name: "hero_buttons",
