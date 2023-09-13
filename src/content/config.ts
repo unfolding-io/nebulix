@@ -9,6 +9,7 @@ const blocks = z
 			page_type: z.string().optional(),
 			surface: z.string().optional(),
 			animate: z.boolean().optional(),
+			centered: z.boolean().optional(),
 			container: z.string().optional(),
 			post_tag:  z.array(z.string()).optional(),
 			portfolio_tag:  z.array(z.string()).optional()

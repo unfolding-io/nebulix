@@ -505,6 +505,13 @@ export const blocks = {
           required: false,
           show_raw: true,
         },
+        /*   {
+          name: "centered",
+          label: t("centered"),
+          widget: "boolean",
+          required: false,
+          default: true,
+        }, */
         {
           name: "features",
           label: t("features"),
