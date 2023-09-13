@@ -84,6 +84,7 @@ const blog = defineCollection({
 		description: z.string(),
 		intro: z.string().optional(),
 		thumbnail: z.string(),
+		og_image: z.string().optional(),
 		tag: z.array(z.string()).optional(),
 		hero_buttons: z
 			.array(
@@ -136,6 +137,7 @@ const project = defineCollection({
 		description: z.string(),
 		intro: z.string().optional(),
 		thumbnail: z.string(),
+		og_image: z.string().optional(),
 		tag: z.array(z.string()).optional(),
 		features: z
 			.array(
@@ -196,6 +198,7 @@ const product = defineCollection({
 		description: z.string(),
 		intro: z.string().optional(),
 		thumbnail: z.string(),
+		og_image: z.string().optional(),
 		price: z
 			.number()
 			.or(z.string())
@@ -316,6 +319,7 @@ const menu = defineCollection({
 		description: z.string(),
 		intro: z.string().optional(),
 		thumbnail: z.string(),
+		og_image: z.string().optional(),
 		date: z
 			.string()
 			.or(z.date())
@@ -408,6 +412,7 @@ const page = defineCollection({
 		description: z.string(),
 		intro: z.string().optional(),
 		thumbnail: z.string(),
+		og_image: z.string().optional(),
 		template: z.string().optional(),
 		container: z.string().optional(),
 		hero_template: z.string().optional(),
@@ -444,6 +449,7 @@ const config = defineCollection({
 		per_page: z.number().optional(),
 		intro: z.string().optional(),
 		thumbnail: z.string().optional(),
+		og_image: z.string().optional(),
 		surface: z.array(z.object({
 				name: z.string(),
 				class: z.string()

@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 import { astroImageTools } from "astro-imagetools";
-import Critters from "astro-critters";
+ 
 import mdx from "@astrojs/mdx";
 import m2dx from "astro-m2dx";
 import sitemap from "@astrojs/sitemap";
@@ -78,11 +78,7 @@ export default defineConfig({
       JavaScript: true,
       SVG: true,
     }),
-    /*   Critters(
-    {
-      compress :false
-    }
-  ), */
+    
   ],
   markdown: {
     extendDefaultPlugins: true,

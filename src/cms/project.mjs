@@ -95,6 +95,13 @@ export const project = {
       required: true,
     },
     {
+      label: t("og_image"),
+      name: "og_image",
+      widget: "image",
+      required: false,
+      hint: t("label_og_image"),
+    },
+    {
       label: t("pub_date"),
       name: "date",
       widget: "datetime",

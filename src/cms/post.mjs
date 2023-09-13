@@ -84,5 +84,12 @@ export const post = {
       widget: "image",
       required: true,
     },
+    {
+      label: t("og_image"),
+      name: "og_image",
+      widget: "image",
+      required: false,
+      hint: t("label_og_image"),
+    },
   ],
 };

@@ -13,7 +13,7 @@ import "@fontsource-variable/inter-tight/wght-italic.css";
 const lang = import.meta.env.WEBSITE_LANGUAGE;
 const currency = import.meta.env.CURRENCY;
 const snipcartKey = import.meta.env.SNIPCART_KEY;
-const { title, description, pageClass, thumbnail } = Astro.props;
+const { title, description, pageClass, thumbnail, og_image } = Astro.props;
 const navigation = await getEntry("config", "navigation");
 const about = await getEntry("config", "about");
 const contact = await getEntry("config", "contact");
@@ -22,7 +22,11 @@ const contact = await getEntry("config", "contact");
 <!doctype html>
 <html lang={lang} data-currency={currency}>
   <head>
-    <BaseHead title={title} description={description} {thumbnail} />
+    <BaseHead
+      title={title}
+      description={description}
+      thumbnail={!!og_image ? og_image : thumbnail}
+    />
   </head>
   <body class={`surface-base ${pageClass || ""}`}>
     {

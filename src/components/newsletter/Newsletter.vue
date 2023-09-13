@@ -57,7 +57,6 @@ const canSubmit = computed(() => {
 const submit = () => {
   if (props.type === "mailchimp") {
     loading.value = true;
-
     fetch("/api/subscribe-mailchimp", {
       method: "POST",
       body: JSON.stringify({ email: form.email }),

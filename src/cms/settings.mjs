@@ -116,6 +116,13 @@ export const settings = {
         style,
 
         { name: "thumbnail", label: t("image"), widget: "image" },
+        {
+          label: t("og_image"),
+          name: "og_image",
+          widget: "image",
+          required: false,
+          hint: t("label_og_image"),
+        },
       ],
     },
     {
@@ -187,11 +194,25 @@ export const settings = {
               required: false,
             },
             { name: "thumbnail", label: t("image"), widget: "image" },
+            {
+              label: t("og_image"),
+              name: "og_image",
+              widget: "image",
+              required: false,
+              hint: t("label_og_image"),
+            },
           ],
         },
         style,
 
         { name: "thumbnail", label: t("image"), widget: "image" },
+        {
+          label: t("og_image"),
+          name: "og_image",
+          widget: "image",
+          required: false,
+          hint: t("label_og_image"),
+        },
       ],
     },
     {
@@ -265,11 +286,25 @@ export const settings = {
               fields: style.fields,
             },
             { name: "thumbnail", label: t("image"), widget: "image" },
+            {
+              label: t("og_image"),
+              name: "og_image",
+              widget: "image",
+              required: false,
+              hint: t("label_og_image"),
+            },
           ],
         },
 
         style,
         { name: "thumbnail", label: t("image"), widget: "image" },
+        {
+          label: t("og_image"),
+          name: "og_image",
+          widget: "image",
+          required: false,
+          hint: t("label_og_image"),
+        },
       ],
     },
     {
