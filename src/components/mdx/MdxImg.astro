@@ -5,10 +5,29 @@ import Intersecting from "@components/common/Intersecting.vue";
 import { t } from "@util/translate";
 const imageName = props.src.split("/").pop().split(".")[0];
 const imgAlt = imageName ? imageName : "no-name";
+const ext = props.src.split(".").pop();
+
+function isPixelBasedImage(extension) {
+  const pixelBasedFormats = [
+    "jpg",
+    "jpeg",
+    "png",
+    "gif",
+    "bmp",
+    "tiff",
+    "webp",
+    "ico",
+  ];
+
+  return pixelBasedFormats.includes(extension.toLowerCase());
+}
+const isSvg = !isPixelBasedImage(ext);
+
+//
 ---
 
 {
-  props.src && (
+  !isSvg && (
     <Intersecting client:visible>
       <a
         href={`/images/${imgAlt}`}
@@ -28,3 +47,4 @@ const imgAlt = imageName ? imageName : "no-name";
     </Intersecting>
   )
 }
+{isSvg && <img {...props} alt={imgAlt} />}

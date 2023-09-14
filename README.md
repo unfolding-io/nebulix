@@ -15,6 +15,13 @@ A Universe of Possibilities: Blogs, Portfolios, Webshop, Restaurant Menus, and B
 
 __This theme is currently under development, and until we reach version 1.0.0, there is a possibility that upgrading could lead to errors.__
 
+## 🛠️Deploy
+Easily deploy this theme to Netlify with a single click, and conveniently update environment variables afterward on Netlify.
+
+
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/unfolding-io/nebulix#BLOG_SLUG=blog&PORTFOLIO_SLUG=work&SHOP_SLUG=shop&MENU_SLUG=menu&WEBSITE_LANGUAGE=en&CURRENCY=USD&UNITS=metric&NODE_VERSION=18)
+
 
 ## Constellations of Features:
 
@@ -26,6 +33,7 @@ __This theme is currently under development, and until we reach version 1.0.0, t
 -   🧭 Navigational Maps: Sitemap Support
 -   📑Language of the Stars: Markdown & MDX Support
 -   📝 Static CMS Ready for Galactic Exploration
+- 	🐵 Mailchimp newsletter form
 -   🕵 Unveil Hidden Constellations with Full Text Search using Pagefind
 
 ## ♻️ Page Speed and Emissions
