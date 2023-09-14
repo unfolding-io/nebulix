@@ -39,46 +39,52 @@ const config = {
     <title>Nebulix Admin | by unfolding.io</title>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/@staticcms/app@^v3.2.0/dist/main.css"
+      href="https://unpkg.com/@staticcms/app@^v3.3.0/dist/main.css"
     />
 
-    <style is:inline>
-      .flex.flex-col.min-h-full,
-      .w-editor-only.max-w-full {
-        padding-bottom: 10rem;
-      }
+    <style is:global>
+      #cms-root {
+        .flex.flex-col.min-h-full,
+        .w-editor-only.max-w-full {
+          padding-bottom: 10rem;
+        }
 
-      .flex.flex-col.min-h-full.w-full {
-        @apply pb-20;
-      }
+        .MuiMenuButton-root {
+          background-color: #cccccc;
+        }
 
-      .btn-contained-primary {
-        background-color: #0070f3 !important;
-      }
+        .flex.flex-col.min-h-full.w-full {
+          @apply pb-20;
+        }
 
-      .btn-contained-success {
-        background-color: green !important;
-      }
+        .CMS_Button_contained-primary {
+          background-color: #0070f3 !important;
+        }
 
-      .btn-contained-error {
-        background: red !important;
-      }
+        .CMS_Button_contained-success {
+          background-color: green !important;
+        }
 
-      [data-testid="expand-button"] label,
-      [data-testid="list-expand-button"] label {
-        font-size: 1rem !important;
-        text-transform: uppercase;
-      }
+        .CMS_Button_contained-error {
+          background: red !important;
+        }
 
-      .MuiCollapse-wrapperInner > div {
-        border-bottom: 5px dotted rgba(59, 130, 246, 0.5);
+        [data-testid="expand-button"] label,
+        [data-testid="list-expand-button"] label {
+          font-size: 1rem !important;
+          text-transform: uppercase;
+        }
+
+        .MuiCollapse-wrapperInner > div {
+          border-bottom: 5px dotted rgba(59, 130, 246, 0.5);
+        }
       }
     </style>
   </head>
   <body>
     <script
       is:inline
-      src="https://unpkg.com/@staticcms/app@^v3.2.0/dist/static-cms-app.js"
+      src="https://unpkg.com/@staticcms/app@^v3.3.0/dist/static-cms-app.js"
     ></script>
     <script
       is:inline
