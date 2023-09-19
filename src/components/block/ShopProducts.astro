@@ -65,14 +65,17 @@ const sizes = getGridImageSizes(container);
       template === "list" && (
         <div class="grid gap-14 md:grid-cols-2">
           <div>
-            <div class="sticky top-8 grid gap-4">
+            <div class="sticky grid gap-4 md:top-14">
               <h2 class="title-sm" id={slugify(title)}>
                 {title}
               </h2>
               {content && <div class="richtext" set:html={render(content)} />}
             </div>
           </div>
-          <ul class={`list grid gap-4`} data-pagefind-ignore="all">
+          <ul
+            class={`list sticky mb-auto grid h-auto gap-4 md:top-14`}
+            data-pagefind-ignore="all"
+          >
             {posts.map((post, index) => (
               <li style={`--animation-delay: ${(index + 1) * 150}ms`}>
                 <ItemCardSmall content={post} {base_url} />
