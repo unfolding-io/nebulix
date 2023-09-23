@@ -36,7 +36,7 @@
     "@remark-embedder/transformer-oembed": "^3.0.0",
     "@vueuse/components": "^10.4.1",
     "@vueuse/integrations": "^10.4.1",
-    "astro": "^3.1.1",
+    "astro": "^3.1.2",
     "astro-compress": "^2.0.15",
     "astro-critters": "^2.0.11",
     "astro-icon": "^0.8.1",
@@ -51,7 +51,7 @@
     "typescript": "^5.2.2",
     "vue": "^3.3.4",
     "vue3-popper": "^1.5.0",
-    "vue3-toastify": "^0.1.12"
+    "vue3-toastify": "^0.1.13"
   },
   "devDependencies": {
     "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
