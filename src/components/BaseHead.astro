@@ -61,5 +61,5 @@ const pageTitle = `${title} | ${data.sitename}`;
 <meta property="twitter:description" content={description} />
 {socialImage && <meta property="twitter:image" content={socialImage} />}
 
-<ViewTransitions />
+<ViewTransitions fallback="swap" />
 <script src="/scroll-timeline.js" is:inline defer></script>
