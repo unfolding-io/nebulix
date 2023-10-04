@@ -1,6 +1,6 @@
 ---
 import { getCollection, getEntry } from "astro:content";
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { marked } from "marked";
 import ItemCard from "@components/cards/ItemCard.astro";
 import ItemCardSmall from "@components/cards/ItemCardSmall.astro";
 import ItemCardFlex from "@components/cards/ItemCardFlex.astro";
@@ -10,10 +10,6 @@ import { slugify, getGridImageSizes } from "@util/helpers";
 const base_url = import.meta.env.SHOP_SLUG;
 const { title, name, container, template, content, categories } = Astro.props;
 const { data } = await getEntry("config", "shop");
-
-const render = async (content) => {
-  return await renderMarkdown(content, {}).then((r) => r.code);
-};
 
 const posts = (await getCollection("product")).sort(
   (a, b) => a.data.date.valueOf() - b.data.date.valueOf(),
@@ -52,7 +48,7 @@ const sizes = getGridImageSizes(container);
           <h2 class="title-sm" id={slugify(title)}>
             {title}
           </h2>
-          {content && <div class="richtext" set:html={render(content)} />}
+          {content && <div class="richtext" set:html={marked.parse(content)} />}
           <div
             class={`auto-grid-${container || "md"} gap-4`}
             data-pagefind-ignore="all"
@@ -85,7 +81,9 @@ const sizes = getGridImageSizes(container);
               <h2 class="title-sm" id={slugify(title)}>
                 {title}
               </h2>
-              {content && <div class="richtext" set:html={render(content)} />}
+              {content && (
+                <div class="richtext" set:html={marked.parse(content)} />
+              )}
             </div>
           </div>
           <ul
@@ -117,7 +115,7 @@ const sizes = getGridImageSizes(container);
           <h2 class="title-sm" id={slugify(title)}>
             {title}
           </h2>
-          {content && <div class="richtext" set:html={render(content)} />}
+          {content && <div class="richtext" set:html={marked.parse(content)} />}
           <ul
             class={`flex-grid flex flex-wrap justify-center gap-x-4 gap-y-8 `}
             data-pagefind-ignore="all"

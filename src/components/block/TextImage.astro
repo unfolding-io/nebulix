@@ -1,7 +1,7 @@
 ---
 import { Picture } from "astro-imagetools/components";
 import { Icon } from "astro-icon";
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { marked } from "marked";
 import Intersecting from "@components/common/Intersecting.vue";
 import Button from "@components/navigation/Button.astro";
 import { t } from "@util/translate";
@@ -19,7 +19,7 @@ const {
   animate,
 } = Astro.props;
 
-const renderedContent = await renderMarkdown(content, {}).then((r) => r.code);
+const renderedContent = marked.parse(content);
 const containerSizes = {
   sm: "40rem", //640px
   md: "55rem", // 880px
@@ -128,7 +128,7 @@ const animation = `image_${animate ? imageName : Math.random()}`;
       }
     </div>
 
-    <div class="text-image__content my-auto h-full flex-1 flex">
+    <div class="text-image__content my-auto flex h-full flex-1">
       <div class="my-auto">
         <div
           set:html={renderedContent}
@@ -140,7 +140,7 @@ const animation = `image_${animate ? imageName : Math.random()}`;
           buttons && (
             <div
               style="--animation-delay: 0.6s"
-              class={`inline-flex flex-wrap gap-4 fade-up  ${
+              class={`fade-up inline-flex flex-wrap gap-4  ${
                 template === "banner"
                   ? "mb-8 w-full justify-center py-0"
                   : "py-8"

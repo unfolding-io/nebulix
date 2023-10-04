@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { marked } from "marked";
 import ItemCard from "@components/cards/ItemCard.astro";
 import ItemCardSmall from "@components/cards/ItemCardSmall.astro";
 import Intersecting from "@components/common/Intersecting.vue";
@@ -20,9 +20,6 @@ const {
   animate,
 } = Astro.props;
 
-const render = async (content) => {
-  return await renderMarkdown(content, {}).then((r) => r.code);
-};
 let base_url;
 let posts;
 if (page_type === "blog") {
@@ -74,7 +71,7 @@ const sizes = getGridImageSizes(container);
           <h2 class="title-sm" id={slugify(title)}>
             {title}
           </h2>
-          {content && <div class="richtext" set:html={render(content)} />}
+          {content && <div class="richtext" set:html={marked.parse(content)} />}
           <div
             class={`auto-grid-${container || "md"} gap-4`}
             data-pagefind-ignore="all"
@@ -114,7 +111,9 @@ const sizes = getGridImageSizes(container);
               <h2 class="title-sm" id={slugify(title)}>
                 {title}
               </h2>
-              {content && <div class="richtext" set:html={render(content)} />}
+              {content && (
+                <div class="richtext" set:html={marked.parse(content)} />
+              )}
             </div>
           </div>
           <ul class={`bloglist grid gap-4`} data-pagefind-ignore="all">

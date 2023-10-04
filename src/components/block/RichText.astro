@@ -1,10 +1,10 @@
 ---
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { marked } from "marked";
 import Intersecting from "@components/common/Intersecting.vue";
 import Button from "@components/navigation/Button.astro";
 const { content, container, buttons } = Astro.props;
 
-const renderedContent = await renderMarkdown(content, {}).then((r) => r.code);
+const renderedContent = marked.parse(content);
 ---
 
 <Intersecting client:visible className="w-full">
@@ -13,7 +13,7 @@ const renderedContent = await renderMarkdown(content, {}).then((r) => r.code);
     {
       buttons && (
         <div
-          class="inline-flex flex-wrap gap-4 py-8 fade-up"
+          class="fade-up inline-flex flex-wrap gap-4 py-8"
           style="--animation-delay: 0.6s"
         >
           {buttons.map((btn) => (

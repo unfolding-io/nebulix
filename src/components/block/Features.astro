@@ -1,20 +1,16 @@
 ---
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { marked } from "marked";
 import Intersecting from "@components/common/Intersecting.vue";
 import { Icon } from "astro-icon";
 import { getIconName } from "@util/helpers";
 const { content, container, features } = Astro.props;
-
-const render = async (content) => {
-  return await renderMarkdown(content, {}).then((r) => r.code);
-};
 ---
 
 <Intersecting client:visible className="w-full">
   <div
     class={`container-${container} fade-up rounded-md surface-white features grid gap-8`}
   >
-    <div set:html={render(content)} class="richtext fade-up" />
+    <div set:html={marked.parse(content)} class="richtext fade-up" />
 
     {
       features && (
@@ -34,7 +30,7 @@ const render = async (content) => {
                 </div>
               )}
               <div
-                set:html={render(feature.content)}
+                set:html={marked.parse(feature.content)}
                 class="richtext no-lead px-4 py-8"
               />
             </li>

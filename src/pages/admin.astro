@@ -43,7 +43,9 @@ const config = {
     />
 
     <style is:global>
-      #cms-root {
+      #cms-root,
+      #nc-root,
+      body {
         .flex.flex-col.min-h-full,
         .w-editor-only.max-w-full {
           padding-bottom: 10rem;
@@ -61,8 +63,9 @@ const config = {
           background-color: #0070f3 !important;
         }
 
-        .CMS_Button_contained-success {
-          background-color: green !important;
+        .CMS_Button_contained-success,
+        button.CMS_Button_contained-success {
+          background: green !important;
         }
 
         .CMS_Button_contained-error {

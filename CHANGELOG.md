@@ -15,3 +15,9 @@ All notable changes to the "Nebulix" theme will be documented in this file.
 - fix: SVG images in markdown
 - feat: add netlify deploy button
 
+## 0.16
+
+-   Change: deprecated renderMarkdown to marked
+-   Upgrade: Astro@3.3.3
+
+

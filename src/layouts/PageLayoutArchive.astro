@@ -1,5 +1,5 @@
 ---
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { marked } from "marked";
 import { getGridImageSizes } from "@util/helpers";
 import PageLayoutWide from "@layouts/PageLayoutWide.astro";
 import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
@@ -23,10 +23,6 @@ const productWrapClass = () => {
     return `flex flex-wrap justify-center pt-14 pb-20 flex-grid gap-x-4 gap-y-8`;
   return `flex flex-wrap gap-x-4 gap-y-8 justify-center pb-32 flex-grid `;
 };
-
-const render = async (content) => {
-  return await renderMarkdown(content, {}).then((r) => r.code);
-};
 ---
 
 {
@@ -43,7 +39,7 @@ const render = async (content) => {
       {data.body && data.body !== " " && (
         <div
           class={`richtext ${data.style.content_class || "pb-14"}`}
-          set:html={render(data.body)}
+          set:html={marked.parse(data.body)}
         />
       )}
       <ul class={`bloglist grid gap-4 pb-14`} data-pagefind-ignore="all">
@@ -84,7 +80,7 @@ const render = async (content) => {
         <section class={` ${data.style.content_class || "pb-14"}`}>
           <div
             class={`richtext container-${data.style.container}`}
-            set:html={render(data.body)}
+            set:html={marked.parse(data.body)}
           />
         </section>
       )}

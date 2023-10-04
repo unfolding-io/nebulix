@@ -2,14 +2,10 @@
 import { formatPrice } from "@util/toLocale";
 import Intersecting from "@components/common/Intersecting.vue";
 import { Picture } from "astro-imagetools/components";
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { marked } from "marked";
 import Label from "@components/menu/Label.astro";
 import { slugify } from "@util/helpers";
 import { t } from "@util/translate";
-
-const render = async (content) => {
-  return await renderMarkdown(content, {}).then((r) => r.code);
-};
 
 const getImageName = (url) => {
   return url.split("/").pop().split(".")[0];
@@ -79,7 +75,7 @@ const { categories } = Astro.props;
                   {item.intro && (
                     <div
                       class="balance richtext"
-                      set:html={render(item.intro)}
+                      set:html={marked.parse(item.intro)}
                     />
                   )}
 

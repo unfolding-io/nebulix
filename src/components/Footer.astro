@@ -1,6 +1,6 @@
 ---
-import { getEntry } from "astro:content";
-import { renderMarkdown } from "@astrojs/markdown-remark";
+import { getEntry } from "astro:content"; 
+import { marked } from "marked";
 import { Icon } from "astro-icon";
 import { t } from "@util/translate";
 import Newsletter from "@components/newsletter/Newsletter.vue";
@@ -10,9 +10,7 @@ let about = await getEntry("config", "about");
 let contact = await getEntry("config", "contact");
 let navigation = await getEntry("config", "navigation");
 
-const render = async (content) => {
-  return await renderMarkdown(content, {}).then((r) => r.code);
-};
+ 
 
 const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
 ---
@@ -32,7 +30,7 @@ const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
         about.data.footer_text && (
           <div
             class="balance pr-4 pt-4 text-sm opacity-70"
-            set:html={render(about.data.footer_text)}
+            set:html={marked.parse(about.data.footer_text)}
           />
         )
       }
@@ -95,7 +93,7 @@ const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
             <div class="gap:10 flex-col content-end  items-end justify-end  py-0 pt-8 sm:ml-auto sm:flex sm:max-w-md sm:pt-0 sm:text-right">
               <div
                 class="richtext dense no-lead balance leading-none opacity-80"
-                set:html={render(about.data.newsletter_text)}
+                set:html={marked.parse(about.data.newsletter_text)}
               />
               <Newsletter client:visible />
             </div>
