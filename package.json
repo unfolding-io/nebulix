@@ -22,21 +22,21 @@
     "dev:demo": "cross-env BLOG_SLUG=blog PORTFOLIO_SLUG=work SHOP_SLUG=shop MENU_SLUG=menu WEBSITE_LANGUAGE=en CURRENCY=USD UNITS=metric NODE_VERSION=18 SNIPCART_KEY=ZDVjZmQwYmUtMzNlYy00OGEyLTkxMTItMTg4YTI5NGQxN2I3NjM4MjgzOTQyMzA2MTM1NjI1 astro dev"
   },
   "dependencies": {
-    "@astrojs/check": "^0.2.0",
-    "@astrojs/mdx": "^1.1.0",
-    "@astrojs/prefetch": "^0.4.0",
+    "@astrojs/check": "^0.2.1",
+    "@astrojs/mdx": "^1.1.2",
+    "@astrojs/prefetch": "^0.4.1",
     "@astrojs/rss": "^3.0.0",
-    "@astrojs/sitemap": "^3.0.0",
-    "@astrojs/tailwind": "^5.0.0",
-    "@astrojs/vue": "^3.0.0",
-    "@fontsource-variable/inter-tight": "^5.0.15",
+    "@astrojs/sitemap": "^3.0.1",
+    "@astrojs/tailwind": "^5.0.2",
+    "@astrojs/vue": "^3.0.1",
+    "@fontsource-variable/inter-tight": "^5.0.16",
     "@nanostores/vue": "^0.10.0",
     "@panzoom/panzoom": "^4.5.1",
     "@remark-embedder/core": "^3.0.2",
     "@remark-embedder/transformer-oembed": "^3.0.0",
-    "@vueuse/components": "^10.4.1",
-    "@vueuse/integrations": "^10.4.1",
-    "astro": "^3.2.2",
+    "@vueuse/components": "^10.5.0",
+    "@vueuse/integrations": "^10.5.0",
+    "astro": "^3.3.1",
     "astro-compress": "^2.0.15",
     "astro-critters": "^2.0.11",
     "astro-icon": "^0.8.1",
@@ -45,14 +45,14 @@
     "async-validator": "^4.2.5",
     "convert": "^4.13.2",
     "js-convert-case": "^4.2.0",
-    "marked": "^9.0.3",
-    "nanostores": "^0.9.3",
+    "marked": "^9.1.2",
+    "nanostores": "^0.9.4",
     "rehype-external-links": "^3.0.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
     "vue": "^3.3.4",
     "vue3-popper": "^1.5.0",
-    "vue3-toastify": "^0.1.13"
+    "vue3-toastify": "^0.1.14"
   },
   "devDependencies": {
     "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
@@ -63,6 +63,6 @@
     "postcss-nesting": "^12.0.1",
     "prettier": "^3.0.3",
     "prettier-plugin-astro": "^0.12.0",
-    "prettier-plugin-tailwindcss": "^0.5.5"
+    "prettier-plugin-tailwindcss": "^0.5.6"
   }
 }
