@@ -168,12 +168,22 @@ Astro, MDX, Vue, TailwindCSS, Pagefind, Snipcart
 
 If you encounter any issues or bugs, we encourage you to open an issue in the repository. To help us quickly address the problem, please provide detailed information about the bug and steps to reproduce it.
 
-For those seeking priority assistance, we offer premium support services. Feel free to reach out to us by email at [hello@unfolding.io.](mailto:hello@unfolding.io.) We're here to help!
+## 👑 Premium Support
 
+For those seeking priority assistance, we offer premium support services. Do you need support, custom intergrations, design, or development? Feel free to reach out to me by email at [hello@unfolding.io.](mailto:hello@unfolding.io.) find me on [UpWork](https://www.upwork.com/freelancers/~01dcde6b3915c74c30) Im here to help!
+
+## ☕️ Buy me a coffee
+
+Want to power my late night coding sessions? [Buy me a coffee](https://nebulix.unfolding.io/shop/buy-me-a-coffee/)
+
+## 📝 License
+
+Want to get rid of the attribution? Simply [purchase a license](https://nebulix.unfolding.io/shop/nebulix-licence/) and you're good to go.
 
 ## 🚕 Roadmap
 
 As we journey towards v1.0, our path includes enriching the page builder with a diverse array of new blocks, upgrading dependencies to ensure optimal performance, and introducing exciting features. We're eager to hear from you! If you have any feature requests, please feel free to reach out and let us know.
+
 
 ## 📸 Screenshots
 
