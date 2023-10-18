@@ -6,7 +6,7 @@ import HeroPlain from "@components/hero/HeroPlain.astro";
 
 const props = Astro.props;
 const { title, description, blocks, style, thumbnail, og_image } = Astro.props;
-const contentClass = style.hero_template === "plain" ? "py-0" : "py-0";
+const contentClass = style.hero_template === "plain" ? "py-0" : "py-20";
 const hasBlocks = blocks && blocks.length > 0;
 ---
 
