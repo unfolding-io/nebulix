@@ -61,6 +61,12 @@ const hasBlocks = blocks && blocks.length > 0;
 
 <style is:global>
   .page__content {
+    &:empty {
+      display: none;
+    }
+    &:has(> .richtext:empty) {
+      display: none;
+    }
     .img,
     iframe {
       width: calc(100% + var(--container-spacing));
