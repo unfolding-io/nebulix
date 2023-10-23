@@ -40,7 +40,7 @@ export const page = {
       name: "body",
       widget: "markdown",
       required: false,
-      comment: "This is a multiline\\ncomment",
+
       toolbar_buttons: toolbarButtons,
       show_raw: true,
     },

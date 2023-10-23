@@ -6,23 +6,39 @@ import ImageNav from "@components/navigation/ImageNav.vue";
 import { Icon } from "astro-icon";
 import { t } from "@util/translate";
 import { getImageTransitionName } from "@util/helpers";
+import { Picture } from "astro-imagetools/components";
+import SnipCart from "@components/shop/SnipCartInit.vue";
+import CartButton from "@components/shop/CartButton.vue";
+
+const snipcartKey = import.meta.env.SNIPCART_KEY;
 
 export async function getStaticPaths() {
+  /* This is a bit hacky, but I want to get routes for all images without using node:fs */
   const images = await Astro.glob("../../assets/*");
-
+  /* get all the images */
   let params = images
     .filter((img) => ["jpeg", "jpg", "png", "gif"].includes(img.default.format))
     .flatMap((img) => {
+      const imgParts = img.default.src
+        .split("/assets/")
+        .pop()
+        .split("?")
+        .shift()
+        .replace("/_astro/", "")
+        .split(".");
+      const imageSrc = `/src/assets/${imgParts[0]}.${imgParts.pop()}`;
+
       return {
         params: { slug: img.default.src.split("/").pop().split(".")[0] },
         props: {
-          image: img.default.src,
+          image: imageSrc,
         },
       };
     });
-
+  console.log(params);
   return params;
 }
+
 const { image } = Astro.props;
 const { slug } = Astro.params;
 const title = toHeaderCase(slug);
@@ -34,6 +50,26 @@ const title = toHeaderCase(slug);
     <BaseHead title={title} description={`${t("image")}: ${title}`} />
   </head>
   <body class="surface-dark relative grid h-screen w-full place-items-center">
+    {
+      snipcartKey && (
+        <div class="-z-50 hidden">
+          <CartButton
+            label={t("cart")}
+            client:idle
+            transition:persist
+            transition:name="cart"
+          >
+            <Icon name="shopping-cart" class="h-6 w-6" />
+          </CartButton>
+          <SnipCart
+            transition:persist
+            transition:name="snipcart-base"
+            snipcartKey={snipcartKey}
+            client:idle
+          />
+        </div>
+      )
+    }
     <ImageNav
       client:idle
       translations={{ next: t("next"), prev: t("prev"), close: t("close") }}
@@ -43,11 +79,21 @@ const title = toHeaderCase(slug);
       <Icon name="left" class="w-8" slot="prev" />
 
       <PanZoom
-        image={image}
         alt={`image: ${title}`}
         client:idle
         transition:name={`${getImageTransitionName(image)}`}
-      />
+      >
+        <Picture
+          src={image}
+          alt={title}
+          attributes={{ img: { class: "max-h-screen " } }}
+          breakpoints={[1000, 1280, 1440, 1536, 1920]}
+          sizes="100vw"
+          objectFit="contain"
+          loading="eager"
+          layout="fill"
+        />
+      </PanZoom>
     </ImageNav>
   </body>
 </html>

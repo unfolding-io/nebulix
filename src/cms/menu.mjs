@@ -286,7 +286,7 @@ export const menu = {
       label: t("body"),
       name: "body",
       widget: "markdown",
-      comment: "This is a multiline\\ncomment",
+
       toolbar_buttons: toolbarButtons,
       required: false,
       show_raw: true,
