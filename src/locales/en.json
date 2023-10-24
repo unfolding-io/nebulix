@@ -154,5 +154,7 @@
   "weight": "Weight",
   "weight_in_grams": "Weight in grams",
   "width": "Width",
-  "width_in_cm": "Width in cm"
+  "width_in_cm": "Width in cm",
+  "contact_thanks": "Thank you for contacting us. We will get back to you as soon as possible.",
+  "contact_error": "We could not send your message. Please try again."
 }

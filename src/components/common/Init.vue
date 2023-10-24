@@ -6,6 +6,7 @@
 import { watch, ref, onMounted } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { useDebounceFn } from "@vueuse/core";
+import { showContact } from "@src/store";
 const { width } = useWindowSize();
 const shown = ref(false);
 
@@ -80,6 +81,15 @@ onMounted(() => {
       );
     });
   }
+
+  /* CONTACT FORM */
+  const contactButtons = document.querySelectorAll("[href='#contact']");
+  contactButtons.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      showContact.set(true);
+    });
+  });
 });
 /* CREDITS, PLEASE LEAVE THIS IN PLACE */
 watch(width, (val) => {

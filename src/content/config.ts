@@ -477,6 +477,18 @@ const config = defineCollection({
 				})
 			)
 			.optional(),
+		form: z.object({
+				title: z.string(),
+				intro: z.string().optional(),
+				thumbnail: z.string(),
+				provider: z.string(),
+				topics: z.array(z.object({
+					label: z.string(),
+					email: z.string().optional(),
+					slack_id: z.string().optional(),
+				})).optional(),
+				 
+			}).optional(),
 
 		blog_tags: z
 			.array(

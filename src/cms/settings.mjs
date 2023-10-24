@@ -391,6 +391,62 @@ export const settings = {
             },
           ],
         },
+        {
+          name: "form",
+          label: t("contact_form"),
+          widget: "object",
+          summary: "{{fields.title}} ",
+          collapsed: true,
+          fields: [
+            { name: "title", label: t("title"), widget: "string" },
+            { name: "intro", label: t("intro"), widget: "markdown" },
+            {
+              name: "provider",
+              label: t("provider"),
+              widget: "select",
+              options: ["slack", "mailgun", "postmark"],
+              required: true,
+            },
+
+            {
+              name: "topics",
+              label: t("topics"),
+              label_singular: t("topic"),
+              widget: "list",
+              min: 1,
+              max: 10,
+              collapsed: true,
+              summary: "{{fields.label}} | {{fields.email}}",
+              required: false,
+              fields: [
+                {
+                  label: t("label"),
+                  name: "label",
+                  widget: "string",
+                },
+                {
+                  label: t("email"),
+                  name: "email",
+                  widget: "string",
+                  required: false,
+                },
+                {
+                  label: t("slack_channel_id"),
+                  name: "slack_id",
+                  widget: "string",
+                  required: false,
+                },
+              ],
+            },
+            {
+              label: t("image"),
+              name: "thumbnail",
+              widget: "image",
+              media_folder: "/src/assets",
+              required: true,
+            },
+          ],
+        },
       ],
     },
     {
