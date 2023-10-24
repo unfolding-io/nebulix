@@ -2,6 +2,15 @@
 
 All notable changes to the "Nebulix" theme will be documented in this file.
 
+## 0.18
+
+- Upgrade Static CMS 3.3.11
+- Upgrade Dependencies
+- Contact Form with Slack, MailGun & Postmark support
+- Update Image page (Picture element)
+- Fix cart bug after image route
+
+
 ## 0.17
 - Upgrade Static CMS 3.3.10
 - Upgrade Dependencies
