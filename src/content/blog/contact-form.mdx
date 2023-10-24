@@ -13,11 +13,12 @@ style:
 pubDate: 2023-10-24T10:42:11.719Z
 thumbnail: /src/assets/cosmic_contact_settings.jpeg
 ---
+
 ## Getting Your Contact Form Up & Running
 
-Nebulix contact form supports multiple topics, every topic can have their own desination email or slack channel. to open the contact dialog just create a link `href="#contact"`
+Nebulix contact form supports multiple topics, every topic can have their own destination email or slack channel. to open the contact dialog just create a link with `href="#contact"`
 
-You can configure your contact form in the CMS under **SETTINGS > CONTACT  & SOCIAL**
+You can configure your contact form in the CMS under **SETTINGS > CONTACT & SOCIAL**
 
 ### MailGun
 
@@ -42,7 +43,7 @@ POSTMARK_SERVER_TOKEN=XXXXXXXXX
 For slack to work you first need to create an app, then add the slack token + channel id to your .env
 
 ```
-SLACK_CHANNEL_ID=XXXXXXXXX 
+SLACK_CHANNEL_ID=XXXXXXXXX
 SLACK_TOKEN=XXXXXXXXX
 ```
 
@@ -56,7 +57,3 @@ SLACK_TOKEN=XXXXXXXXX
 1. Add Scopes ( chat:write, chat:write:customize, chat:write:public)
 1. In the left settings menu select "install app" and connect it to your workspace
 1. Now you have your **Bot User OAuth Token** this is your `SLACK_TOKEN`
-
-
-
-
