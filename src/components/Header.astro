@@ -3,6 +3,7 @@ import NavMobile from "@components/navigation/NavMobile.vue";
 import { Icon } from "astro-icon";
 import PageFind from "@components/common/PageFind.astro";
 import CartButton from "@components/shop/CartButton.vue";
+import ColorSwitch from "@components/common/ColorSwitch.vue";
 import { t } from "@util/translate";
 
 const { menu, title, social } = Astro.props;
@@ -66,6 +67,10 @@ const isActive = (href) => {
                 </a>
               </li>
             ))}
+
+          <li>
+            <ColorSwitch client:idle />
+          </li>
 
           <li class="md:hidden">
             <NavMobile

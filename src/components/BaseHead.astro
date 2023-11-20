@@ -61,5 +61,24 @@ const pageTitle = `${title} | ${data.sitename}`;
 <meta property="twitter:description" content={description} />
 {socialImage && <meta property="twitter:image" content={socialImage} />}
 
+<script is:inline>
+  const setDarkMode = () => {
+    if (localStorage.getItem("color-scheme") === "dark") {
+      document.querySelector("html").dataset.theme = "dark";
+    }
+    if (localStorage.getItem("color-scheme") === "light") {
+      document.querySelector("html").dataset.theme = "light";
+    }
+    if (!localStorage.getItem("color-scheme")) {
+      let theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+      localStorage.setItem("color-scheme", theme);
+    }
+  };
+  setDarkMode();
+  document.addEventListener("astro:after-swap", setDarkMode);
+</script>
+
 <ViewTransitions fallback="swap" />
 <script src="/scroll-timeline.js" is:inline defer></script>
