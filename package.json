@@ -2,7 +2,7 @@
   "name": "nebulix",
   "type": "module",
   "license": "CC BY-ND 4.0",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "keywords": [
     "astro",
     "Static CMS",

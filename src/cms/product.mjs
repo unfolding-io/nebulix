@@ -160,7 +160,6 @@ export const product = {
       name: "shipping",
       label: t("shipping"),
       widget: "object",
-      summary: "{{fields.name}}: {{fields.birthdate}}",
       condition: {
         field: "is_digital",
         value: "false",
@@ -204,7 +203,7 @@ export const product = {
       label: t("product_variations"),
       label_singular: t("product_variation"),
       widget: "list",
-      summary: "{{fields.name}} ",
+      summary: "{{name}} ",
       collapsed: true,
       required: false,
       fields: [
@@ -230,7 +229,7 @@ export const product = {
           label: t("options"),
           label_singular: t("product_option"),
           widget: "list",
-          summary: "{{fields.label}} {{fields.price}} ",
+          summary: "{{label}} {{price}} ",
           collapsed: true,
           required: false,
           fields: [
@@ -271,7 +270,7 @@ export const product = {
       label_singular: "feature",
       widget: "list",
       collapsed: true,
-      summary: "{{fields.name}} | {{fields.value}}",
+      summary: "{{name}} | {{value}}",
       required: false,
       fields: [
         {
@@ -290,7 +289,7 @@ export const product = {
       name: "style",
       label: t("page_style"),
       widget: "object",
-      summary: "template: {{fields.template}} | hero:{{fields.hero_template}} ",
+      summary: "template: {{template}} | hero:{{hero_template}} ",
       collapsed: true,
       fields: [
         {

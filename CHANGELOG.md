@@ -2,6 +2,11 @@
 
 All notable changes to the "Nebulix" theme will be documented in this file.
 
+## 0.19
+- Add color switch
+- Upgrade Dependencies 
+
+
 ## 0.18
 
 - Upgrade Static CMS 3.3.11

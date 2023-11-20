@@ -8,6 +8,7 @@ import menuIcon from "@icons/menu.svg";
 import settingsIcon from "@icons/settings.svg";
 import portfolioIcon from "@icons/portfolio.svg";
 import shopIcon from "@icons/shop.svg";
+const staticCmsVersion = "3.4.5";
 
 const lang = import.meta.env.WEBSITE_LANGUAGE;
 const url = Astro.site;
@@ -39,7 +40,7 @@ const config = {
     <title>Nebulix Admin | by unfolding.io</title>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/@staticcms/app@^v3.4.4/dist/main.css"
+      href={`https://unpkg.com/@staticcms/app@^${staticCmsVersion}/dist/main.css`}
     />
     <script
       is:inline
@@ -91,7 +92,7 @@ const config = {
   <body>
     <script
       is:inline
-      src="https://unpkg.com/@staticcms/app@^v3.4.4/dist/static-cms-app.js"
+      src={`https://unpkg.com/@staticcms/app@^${staticCmsVersion}/dist/static-cms-app.js`}
     ></script>
     <script
       is:inline
@@ -106,90 +107,90 @@ const config = {
         shopIcon,
       }}
     >
-    window.CMS.init({ config });
+      window.CMS.init({ config });
 
-    const ProductPreviewCard = ({ entry, widgetFor }) => {
-      return h(
-        "div",
-        { style: { width: "100%" } },
-        h(
+      const ProductPreviewCard = ({ entry, widgetFor }) => {
+        return h(
           "div",
-          { style: { width: "100%", height: "170px", overflow: "hidden" } },
-          widgetFor("thumbnail"),
-        ),
-
-        h(
-          "div",
-          { style: { padding: "16px", width: "100%" } },
+          { style: { width: "100%" } },
           h(
             "div",
-            {
-              style: {
-                display: "flex",
-                width: "100%",
-                justifyContent: "space-between",
-                alignItems: "start",
-              },
-            },
+            { style: { width: "100%", height: "170px", overflow: "hidden" } },
+            widgetFor("thumbnail"),
+          ),
+
+          h(
+            "div",
+            { style: { padding: "16px", width: "100%" } },
             h(
               "div",
               {
                 style: {
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "baseline",
-                  gap: "2px",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "start",
                 },
               },
               h(
                 "div",
                 {
                   style: {
-                    fontSize: "18px",
-                    whiteSpace: "no-wrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "block",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "baseline",
+                    gap: "2px",
                   },
                 },
-                entry.data.title,
+                h(
+                  "div",
+                  {
+                    style: {
+                      fontSize: "18px",
+                      whiteSpace: "no-wrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "block",
+                    },
+                  },
+                  entry.data.title,
+                ),
+                h(
+                  "span",
+                  { style: { fontSize: "12px" } },
+                  parseFloat(entry.data.price).toFixed(2),
+                ),
               ),
               h(
-                "span",
-                { style: { fontSize: "12px" } },
-                parseFloat(entry.data.price).toFixed(2),
+                "div",
+                {
+                  style: {
+                    backgroundColor:
+                      entry.data.in_stock === true ? "green" : "red",
+                    color: "white",
+                    border: "none",
+                    padding: "4px",
+                    textAlign: "center",
+                    textDecoration: "none",
+                    display: "inline-block",
+                    cursor: "pointer",
+                    borderRadius: "100px",
+                  },
+                },
+                " ",
               ),
             ),
-            h(
-              "div",
-              {
-                style: {
-                  backgroundColor:
-                    entry.data.in_stock === true ? "green" : "red",
-                  color: "white",
-                  border: "none",
-                  padding: "4px",
-                  textAlign: "center",
-                  textDecoration: "none",
-                  display: "inline-block",
-                  cursor: "pointer",
-                  borderRadius: "100px",
-                },
-              },
-              " ",
-            ),
           ),
-        ),
-      );
-    };
-    CMS.registerPreviewCard("product", ProductPreviewCard, () => 240);
-    CMS.registerIcon("house", () => h("img", { src: logo.src }));
-    CMS.registerIcon("news", () => h("img", { src: newsIcon.src }));
-    CMS.registerIcon("page", () => h("img", { src: pageIcon.src }));
-    CMS.registerIcon("menu", () => h("img", { src: menuIcon.src }));
-    CMS.registerIcon("settings", () => h("img", { src: settingsIcon.src }));
-    CMS.registerIcon("portfolio", () => h("img", { src: portfolioIcon.src }));
-    CMS.registerIcon("shop", () => h("img", { src: shopIcon.src }));
+        );
+      };
+      CMS.registerPreviewCard("product", ProductPreviewCard, () => 240);
+      CMS.registerIcon("house", () => h("img", { src: logo.src }));
+      CMS.registerIcon("news", () => h("img", { src: newsIcon.src }));
+      CMS.registerIcon("page", () => h("img", { src: pageIcon.src }));
+      CMS.registerIcon("menu", () => h("img", { src: menuIcon.src }));
+      CMS.registerIcon("settings", () => h("img", { src: settingsIcon.src }));
+      CMS.registerIcon("portfolio", () => h("img", { src: portfolioIcon.src }));
+      CMS.registerIcon("shop", () => h("img", { src: shopIcon.src }));
     </script>
   </body>
 </html>
