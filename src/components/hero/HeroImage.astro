@@ -22,7 +22,7 @@ const { slug } = Astro.params;
 ---
 
 <div
-  class={`relative overflow-hidden  sm:h-screen nebulix-parallax ${
+  class={`hero relative overflow-hidden nebulix-parallax ${
     style.hero_surface || "surface-dark"
   } ${style.hero_class || ""}`}
   transition:name={`hero_${slug || Math.random()}`}
@@ -121,3 +121,16 @@ const { slug } = Astro.params;
     </div>
   </div>
 </div>
+
+<style>
+  .hero {
+    @screen sm {
+      min-height: calc(100svh - 4rem);
+    }
+  }
+  .media {
+    @screen sm {
+      max-height: calc(100svh - 4rem);
+    }
+  }
+</style>
