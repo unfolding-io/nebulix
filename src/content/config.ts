@@ -60,7 +60,43 @@ const blocks = z
 						icon: z.string().transform((val) => getIconName(val)).optional(),
 					})
 				)
-				.optional()
+				.optional(),
+				prices: z.array(z.object({
+				title: z.string().optional(),
+				intro: z.string().optional(),
+				price_suffix: z.string().optional(),
+				surface: z.string().optional(),
+				price: z.string(),
+				buttons: z
+				.array(
+					z.object({
+						href: z.string(),
+						className: z.string().optional(),
+						label: z.string(),
+						color: z.string().optional(),
+						icon: z.string().transform((val) => getIconName(val)).optional(),
+						icon_only: z.boolean().optional()
+					})
+				)
+				.optional(),
+						 	 
+				features: z.array(
+					z.object({
+						label: z.string().optional(),
+						value: z.string().optional(),
+						icon_class: z.string().optional(),
+						icon: z.string().transform((val) => getIconName(val)).optional(),
+					 
+					})
+				).optional(),
+				
+
+
+
+			})).optional(),	
+				
+
+		
 		})
 	)
 	.optional()

@@ -346,7 +346,7 @@ watch(
     @apply block w-full rounded-2xl px-3 py-2.5  focus:outline-primary;
   }
   label {
-    @apply absolute left-0 top-3 z-10 origin-[0] -translate-y-9  scale-75 transform text-sm  duration-300;
+    @apply pointer-events-none absolute left-0 top-3 z-10 origin-[0] -translate-y-9  scale-75 transform text-sm  duration-300;
   }
 }
 </style>

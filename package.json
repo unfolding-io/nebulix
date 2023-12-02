@@ -34,6 +34,7 @@
     "@panzoom/panzoom": "^4.5.1",
     "@remark-embedder/core": "^3.0.2",
     "@remark-embedder/transformer-oembed": "^3.0.0",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@vueuse/components": "^10.6.1",
     "@vueuse/core": "^10.6.1",
     "@vueuse/integrations": "^10.6.1",

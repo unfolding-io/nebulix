@@ -30,6 +30,7 @@ module.exports = {
     },
   },
   plugins: [
+    require("@tailwindcss/container-queries"),
     plugin(function ({ addBase }) {
       addBase({
         html: { fontSize: "16px" },
