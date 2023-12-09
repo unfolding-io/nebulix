@@ -54,7 +54,7 @@ onMounted(() => {
       isScrollingUp = scrollDirection;
     }
 
-    flip("data-is-scrolling-up", isScrollingUp);
+    // flip("data-is-scrolling-up", isScrollingUp);
     flip("data-is-bottom", isBottom);
     flip("data-is-top", isTop);
 
