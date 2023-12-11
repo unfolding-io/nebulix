@@ -3,6 +3,7 @@ let {
   MAILGUN_API_URL,
   MAILGUN_DOMAIN,
   TO_EMAIL_ADDRESS,
+  FROM_EMAIL_ADDRESS,
 } = Deno.env.toObject();
 
 export default async (request, context) => {
@@ -10,7 +11,8 @@ export default async (request, context) => {
       !MAILGUN_API_KEY ||
       !TO_EMAIL_ADDRESS ||
       !MAILGUN_DOMAIN ||
-      !MAILGUN_API_URL
+      !MAILGUN_API_URL ||
+      !FROM_EMAIL_ADDRESS
   )
     return Response.json({
       error: "Missing MailGun configuration, please check your .env file.",
@@ -21,7 +23,7 @@ export default async (request, context) => {
   if (!email || email === "") return Response.json({error: "Missing email"});
 
   const formData = new URLSearchParams();
-  formData.append('from', TO_EMAIL_ADDRESS);
+  formData.append('from', FROM_EMAIL_ADDRESS);
   formData.append('to', TO_EMAIL_ADDRESS);
   formData.append('subject', subject);
   formData.append('text', `name: ${name}\n\nmessage: ${message}`);
