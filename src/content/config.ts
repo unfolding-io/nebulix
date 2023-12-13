@@ -24,6 +24,7 @@ const blocks = z
 			block_class: z.string().optional(),
 			image_size: z.string().optional(),
 			count: z.number().optional(),
+			href: z.string().optional(),
 			aspect: z.number().or(z.string()).transform((val) => {
 				if (typeof val === 'string') return parseFloat(val)
 				if (!!val && val > 0) return val

@@ -17,6 +17,7 @@ const {
   aspect,
   image_size,
   animate,
+  href,
 } = Astro.props;
 
 const renderedContent = marked.parse(content);
@@ -62,7 +63,7 @@ const animation = `image_${animate ? imageName : Math.random()}`;
             {template !== "banner" && (
               <a
                 class={`img text-lightgroup group relative block overflow-hidden ${roundedClass}`}
-                href={`/images/${imageName}`}
+                href={href ? href : `/images/${imageName}`}
                 transition:name={`${animation}`}
                 aria-label={t("enlarge_image")}
                 data-animation={animation}
