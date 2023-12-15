@@ -3,12 +3,15 @@ import { marked } from "marked";
 import Intersecting from "@components/common/Intersecting.vue";
 import { Icon } from "astro-icon";
 import { getIconName } from "@util/helpers";
-const { content, container, features } = Astro.props;
+const { content, container, features, id } = Astro.props;
+
+import Button from "@components/navigation/Button.astro";
 ---
 
 <Intersecting client:visible className="w-full">
   <div
-    class={`container-${container} fade-up rounded-md surface-white features grid gap-8`}
+      class={`container-${container} fade-up rounded-md surface-white features grid gap-8`}
+      id=`${id}`
   >
     <div set:html={marked.parse(content)} class="richtext fade-up" />
 
@@ -33,6 +36,13 @@ const { content, container, features } = Astro.props;
                 set:html={marked.parse(feature.content)}
                 class="richtext no-lead px-4 py-8"
               />
+              { feature.href && (
+                  <Button
+                      href={feature.href}
+                      label={feature.label}
+                      class="font-semibold"/>
+              )}
+              <br/>
             </li>
           ))}
         </ul>
