@@ -1,0 +1,53 @@
+---
+import {marked} from "marked";
+import Intersecting from "@components/common/Intersecting.vue";
+import Swiper from "../common/Swiper.vue";
+
+const {
+    swipers,
+    title,
+    content,
+    thumbnail,
+    template,
+    reverse,
+    container,
+    buttons,
+    aspect,
+    image_size,
+    animate,
+    href,
+} = Astro.props;
+
+
+// render each swiper's content to HTML
+const renderedSwipers = swipers.map(swiper => ({
+    ...swiper,
+    content: marked.parse(swiper.content)
+}));
+
+const columnClass = () => {
+    if (template !== "column") return "";
+    return `column-grid column-grid-${image_size || 50}`;
+};
+
+const renderedTitle = marked.parse(title);
+---
+
+<Intersecting client:visible className="w-full">
+    <div
+            class={`container-${container} ${columnClass()} links-blue gap-8 py-8 ${reverse ? "reverse" : "normal"} `}
+    >
+        <div
+                set:html={renderedTitle}
+                class="richtext fade-up text-center"
+                style="--animation-delay: 0.4s"
+        />
+
+        <div
+                class="richtext fade-up text-center text-lg"
+                style="--animation-delay: 0.4s"
+        >
+            <Swiper slides={renderedSwipers} client:load/>
+        </div>
+    </div>
+</Intersecting>
