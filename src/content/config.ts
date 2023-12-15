@@ -49,6 +49,13 @@ const blocks = z
 					})
 				)
 				.optional(),
+			swipers: z
+				.array(
+					z.object({
+						content: z.string().optional(),
+					})
+				)
+				.optional(),
 			features: z
 				.array(
 					z.object({
