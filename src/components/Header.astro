@@ -15,6 +15,18 @@ const isActive = (href) => {
 };
 ---
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('.toggle-link');
+    links.forEach(link => {
+      link.addEventListener('click', (event) => {
+        // event.preventDefault();
+        window.dispatchEvent(new CustomEvent('toggle-event'));
+      });
+    });
+  });
+</script>
+
 <header class="surface-menu nav sticky top-0 z-50" transition:name="nav">
   <nav class="container-xl flex flex-nowrap items-stretch gap-6">
     <a
@@ -28,7 +40,7 @@ const isActive = (href) => {
         <ul class="nav-underline nav-links relative hidden flex-nowrap pl-4 uppercase tracking-wide before:absolute before:inset-y-4 before:left-0 before:border-l-2 before:border-primary before:border-opacity-50 md:flex ">
           {menu.map((link) => (
             <li class={`${isActive(link.href) ? "active font-semibold" : ""}`}>
-              <a href={link.href} class={`block py-3`}>
+              <a href={link.href} class={`block py-3 toggle-link`}>
                 {link.label}
               </a>
             </li>
@@ -94,7 +106,7 @@ const isActive = (href) => {
                         : ""
                     }`}
                   >
-                    <a href={link.href} class={`block py-3`}>
+                    <a href={link.href} class={`block py-3 toggle-link`}>
                       {link.label}
                     </a>
                   </li>
