@@ -43,6 +43,16 @@ onMounted(() => {
 
   isLocked = useScrollLock(body.value);
 });
+
+import { onUnmounted } from 'vue';
+
+onMounted(() => {
+  window.addEventListener('toggle-event', toggleMenu);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('toggle-event', toggleMenu);
+});
 </script>
 
 <style lang="postcss">
