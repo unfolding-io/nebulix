@@ -40,8 +40,7 @@ let isLocked;
 
 onMounted(() => {
   body.value = document.getElementsByTagName("body")[0];
-
-  isLocked = useScrollLock(body.value);
+  // isLocked = useScrollLock(body.value);
 });
 </script>
 
