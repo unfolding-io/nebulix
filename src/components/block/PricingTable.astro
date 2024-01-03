@@ -1,6 +1,6 @@
 ---
 import { slugify } from "@util/helpers";
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
 import Button from "@components/navigation/Button.astro";
 
 const { title, prices, style } = Astro.props;
@@ -18,10 +18,10 @@ const id = title ? slugify(title) : "pricing";
     prices && prices.length > 0 && (
       <div class="flex flex-wrap gap-8">
         {prices.map((price) => (
-          <div class="surface-price @container flex min-w-[290px] flex-1  grow overflow-hidden rounded-md">
-            <div class="price-grid @xl:flex grid w-full">
+          <div class="surface-price flex min-w-[290px] flex-1 grow  overflow-hidden rounded-md @container">
+            <div class="price-grid grid w-full @xl:flex">
               <div
-                class={`@xl:h-full @xl:w-[16rem] @2xl:w-[31%] relative h-fit ${price.surface}`}
+                class={`relative h-fit @xl:h-full @xl:w-[16rem] @2xl:w-[31%] ${price.surface}`}
               >
                 <div class=" flex-shrink-0 px-8 pb-14 pt-8 ">
                   <div class="flex-wrap items-end gap-2">
@@ -38,7 +38,7 @@ const id = title ? slugify(title) : "pricing";
                 </div>
               </div>
 
-              <ul class="@xl:column-3 @2xl:columns-2 @lg:gap-8 @lg:pb-20 flex-1 p-8">
+              <ul class="@xl:column-3 flex-1 p-8 @lg:gap-8 @lg:pb-20 @2xl:columns-2">
                 {price.features.map((feature) => (
                   <li class="flex items-start gap-2 py-1">
                     {feature.icon && (
@@ -56,7 +56,7 @@ const id = title ? slugify(title) : "pricing";
                 ))}
               </ul>
 
-              <div class="@md:absolute @md:pr-8 bottom-0 right-0 flex w-full justify-end p-8">
+              <div class="bottom-0 right-0 flex w-full justify-end p-8 @md:absolute @md:pr-8">
                 <div class="mt-auto">
                   {price?.buttons &&
                     price.buttons.map((btn) => <Button {...btn} />)}

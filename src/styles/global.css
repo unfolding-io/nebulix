@@ -30,7 +30,7 @@
   }
 
   [data-theme="dark"] {
-    :root {
+    body {
       --color-primary: 135 94 212;
       --color-secondary: 107 154 199;
       --color-accent: 119 112 150;

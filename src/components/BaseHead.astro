@@ -74,6 +74,7 @@ const pageTitle = `${title} | ${data.sitename}`;
         ? "dark"
         : "light";
       localStorage.setItem("color-scheme", theme);
+      document.querySelector("html").dataset.theme = theme;
     }
   };
   setDarkMode();

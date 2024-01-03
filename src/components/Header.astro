@@ -1,6 +1,7 @@
 ---
 import NavMobile from "@components/navigation/NavMobile.vue";
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
+
 import PageFind from "@components/common/PageFind.astro";
 import CartButton from "@components/shop/CartButton.vue";
 import ColorSwitch from "@components/common/ColorSwitch.vue";
@@ -63,7 +64,7 @@ const isActive = (href) => {
                   target="_blank"
                   aria-label={link.label}
                 >
-                  <Icon name={link.icon} class="w-6" />
+                  <Icon name={link.icon} class="w-6 h-6" />
                 </a>
               </li>
             ))}

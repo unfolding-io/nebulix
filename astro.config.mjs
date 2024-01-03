@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 import { astroImageTools } from "astro-imagetools";
-
+import icon from "astro-icon";
 import mdx from "@astrojs/mdx";
 import m2dx from "astro-m2dx";
 import sitemap from "@astrojs/sitemap";
@@ -24,6 +24,7 @@ const m2dxOptions = {
 export default defineConfig({
   site: "https://nebulix.unfolding.io",
   integrations: [
+    icon(),
     mdx({}),
     sitemap(),
     tailwind(),

@@ -1,7 +1,7 @@
 ---
-import { getEntry } from "astro:content"; 
+import { getEntry } from "astro:content";
 import { marked } from "marked";
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
 import { t } from "@util/translate";
 import Newsletter from "@components/newsletter/Newsletter.vue";
 
@@ -9,8 +9,6 @@ const today = new Date();
 let about = await getEntry("config", "about");
 let contact = await getEntry("config", "contact");
 let navigation = await getEntry("config", "navigation");
-
- 
 
 const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
 ---
