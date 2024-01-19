@@ -1,67 +1,68 @@
+import { encode } from "https://deno.land/std/encoding/base64.ts";
+
 let {
   MAILGUN_API_KEY,
   MAILGUN_API_URL,
   MAILGUN_DOMAIN,
-  TO_EMAIL_ADDRESS,
   FROM_EMAIL_ADDRESS,
+  TO_EMAIL_ADDRESS,
 } = Deno.env.toObject();
 
 export default async (request, context) => {
   if (
-      !MAILGUN_API_KEY ||
-      !TO_EMAIL_ADDRESS ||
-      !MAILGUN_DOMAIN ||
-      !MAILGUN_API_URL ||
-      !FROM_EMAIL_ADDRESS
+    !MAILGUN_API_KEY ||
+    !FROM_EMAIL_ADDRESS ||
+    !TO_EMAIL_ADDRESS ||
+    !MAILGUN_API_URL
   )
     return Response.json({
       error: "Missing MailGun configuration, please check your .env file.",
     });
 
-  const {email, name, message, subject, topicEmail} = await request.json();
+  const { email, name, message, topicEmail } = await request.json();
 
-  if (!email || email === "") return Response.json({error: "Missing email"});
+  if (!email || email === "") return Response.json({ error: "Missing email" });
+  const authHeader = "Basic " + encode(`api:${MAILGUN_API_KEY}`);
 
-  const formData = new URLSearchParams();
-  formData.append('from', FROM_EMAIL_ADDRESS);
-  formData.append('to', TO_EMAIL_ADDRESS);
-  formData.append('subject', subject);
-  formData.append('text', `name: ${name}\n\nmessage: ${message}`);
-  formData.append('html', `<p>name ${name}</p><p>message: ${message}</p>`);
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+    Authorization: authHeader,
+  };
 
-  const url = `${MAILGUN_API_URL}/${MAILGUN_DOMAIN}/messages`;
+  let payload = new URLSearchParams();
 
-  const headers = new Headers();
-  headers.append('Authorization', 'Basic ' + btoa('api:' + MAILGUN_API_KEY));
-  headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
+  payload.append("from", FROM_EMAIL_ADDRESS);
+  payload.append("to", topicEmail ? topicEmail : TO_EMAIL_ADDRESS);
+  payload.append("h:Reply-To", email);
+  payload.append("subject", `Contact Form: ${name} ${email}`);
+  payload.append("text", message);
+  console.log("payload", MAILGUN_DOMAIN, payload, MAILGUN_API_KEY);
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: headers,
-      body: formData,
-    })
+    const resp = await fetch(
+      `${MAILGUN_API_URL}/v3/${MAILGUN_DOMAIN}/messages`,
+      {
+        method: "POST",
+        headers: headers,
+        body: payload,
+      },
+    );
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.log(JSON.stringify(response)) // logs error response data
-      return Response.json({
-        statusCode: 400,
-        status: "error",
-        error: JSON.stringify(response),
-      });
-    }
+    let response = await resp.json();
 
     return Response.json({
       statusCode: 200,
-      status: "ok",
-      data: "Send mail success",
+      status: resp?.ok ? "ok" : "error",
+      body: "Your message was sent successfully! We'll be in touch.",
     });
   } catch (e) {
-    console.log("ERROR[]", e);
+    console.log("ERROR:", e);
     return Response.json({
-      error: " error",
+      statusCode: 400,
+      status: "error",
+      error: "Mailgun  error",
     });
   }
 };

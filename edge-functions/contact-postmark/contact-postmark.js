@@ -35,10 +35,14 @@ export default async (request, context) => {
 
     let response = await resp.json();
 
+    console.log(response);
+
     return Response.json({
       statusCode: 200,
       status: resp?.ok ? "ok" : "error",
-      body: "Your message was sent successfully! We'll be in touch.",
+      body: resp?.ok
+        ? "Your message was sent successfully! We'll be in touch."
+        : resp?.Message,
     });
   } catch (e) {
     console.log("ERROR[]", e);

@@ -3,7 +3,7 @@ const { SLACK_CHANNEL_ID, SLACK_TOKEN } = Deno.env.toObject();
 const formUrl = "https://slack.com/api/chat.postMessage";
 
 /* Boilerplate .. not working */
-console.log("SLACK_TOKEN", SLACK_TOKEN);
+//console.log("SLACK_TOKEN", SLACK_TOKEN);
 export default async (request, context) => {
   const headers = {
     "Access-Control-Allow-Origin": "*",
