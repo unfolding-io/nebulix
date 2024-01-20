@@ -14,7 +14,11 @@ const { data, page, filters, base_url, filter, filter_type, tag } = Astro.props;
 const style = data?.style ? data.style : page.data.style;
 const sizes = getGridImageSizes(data?.style?.container || "md");
 const template = style?.template ? data.style.template : "split";
-const pagerSlug = `${base_url}/${filter_type}/${slugify(filter)}`;
+let pagerSlug = base_url;
+ 
+
+if (filter_type) pagerSlug += `/${filter_type}`;
+if (filter) pagerSlug += `/${slugify(filter)}`;
 
 const productWrapClass = () => {
   if (style.card_template === "grid")

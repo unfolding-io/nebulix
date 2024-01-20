@@ -38,8 +38,7 @@ export default async (request, context) => {
   payload.append("to", topicEmail ? topicEmail : TO_EMAIL_ADDRESS);
   payload.append("h:Reply-To", email);
   payload.append("subject", `Contact Form: ${name} ${email}`);
-  payload.append("text", message);
-  console.log("payload", MAILGUN_DOMAIN, payload, MAILGUN_API_KEY);
+  payload.append("text", message); 
   try {
     const resp = await fetch(
       `${MAILGUN_API_URL}/v3/${MAILGUN_DOMAIN}/messages`,

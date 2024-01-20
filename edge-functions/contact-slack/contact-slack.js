@@ -2,8 +2,7 @@ const { SLACK_CHANNEL_ID, SLACK_TOKEN } = Deno.env.toObject();
 
 const formUrl = "https://slack.com/api/chat.postMessage";
 
-/* Boilerplate .. not working */
-//console.log("SLACK_TOKEN", SLACK_TOKEN);
+/* Boilerplate .. not working */ 
 export default async (request, context) => {
   const headers = {
     "Access-Control-Allow-Origin": "*",
@@ -19,7 +18,7 @@ export default async (request, context) => {
   if (!message || message === "")
     return Response.json({ error: "Missing message" });
 
-  console.log(message);
+   
   const data = {
     channel: topicChannel ? topicChannel : SLACK_CHANNEL_ID,
     text: `Contact Form submission \n \n ${message}`,

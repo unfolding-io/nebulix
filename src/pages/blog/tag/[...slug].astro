@@ -19,7 +19,8 @@ export async function getStaticPaths({ paginate }) {
   return getPagination(posts, filters, data, "tag");
 }
 
-const { lastPage, currentPage, page, filter, filters } = Astro.props;
+const { lastPage, currentPage, page, filter, filters, filter_type } =
+  Astro.props;
 let { data } = await getEntry("config", "blog");
 
 delete data.hero_buttons;
@@ -38,6 +39,7 @@ data = {
     lastPage: lastPage,
     currentPage: currentPage,
   }}
+  {filter_type}
   {filters}
   {filter}
   {data}

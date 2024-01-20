@@ -14,6 +14,7 @@ export async function getStaticPaths({ paginate }) {
 }
 const base_url = import.meta.env.BLOG_SLUG;
 const { page } = Astro.props;
+ 
 const { data } = await getEntry("config", "blog");
 
 const posts = (await getCollection("blog")).sort(

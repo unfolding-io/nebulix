@@ -214,7 +214,7 @@ const hide = () => {
 };
 
 const setTopic = (data) => {
-  console.log(data);
+  
   topic.value = data.label;
   topicEmail.value = data.email;
   topicChannel.value = data.slack_id;
@@ -244,9 +244,7 @@ Message: \r\n${form.message}\r\n           `,
 });
 
 const submit = () => {
-  loading.value = true;
-  console.log("sending message:", props.contact.provider);
-
+  loading.value = true; 
   if (!!props.contact.provider) {
     fetch(`/api/contact-${props.contact.provider}`, {
       method: "POST",
@@ -281,8 +279,7 @@ watch(
   $show,
 
   (val) => {
-    if (val) {
-      console.log("show");
+    if (val) { 
       disableBodyScroll(document.body);
     } else {
       enableBodyScroll(document.body);
