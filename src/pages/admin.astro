@@ -8,7 +8,7 @@ import menuIcon from "@icons/menu.svg";
 import settingsIcon from "@icons/settings.svg";
 import portfolioIcon from "@icons/portfolio.svg";
 import shopIcon from "@icons/shop.svg";
-const staticCmsVersion = "3.4.5";
+const staticCmsVersion = "3.4.5"; 
 
 const lang = import.meta.env.WEBSITE_LANGUAGE;
 const url = Astro.site;
@@ -19,7 +19,8 @@ const config = {
   logo_url: "https://nebulix.unfolding.io/logo.svg",
   local_backend: true,
   backend: {
-    name: "test-repo",
+    name: "github",
+    repo: "/CabotechSolutions"
   },
   search: true,
   media_folder: "src/assets",
