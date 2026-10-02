@@ -2,7 +2,7 @@ import { toolbarButtons, blocks, style, buttons } from "./common.mjs";
 import { t } from "@util/translate";
 export const project = {
   name: "project",
-  identifier_field: "name",
+  identifier_field: "title",
   folder: "src/content/project",
   label: t("project"),
   format: "frontmatter",

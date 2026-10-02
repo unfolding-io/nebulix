@@ -3,7 +3,7 @@ import { toolbarButtons } from "./common.mjs";
 
 export const menu = {
   name: "menu",
-  identifier_field: "name",
+  identifier_field: "title",
   folder: "src/content/menu",
   label: t("menu"),
   format: "frontmatter",

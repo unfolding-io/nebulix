@@ -3,7 +3,7 @@ import { toolbarButtons, blocks, buttons, style } from "./common.mjs";
 import { t } from "@util/translate";
 export const page = {
   name: "page",
-  identifier_field: "name",
+  identifier_field: "title",
   folder: "src/content/page",
   label: "Pages",
   format: "frontmatter",
@@ -111,7 +111,7 @@ export const page = {
             "0.9",
             "1",
           ],
-          default: "80",
+          default: "0.8",
           required: false,
         },
 

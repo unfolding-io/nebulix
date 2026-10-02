@@ -66,7 +66,7 @@ export const style = {
         "0.9",
         "1",
       ],
-      default: "80",
+      default: "0.8",
       required: false,
     },
 
@@ -602,7 +602,7 @@ export const blocks = {
           name: "page_type",
           widget: "select",
           options: ["blog", "project", "menu"],
-          default: "post",
+          default: "blog",
         },
         {
           label: t("post_tag_filter"),
@@ -669,7 +669,7 @@ export const blocks = {
           name: "template",
           widget: "select",
           options: ["grid", "list"],
-          default: "column",
+          default: "grid",
         },
 
         {

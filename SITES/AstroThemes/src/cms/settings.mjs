@@ -3,7 +3,6 @@ import { buttons, style } from "./common.mjs";
 
 export const settings = {
   name: "config",
-  identifier_field: "name",
   label: t("settings"),
   extension: "mdx",
   format: "frontmatter",

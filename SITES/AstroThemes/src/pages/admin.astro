@@ -10,6 +10,7 @@ const config = {
   site_url: url,
   logo_url: "https://nebulix.unfolding.io/logo.svg",
   local_backend: true,
+  load_config_file: false,
   backend: {
     name: "test-repo",
   },
@@ -47,7 +48,7 @@ const configJson = JSON.stringify(config);
       );
 
       const script = document.createElement("script");
-      script.src = "https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js";
+      script.src = "/admin/sveltia-cms.js";
       script.onload = () => {
         const init = window.initCMS || window.CMS?.init?.bind(window.CMS);
         if (typeof init === "function") {
