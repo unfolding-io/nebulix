@@ -125,7 +125,7 @@ const { categories } = Astro.props;
       width: calc(100% + var(--container-spacing));
       margin-inline: calc(var(--spacing) * -1);
 
-      @screen sm {
+      @media (width >= 40rem) {
         width: 100%;
         margin-left: 0;
       }

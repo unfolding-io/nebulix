@@ -68,35 +68,30 @@ if (container === "sm")
 </Intersecting>
 
 <style>
-@reference "../../styles/global.css";
+  @reference "../../styles/global.css";
 
   .image-grid {
     @apply grid;
     gap: var(--grid-spacing);
-
-    &-sm {
-      gap: var(--grid-spacing);
-      @apply grid grid-cols-2 sm:grid-cols-3;
-    }
-
-    &-md {
-      gap: var(--grid-spacing);
-      @apply grid grid-cols-2 sm:grid-cols-3;
-    }
-
-    &-lg {
-      gap: var(--grid-spacing);
-      @apply grid grid-cols-2	sm:grid-cols-3;
-    }
-
-    &-xl {
-      gap: var(--grid-spacing);
-      @apply grid grid-cols-2	sm:grid-cols-3 lg:grid-cols-4;
-    }
-
-    &-full {
-      gap: var(--grid-spacing);
-      @apply grid grid-cols-2	sm:grid-cols-3 lg:grid-cols-4  2xl:grid-cols-5;
-    }
+  }
+  .image-grid-sm {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3;
+  }
+  .image-grid-md {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3;
+  }
+  .image-grid-lg {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3;
+  }
+  .image-grid-xl {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4;
+  }
+  .image-grid-full {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5;
   }
 </style>

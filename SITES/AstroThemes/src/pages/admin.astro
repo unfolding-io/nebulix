@@ -32,13 +32,25 @@ const config = {
     <title>Nebulix Admin | by unfolding.io</title>
   </head>
   <body>
-    <script is:inline>
+    <script is:inline define:vars={{ config }}>
       window.CMS_MANUAL_INIT = true;
+      window.__NEBULIX_CMS_CONFIG__ = config;
     </script>
     <script is:inline src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"
     ></script>
-    <script is:inline define:vars={{ config }}>
-      window.CMS.init({ config });
+    <script is:inline>
+      const boot = () => {
+        const cfg = window.__NEBULIX_CMS_CONFIG__;
+        if (typeof window.initCMS === "function") {
+          window.initCMS({ config: cfg });
+          return;
+        }
+        if (window.CMS && typeof window.CMS.init === "function") {
+          window.CMS.init({ config: cfg });
+        }
+      };
+      if (window.CMS || window.initCMS) boot();
+      else document.addEventListener("DOMContentLoaded", boot);
     </script>
   </body>
 </html>

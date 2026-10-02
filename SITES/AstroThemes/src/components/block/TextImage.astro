@@ -136,132 +136,92 @@ const animation = `image_${animate ? imageName : Math.random()}`;
   </div>
 </Intersecting>
 
-<style lang="postcss">
-@reference "../../styles/global.css";
+<style>
+  @reference "../../styles/global.css";
 
-	.text-image {
-        @apply gap-8;
+  .text-image {
+    @apply gap-8;
+  }
+  .text-image__row {
+    @apply relative flex flex-col flex-nowrap;
+  }
+  .text-image__row.reverse {
+    @apply flex-col-reverse;
+  }
+  .text-image__row .media {
+    width: calc(100% + var(--container-spacing));
+    margin-inline: calc(var(--spacing) * -1);
+  }
+  .text-image__row .media .img {
+    @apply sticky top-8;
+  }
+  .text-image__banner {
+    @apply relative overflow-hidden;
+  }
+  .text-image__banner:not(.container-none) {
+    @apply rounded-md;
+  }
+  .text-image__banner .media {
+    @apply pointer-events-none absolute inset-0;
+  }
+  .text-image__banner .text-image__content {
+    @apply relative z-10 grid h-full w-full place-items-center bg-dark/30 py-20;
+  }
+  .text-image__banner .text-image__content .richtext {
+    @apply max-w-2xl p-8 text-center text-white;
+  }
 
-		&__row {
-			@apply flex relative flex-col flex-nowrap ;
-			&.reverse {
-				@apply flex-col-reverse;
-			}
-
-			.media {
-				width: calc(100% + var(--container-spacing));
-				margin-inline: calc(var(--spacing) * -1);
-				 
-				.img {
-					@apply sticky top-8;
-				}
-			}
-		}
-		&__banner {
-			@apply relative overflow-hidden;  
-			&:not(.container-none){
-				@apply rounded-md;
-
-			} 
-			 
-			.media {
-				@apply absolute inset-0 pointer-events-none;
-			}
-            .text-image__content {
-                @apply relative z-10 w-full h-full  grid place-items-center py-20 bg-dark/30;
-                .richtext {
-                    @apply p-8 text-white max-w-2xl text-center;
-                }
-                
-            }
-		}
-
-	}
-
-	.column-grid {
-
-		.img {
-					@apply sticky top-8;
-				}
-		&-25 {
-			@apply grid ;
-			@screen md { 
-			    grid-template-columns: minmax(0,3fr) minmax(0,1fr);
-				&.reverse {
-					grid-template-columns: minmax(0,1fr) minmax(0,3fr);
-				}
-			}
-			
-		}
-		&-33 {
-			@apply grid;
-			@screen md {
-				grid-template-columns: minmax(0,2fr) minmax(0,1fr);
-				   &.reverse {
-					   grid-template-columns: minmax(0,1fr) minmax(0,2fr);
-				   }
-			}
-		}
-
-		&-50 {
-			@apply grid md:grid-cols-2;
-			
-		}
-		&-66 {
-			@apply grid ;
-			@screen md {
-				 grid-template-columns: minmax(0,1fr) minmax(0,2fr);
-				&.reverse {
-					grid-template-columns: minmax(0,2fr) minmax(0,1fr);
-				}
-
-			}
-			
-			
-		}
-		&-75 {
-			@apply grid ;
-			@screen md {
-
-				grid-template-columns: minmax(0,1fr) minmax(0,3fr);
-				   &.reverse {
-					   grid-template-columns: minmax(0,3fr) minmax(0,1fr);
-				   }
-			}
-			
-		}
-
-
-
-		&.normal {
-
-			@screen md {
-
-				.media {
-					@apply col-start-2 row-start-1;
-					
-				}
-				.text-image__content {
-					@apply col-start-1 row-start-1 ;
-				}
-			}
-		}	
-		
-		&.container-none {
-			.text-image__content {
-				padding-inline: var(--spacing);
-					@screen md {
-						padding-inline: var(--container-spacing);
-					}
-				}
-
-				.img {
-					@apply sticky top-0;
-				}
-			
-		}
-			
-	}
-
-	
+  .column-grid .img {
+    @apply sticky top-8;
+  }
+  .column-grid-25,
+  .column-grid-33,
+  .column-grid-66,
+  .column-grid-75 {
+    @apply grid;
+  }
+  .column-grid-50 {
+    @apply grid md:grid-cols-2;
+  }
+  @media (width >= 48rem) {
+    .column-grid-25 {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+    .column-grid-25.reverse {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    }
+    .column-grid-33 {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+    .column-grid-33.reverse {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
+    .column-grid-66 {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
+    .column-grid-66.reverse {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+    .column-grid-75 {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    }
+    .column-grid-75.reverse {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+    .column-grid.normal .media {
+      @apply col-start-2 row-start-1;
+    }
+    .column-grid.normal .text-image__content {
+      @apply col-start-1 row-start-1;
+    }
+    .column-grid.container-none .text-image__content {
+      padding-inline: var(--container-spacing);
+    }
+  }
+  .column-grid.container-none .text-image__content {
+    padding-inline: var(--spacing);
+  }
+  .column-grid.container-none .img {
+    @apply sticky top-0;
+  }
 </style>

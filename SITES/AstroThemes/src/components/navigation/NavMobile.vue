@@ -46,14 +46,13 @@ onMounted(() => {
 </script>
 
 <style lang="postcss">
-@reference "../../styles/global.css";
 
 .nav-mobile {
-  @apply overflow-x-hidden overflow-y-scroll;
+  overflow-x: hidden; overflow-y: scroll;
   z-index: 999998;
   scrollbar-width: none;
   padding-bottom: calc(2em + env(safe-area-inset-bottom));
-  &-btn {
+  .nav-mobile-btn {
     z-index: 999999;
   }
 }

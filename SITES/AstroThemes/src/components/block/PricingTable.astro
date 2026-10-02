@@ -86,7 +86,7 @@ const id = title ? slugify(title) : "pricing";
   .features {
     &__item {
       min-width: min(100vw - var(--spacing), 16rem);
-      @screen sm {
+      @media (width >= 40rem) {
         max-width: 22rem;
       }
     }

@@ -150,7 +150,7 @@ const hasBlocks = blocks && blocks.length > 0;
         &__grid {
           @apply grid 2xl:gap-14 ;
           grid-template-columns: minmax(0, 1fr);
-          @screen md {
+          @media (width >= 48rem) {
             grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           }
           @screen 2xl {
@@ -176,7 +176,7 @@ const hasBlocks = blocks && blocks.length > 0;
       width: calc(100% + var(--container-spacing));
       margin-left: calc(var(--spacing) * -1);
       @apply my-10 h-auto;
-      @screen md {
+      @media (width >= 48rem) {
         width: 100%;
         margin-left: 0;
       }

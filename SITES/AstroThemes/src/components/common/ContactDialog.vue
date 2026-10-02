@@ -298,54 +298,66 @@ watch(
 );
 </script>
 
-<style lang="postcss">
-@reference "../../styles/global.css";
-
+<style>
 .z-1000 {
   z-index: 1000;
 }
 .dialog-grid {
-  @apply grid grid-cols-1;
-  @screen md {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (width >= 48rem) {
+  .dialog-grid {
     grid-template-columns: 4fr 5fr;
   }
 }
 
 .bg-dark-blur {
-  @apply bg-dark/50 backdrop-blur-sm;
+  background-color: color-mix(in oklab, var(--color-dark, #191c26) 50%, transparent);
+  backdrop-filter: blur(4px);
 }
 
 .dialog {
   --popper-theme-padding: 0;
-  &__inner {
+}
+.dialog__inner {
+  max-height: calc(100vh - 2rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+@media (width >= 48rem) {
+  .dialog__inner {
+    height: min(100vh - 2rem, 40rem);
+  }
+  .dialog__content {
     max-height: calc(100vh - 2rem);
+    height: min(100vh - 2rem, 40rem);
     overflow-x: hidden;
     overflow-y: auto;
-    @screen md {
-      height: min(100vh - 2rem, 40rem);
-    }
-  }
-
-  &__content {
-    @screen md {
-      max-height: calc(100vh - 2rem);
-      height: min(100vh - 2rem, 40rem);
-      height: min(100vh - 2rem, 40rem);
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
   }
 }
 
 .input-group {
-  @apply relative isolate;
-  input,
-  textarea,
-  .select {
-    @apply block w-full rounded-2xl px-3 py-2.5  focus:outline-primary;
-  }
-  label {
-    @apply pointer-events-none absolute left-0 top-3 z-10 origin-[0] -translate-y-9  scale-75 transform text-sm  duration-300;
-  }
+  position: relative;
+  isolation: isolate;
+}
+.input-group input,
+.input-group textarea,
+.input-group .select {
+  display: block;
+  width: 100%;
+  border-radius: 1rem;
+  padding: 0.625rem 0.75rem;
+}
+.input-group label {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  z-index: 10;
+  transform-origin: 0;
+  transform: translateY(-2.25rem) scale(0.75);
+  font-size: 0.875rem;
+  transition-duration: 300ms;
 }
 </style>

@@ -103,12 +103,12 @@ const { slug } = Astro.params;
 
 <style>
   .hero {
-    @screen sm {
+    @media (width >= 40rem) {
       min-height: calc(100svh - 4rem);
     }
   }
   .media {
-    @screen sm {
+    @media (width >= 40rem) {
       max-height: calc(100svh - 4rem);
     }
   }

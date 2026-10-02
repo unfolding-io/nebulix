@@ -59,12 +59,6 @@
   --color-info: 25 28 38;
 }
 
-[data-theme="dark"] {
-  @theme {
-    --color-primary: rgb(135 94 212);
-  }
-}
-
 /* SURFACES */
 
 body {
@@ -175,60 +169,54 @@ body {
 .container {
   width: min(100% - var(--container-spacing), var(--w-md));
   @apply mx-auto;
-  &-xl {
-    width: min(100% - var(--container-spacing), var(--w-xl));
-    @apply mx-auto;
-  }
-
-  &-lg {
-    width: min(100% - var(--container-spacing), var(--w-lg));
-    @apply mx-auto;
-  }
-  &-md {
-    width: min(100% - var(--container-spacing), var(--w-md));
-    @apply mx-auto;
-  }
-  &-sm {
-    width: min(100% - var(--container-spacing), var(--w-sm));
-    @apply mx-auto;
-  }
-  &-full {
-    width: calc(100% - var(--container-spacing));
-    @apply mx-auto;
-  }
+}
+.container-xl {
+  width: min(100% - var(--container-spacing), var(--w-xl));
+  @apply mx-auto;
+}
+.container-lg {
+  width: min(100% - var(--container-spacing), var(--w-lg));
+  @apply mx-auto;
+}
+.container-md {
+  width: min(100% - var(--container-spacing), var(--w-md));
+  @apply mx-auto;
+}
+.container-sm {
+  width: min(100% - var(--container-spacing), var(--w-sm));
+  @apply mx-auto;
+}
+.container-full {
+  width: calc(100% - var(--container-spacing));
+  @apply mx-auto;
 }
 
 .auto-grid {
   @apply grid;
-  &-sm {
-    gap: var(--grid-spacing);
-    @apply grid sm:grid-cols-2;
-  }
-
-  &-md {
-    gap: var(--grid-spacing);
-    @apply grid sm:grid-cols-2 md:grid-cols-3;
-  }
-
-  &-lg {
-    gap: var(--grid-spacing);
-    @apply grid sm:grid-cols-2	md:grid-cols-3;
-  }
-
-  &-xl {
-    gap: var(--grid-spacing);
-    @apply grid sm:grid-cols-2	md:grid-cols-3 lg:grid-cols-4;
-  }
-
-  &-full {
-    gap: var(--grid-spacing);
-    @apply grid xs:grid-cols-2	md:grid-cols-3 lg:grid-cols-4  2xl:grid-cols-5;
-  }
-
-  &-none {
-    gap: var(--grid-spacing);
-    @apply grid xs:grid-cols-2	md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6;
-  }
+}
+.auto-grid-sm {
+  gap: var(--grid-spacing);
+  @apply grid sm:grid-cols-2;
+}
+.auto-grid-md {
+  gap: var(--grid-spacing);
+  @apply grid sm:grid-cols-2 md:grid-cols-3;
+}
+.auto-grid-lg {
+  gap: var(--grid-spacing);
+  @apply grid sm:grid-cols-2 md:grid-cols-3;
+}
+.auto-grid-xl {
+  gap: var(--grid-spacing);
+  @apply grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+}
+.auto-grid-full {
+  gap: var(--grid-spacing);
+  @apply grid xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5;
+}
+.auto-grid-none {
+  gap: var(--grid-spacing);
+  @apply grid xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6;
 }
 
 .hide-scrollbar {
@@ -366,15 +354,14 @@ body {
 .title {
   @apply text-4xl font-extrabold sm:text-6xl md:text-5xl lg:text-7xl;
   text-wrap: balance;
-
-  &-md {
-    @apply text-2xl font-extrabold sm:text-4xl md:text-5xl lg:text-5xl;
-    text-wrap: balance;
-  }
-  &-sm {
-    @apply text-3xl font-extrabold sm:text-4xl;
-    text-wrap: balance;
-  }
+}
+.title-md {
+  @apply text-2xl font-extrabold sm:text-4xl md:text-5xl lg:text-5xl;
+  text-wrap: balance;
+}
+.title-sm {
+  @apply text-3xl font-extrabold sm:text-4xl;
+  text-wrap: balance;
 }
 
 .subtitle {
@@ -396,14 +383,13 @@ body {
 /* BUTTONS */
 
 .btn {
-  @apply inline-flex gap-2 rounded-full px-4 py-2 uppercase outline-offset-4 transition-all duration-300 hover:-translate-y-0.5  hover:opacity-90 hover:shadow-md disabled:pointer-events-none disabled:opacity-50 disabled:grayscale;
-
-  &-icon {
-    @apply px-2;
-  }
-  &-absolute {
-    @apply absolute;
-  }
+  @apply inline-flex gap-2 rounded-full px-4 py-2 uppercase outline-offset-4 transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90 hover:shadow-md disabled:pointer-events-none disabled:opacity-50 disabled:grayscale;
+}
+.btn-icon {
+  @apply px-2;
+}
+.btn-absolute {
+  @apply absolute;
 }
 
 a.link-underline {

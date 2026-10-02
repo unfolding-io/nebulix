@@ -88,7 +88,7 @@ const { data } = Astro.props;
       width: calc(100% + var(--container-spacing));
       margin-left: calc(var(--spacing) * -1);
       @apply my-10 aspect-video h-auto;
-      @screen md {
+      @media (width >= 48rem) {
         width: 100%;
         margin-left: 0;
       }
