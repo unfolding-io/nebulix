@@ -1,0 +1,16 @@
+---
+import { t } from "@util/translate";
+import { Icon } from "astro-icon/components";
+const { name } = Astro.props;
+const label = t(name);
+---
+
+<button
+  class="text-sm leading-none tracking-wider"
+  aria-label={label}
+  title={label}
+>
+  <span class="block transition-colors duration-500 hover:text-primary">
+    <Icon name={name} class="pointer-events-none h-8 w-10 px-1" />
+  </span>
+</button>

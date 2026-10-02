@@ -1,0 +1,63 @@
+---
+import FormattedDate from "../FormattedDate.astro";
+import ItemFilter from "../navigation/ItemFilter.astro";
+import SmartPicture from "@components/media/SmartPicture.astro";
+
+const { content, base_url, animate } = Astro.props;
+
+const animation = `hero_${animate ? content.id : Math.random()}`;
+---
+
+<a
+  href={`/${base_url}/${content.id}/`}
+  class="flex-card fade-up group relative z-10 flex max-w-md flex-1 flex-col items-center gap-4 rounded-md text-center"
+>
+  <div class="h-40 w-40 shrink-0 grow-0 overflow-hidden rounded-md">
+    {
+      content.data.thumbnail && (
+        <div
+          class="transition-transform duration-500 group-hover:scale-110 group-hover:duration-[3s]"
+          transition:name={`${animation}`}
+        >
+          <SmartPicture
+            src={content.data.thumbnail}
+            width={200}
+            height={200}
+            widths={[100, 200, 400]}
+            alt={content.data.title}
+            class="z-0 w-40 fade-in h-full object-cover"
+          />
+        </div>
+      )
+    }
+  </div>
+  <div class="opacity-90 group-hover:opacity-100">
+    {
+      content.data.pubDate && (
+        <span class="text-overline text-xs">
+          <FormattedDate date={content.data.pubDate} />
+        </span>
+      )
+    }
+    <h2 class="subtitle balance font-bold group-hover:text-primary">
+      {content.data.title}
+    </h2>
+    {
+      content.data.intro && (
+        <p class=" line-clamp-3 py-1">{content.data.intro}</p>
+      )
+    }
+
+    {
+      content.data.tag && (
+        <ItemFilter filters={content.data.tag} className="mt-2" {base_url} />
+      )
+    }
+  </div>
+</a>
+<style>
+  .flex-card {
+    min-width: min(100vw - var(--spacing), 14rem);
+    max-width: 22rem;
+  }
+</style>

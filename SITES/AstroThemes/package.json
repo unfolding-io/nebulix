@@ -1,0 +1,68 @@
+{
+  "name": "nebulix",
+  "type": "module",
+  "license": "CC BY-ND 4.0",
+  "version": "1.0.0",
+  "keywords": [
+    "astro",
+    "Sveltia CMS",
+    "Vue 3",
+    "mdx",
+    "markdown"
+  ],
+  "description": "Fast & Green Theme Based on Astro + Sveltia CMS. Blogs, Portfolios, Menus & Beyond",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "postbuild": "pagefind --site dist --output-path dist/_pagefind",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "dev:demo": "cross-env BLOG_SLUG=blog PORTFOLIO_SLUG=work MENU_SLUG=menu WEBSITE_LANGUAGE=en CURRENCY=USD UNITS=metric NODE_VERSION=22 astro dev"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/mdx": "^8.0.2",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.3.1",
+    "@astrojs/vue": "^7.0.3",
+    "@fontsource-variable/inter-tight": "^5.2.5",
+    "@nanostores/vue": "^1.0.0",
+    "@panzoom/panzoom": "^4.6.0",
+    "@remark-embedder/core": "^3.0.3",
+    "@remark-embedder/transformer-oembed": "^5.0.1",
+    "@sveltia/cms": "^0.227.2",
+    "@tailwindcss/vite": "^4.1.4",
+    "@vueuse/components": "^13.1.0",
+    "@vueuse/core": "^13.1.0",
+    "@vueuse/integrations": "^13.1.0",
+    "astro": "^7.3.5",
+    "astro-icon": "^1.1.5",
+    "astro-m2dx": "^0.7.16",
+    "async-validator": "^4.2.5",
+    "body-scroll-lock": "^4.0.0-beta.0",
+    "convert": "^5.12.0",
+    "js-convert-case": "^4.2.0",
+    "marked": "^15.0.11",
+    "nanostores": "^1.0.1",
+    "regenerator-runtime": "^0.14.1",
+    "rehype-external-links": "^3.0.0",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3",
+    "vue": "^3.5.13",
+    "vue3-popper": "^1.5.0",
+    "vue3-toastify": "^0.2.8"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
+    "pagefind": "^1.3.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.11"
+  }
+}

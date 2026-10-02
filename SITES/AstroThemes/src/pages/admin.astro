@@ -1,0 +1,44 @@
+---
+/* SVELTIA CMS ADMIN */
+import { menu, page, settings, post, project } from "@cms/index.mjs";
+
+const lang = import.meta.env.WEBSITE_LANGUAGE;
+const url = Astro.site;
+
+const config = {
+  locale: lang,
+  site_url: url,
+  logo_url: "https://nebulix.unfolding.io/logo.svg",
+  local_backend: true,
+  backend: {
+    name: "test-repo",
+  },
+  search: true,
+  media_folder: "src/assets",
+  public_folder: "/src/assets",
+  media_library: {
+    max_file_size: 2012000,
+  },
+  collections: [page, post, project, menu, settings],
+};
+---
+
+<!doctype html>
+<html lang={lang || "en"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Nebulix Admin | by unfolding.io</title>
+  </head>
+  <body>
+    <script is:inline>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script is:inline src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"
+    ></script>
+    <script is:inline define:vars={{ config }}>
+      window.CMS.init({ config });
+    </script>
+  </body>
+</html>
