@@ -141,14 +141,15 @@ const sizes = getGridImageSizes(container);
   </div>
 </Intersecting>
 
-<style lang="postcss">
-.recent-blogs ul.bloglist {
-		width: calc(100% + var(--container-spacing));
-		margin-left: calc(var(--layout-spacing) * -1);
-		
-		@media (width >= 48rem) {  
-			width: 100%;
-			margin-left: 0;                      
-		}
-	}
+<style>
+  .recent-blogs ul.bloglist {
+    width: calc(100% + var(--container-spacing));
+    margin-left: calc(var(--layout-spacing) * -1);
+  }
+  @media (width >= 48rem) {
+    .recent-blogs ul.bloglist {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
 </style>

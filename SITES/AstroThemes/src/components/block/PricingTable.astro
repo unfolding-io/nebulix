@@ -83,12 +83,12 @@ const id = title ? slugify(title) : "pricing";
       @apply fill-white dark:fill-black;
     }
   }
-  .features {
-    &__item {
-      min-width: min(100vw - var(--layout-spacing), 16rem);
-      @media (width >= 40rem) {
-        max-width: 22rem;
-      }
+  .features__item {
+    min-width: min(100vw - var(--layout-spacing), 16rem);
+  }
+  @media (width >= 40rem) {
+    .features__item {
+      max-width: 22rem;
     }
   }
 </style>

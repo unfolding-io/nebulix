@@ -118,20 +118,20 @@ const itemsWrapClass = () => {
   )
 }
 
-<style lang="postcss">
-@reference "../styles/global.css";
+<style>
+  @reference "../styles/global.css";
 
-	ul.bloglist {
-		width: calc(100% + var(--container-spacing));
-		margin-left: calc(var(--layout-spacing) * -1);
-		@media (width >= 40rem) {  
-			width: 100%;
-			margin-left: 0;                      
-		}
-	}
-	.flex-grid {
-		li {
-			@apply flex-1 flex justify-center;
-		}
-	}
+  ul.bloglist {
+    width: calc(100% + var(--container-spacing));
+    margin-left: calc(var(--layout-spacing) * -1);
+  }
+  @media (width >= 40rem) {
+    ul.bloglist {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  .flex-grid li {
+    @apply flex flex-1 justify-center;
+  }
 </style>

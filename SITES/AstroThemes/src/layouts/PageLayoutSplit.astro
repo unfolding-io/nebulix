@@ -143,47 +143,49 @@ const hasBlocks = blocks && blocks.length > 0;
     <slot name="cart" />
   </div>
 </BaseLayout>
-<style lang="postcss">
-@reference "../styles/global.css";
 
-      .page-split{
-        &__grid {
-          @apply grid 2xl:gap-14 ;
-          grid-template-columns: minmax(0, 1fr);
-          @media (width >= 48rem) {
-            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-          }
-          @screen 2xl {
-            grid-template-columns: 40vw minmax(0, 1fr);
-          }
-        }
-        &__title{
-			padding: var(--layout-spacing);
-        }
+<style>
+  @reference "../styles/global.css";
 
-		&__content {
-			padding-inline: var(--layout-spacing);
-		}
-      }
+  .page-split__grid {
+    @apply grid 2xl:gap-14;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (width >= 48rem) {
+    .page-split__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+  @media (width >= 96rem) {
+    .page-split__grid {
+      grid-template-columns: 40vw minmax(0, 1fr);
+    }
+  }
+  .page-split__title {
+    padding: var(--layout-spacing);
+  }
+  .page-split__content {
+    padding-inline: var(--layout-spacing);
+  }
 </style>
 
 <style is:global>
-@reference "../styles/global.css";
+  @reference "../styles/global.css";
 
-  .page-split__content {
-    .img,
-    iframe {
-      width: calc(100% + var(--container-spacing));
-      margin-left: calc(var(--layout-spacing) * -1);
-      @apply my-10 h-auto;
-      @media (width >= 48rem) {
-        width: 100%;
-        margin-left: 0;
-      }
+  .page-split__content .img,
+  .page-split__content iframe {
+    width: calc(100% + var(--container-spacing));
+    margin-left: calc(var(--layout-spacing) * -1);
+    @apply my-10 h-auto;
+  }
+  @media (width >= 48rem) {
+    .page-split__content .img,
+    .page-split__content iframe {
+      width: 100%;
+      margin-left: 0;
     }
-
-    iframe {
-      @apply aspect-video;
-    }
+  }
+  .page-split__content iframe {
+    @apply aspect-video;
   }
 </style>

@@ -65,18 +65,17 @@ const animation = `hero_${animate ? content.id : Math.random()}`;
 <style>
   .blog-card {
     container-type: inline-size;
-    h2 {
-      line-height: 1.2;
-      font-size: 2.5rem;
-      font-size: clamp(1.5rem, 8cqi, 8rem);
-    }
-
-    &__content {
-      background: radial-gradient(
-        circle,
-        rgba(0, 0, 0, 0.6) 25%,
-        rgba(0, 0, 0, 0) 90%
-      );
-    }
+  }
+  .blog-card h2 {
+    line-height: 1.2;
+    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 8cqi, 8rem);
+  }
+  .blog-card__content {
+    background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.6) 25%,
+      rgba(0, 0, 0, 0) 90%
+    );
   }
 </style>
