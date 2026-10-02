@@ -150,7 +150,7 @@ const animation = `image_${animate ? imageName : Math.random()}`;
   }
   .text-image__row .media {
     width: calc(100% + var(--container-spacing));
-    margin-inline: calc(var(--spacing) * -1);
+    margin-inline: calc(var(--layout-spacing) * -1);
   }
   .text-image__row .media .img {
     @apply sticky top-8;
@@ -219,7 +219,7 @@ const animation = `image_${animate ? imageName : Math.random()}`;
     }
   }
   .column-grid.container-none .text-image__content {
-    padding-inline: var(--spacing);
+    padding-inline: var(--layout-spacing);
   }
   .column-grid.container-none .img {
     @apply sticky top-0;

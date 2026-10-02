@@ -21,6 +21,8 @@ const config = {
   },
   collections: [page, post, project, menu, settings],
 };
+
+const configJson = JSON.stringify(config);
 ---
 
 <!doctype html>
@@ -32,25 +34,29 @@ const config = {
     <title>Nebulix Admin | by unfolding.io</title>
   </head>
   <body>
-    <script is:inline define:vars={{ config }}>
+    <script
+      is:inline
+      id="nebulix-cms-config"
+      type="application/json"
+      set:html={configJson}
+    />
+    <script>
       window.CMS_MANUAL_INIT = true;
-      window.__NEBULIX_CMS_CONFIG__ = config;
-    </script>
-    <script is:inline src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"
-    ></script>
-    <script is:inline>
-      const boot = () => {
-        const cfg = window.__NEBULIX_CMS_CONFIG__;
-        if (typeof window.initCMS === "function") {
-          window.initCMS({ config: cfg });
-          return;
-        }
-        if (window.CMS && typeof window.CMS.init === "function") {
-          window.CMS.init({ config: cfg });
+      const config = JSON.parse(
+        document.getElementById("nebulix-cms-config").textContent || "{}",
+      );
+
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js";
+      script.onload = () => {
+        const init = window.initCMS || window.CMS?.init?.bind(window.CMS);
+        if (typeof init === "function") {
+          init({ config });
+        } else {
+          console.error("Sveltia CMS init function not found");
         }
       };
-      if (window.CMS || window.initCMS) boot();
-      else document.addEventListener("DOMContentLoaded", boot);
+      document.body.appendChild(script);
     </script>
   </body>
 </html>

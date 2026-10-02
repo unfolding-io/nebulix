@@ -158,11 +158,11 @@ const hasBlocks = blocks && blocks.length > 0;
           }
         }
         &__title{
-			padding: var(--spacing);
+			padding: var(--layout-spacing);
         }
 
 		&__content {
-			padding-inline: var(--spacing);
+			padding-inline: var(--layout-spacing);
 		}
       }
 </style>
@@ -174,7 +174,7 @@ const hasBlocks = blocks && blocks.length > 0;
     .img,
     iframe {
       width: calc(100% + var(--container-spacing));
-      margin-left: calc(var(--spacing) * -1);
+      margin-left: calc(var(--layout-spacing) * -1);
       @apply my-10 h-auto;
       @media (width >= 48rem) {
         width: 100%;

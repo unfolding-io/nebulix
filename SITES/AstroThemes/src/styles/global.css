@@ -30,7 +30,7 @@
   --color-light: 243 241 239;
   --color-info: 25 28 38;
 
-  --spacing: 1rem;
+  --layout-spacing: 1rem;
   --w-xl: 75rem;
   --w-lg: 65rem;
   --w-md: 55rem;
@@ -158,12 +158,12 @@ body {
 /* BASE ELEMENTS */
 body {
   @media (width >= 500px) {
-    --spacing: 2rem;
+    --layout-spacing: 2rem;
   }
   font-family: "Inter Tight Variable", "Adjusted Arial Fallback", "arial",
     sans-serif;
-  --container-spacing: calc(var(--spacing) * 2);
-  --grid-spacing: calc(var(--spacing) / 2);
+  --container-spacing: calc(var(--layout-spacing) * 2);
+  --grid-spacing: calc(var(--layout-spacing) / 2);
 }
 
 .container {

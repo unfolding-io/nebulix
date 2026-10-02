@@ -86,7 +86,7 @@ const { data } = Astro.props;
     .img,
     iframe {
       width: calc(100% + var(--container-spacing));
-      margin-left: calc(var(--spacing) * -1);
+      margin-left: calc(var(--layout-spacing) * -1);
       @apply my-10 aspect-video h-auto;
       @media (width >= 48rem) {
         width: 100%;
