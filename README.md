@@ -74,6 +74,7 @@ Provider setup details: [Contact Form](/blog/contact-form) and [Activate Newslet
 | Script | Description |
 | --- | --- |
 | `npm run dev` | Dev server |
+| `npm run check` | Type-check with `astro check` |
 | `npm run build` | Production build + Pagefind index |
 | `npm run preview` | Preview `dist/` |
 
