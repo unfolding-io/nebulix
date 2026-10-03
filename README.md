@@ -1,6 +1,7 @@
 # Nebulix | Astro 7 + Sveltia CMS
 
 [![License: CC BY-ND 4.0](https://img.shields.io/badge/License-CC_BY--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nd/4.0/)
+![Version](https://img.shields.io/badge/version-1.0.1-blue)
 
 Fast theme for blogs, portfolios, and restaurant menus — built on **Astro 7**, **Tailwind CSS v4**, **content collections**, and **Sveltia CMS**.
 
@@ -14,6 +15,8 @@ Fast theme for blogs, portfolios, and restaurant menus — built on **Astro 7**,
 - Sveltia CMS admin at `/admin`
 - Pagefind full-text search
 - Contact + newsletter via [Astro Actions](https://docs.astro.build/en/guides/actions/) (Mailgun, Postmark, Slack, Mailchimp)
+
+See [`CHANGELOG.md`](CHANGELOG.md) for release notes.
 
 ## Requirements
 

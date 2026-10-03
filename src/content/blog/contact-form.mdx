@@ -18,7 +18,9 @@ thumbnail: /src/assets/cosmic_contact_settings.jpeg
 
 The contact form is handled by an [Astro Action](https://docs.astro.build/en/guides/actions/) (`actions.contact`) with providers in `src/lib/forms/`. Multiple topics are supported — each topic can have its own destination email or Slack channel. Open the dialog with a link to `href="#contact"`.
 
-Configure the form in the CMS under **SETTINGS > CONTACT & SOCIAL**. Set provider secrets in `.env` locally and in your host’s environment UI for production (Netlify / Cloudflare / Vercel).
+Configure the form in the CMS under **SETTINGS > CONTACT & SOCIAL**. Set provider secrets in `.env` locally and in your host’s environment UI for production (Netlify / Cloudflare / Vercel). Also set `FROM_EMAIL_ADDRESS` / `TO_EMAIL_ADDRESS` for Mailgun and Postmark.
+
+On desktop the dialog shows an optional side image from the CMS; on mobile the form is shown alone.
 
 ### MailGun
 

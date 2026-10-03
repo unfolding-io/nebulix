@@ -2,7 +2,7 @@
   "name": "nebulix",
   "type": "module",
   "license": "CC BY-ND 4.0",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "keywords": [
     "astro",
     "Sveltia CMS",
