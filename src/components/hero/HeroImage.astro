@@ -1,0 +1,114 @@
+---
+import SmartPicture from "@components/media/SmartPicture.astro";
+import Button from "@components/navigation/Button.astro";
+import ItemFilter from "@components/navigation/ItemFilter.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import { surfaceClass } from "@util/surfaces";
+import { sizesViewport, widthsViewport } from "@util/images";
+
+const {
+  title,
+  thumbnail,
+  hero_buttons,
+  intro,
+  tag,
+  filter,
+  filters,
+  filter_type,
+  style,
+  pubDate,
+  base_url,
+} = Astro.props;
+
+const { slug } = Astro.params;
+const heroSurface = surfaceClass(style?.hero_surface || "dark");
+---
+
+<div
+  class={`hero relative overflow-hidden nebulix-parallax ${heroSurface} ${style.hero_class || ""}`}
+  transition:name={`hero_${slug || Math.random()}`}
+  id="header"
+>
+  {
+    thumbnail && (
+      <div class="media parallax h-full w-full">
+        <SmartPicture
+          src={thumbnail}
+          alt={title}
+          widths={widthsViewport(1920)}
+          sizes={sizesViewport()}
+          loading="eager"
+          class="h-full w-full object-cover sm:h-screen"
+          style={`opacity: ${style.hero_image_opacity || 0.7}`}
+        />
+      </div>
+    )
+  }
+
+  <div
+    class="absolute inset-0 z-10 grid place-items-center bg-dark/20"
+  >
+    <div class="container-xl py-8">
+      <div class="max-w-3xl">
+        {
+          pubDate && (
+            <span class="text-overline">
+              <FormattedDate date={pubDate} />
+            </span>
+          )
+        }
+        <h1 class="title">
+          {title}
+        </h1>
+        {intro && <div class="subtitle balance pt-4"> {intro}</div>}
+
+        {
+          tag && (
+            <ItemFilter
+              filters={tag}
+              className="mt-4 justify-start"
+              links={true}
+              {base_url}
+            />
+          )
+        }
+
+        {
+          filters && (
+            <ItemFilter
+              filters={filters}
+              className="mt-4"
+              links={true}
+              active={filter}
+              type={filter_type}
+              {base_url}
+            />
+          )
+        }
+        {
+          hero_buttons && hero_buttons.length > 0 && (
+            <div class="flex flex-wrap gap-4 py-8">
+              {hero_buttons.map((btn) => (
+                <Button {...btn} />
+              ))}
+            </div>
+          )
+        }
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .hero {
+    @media (width >= 40rem) {
+      min-height: calc(100svh - 4rem);
+    }
+  }
+  .media {
+    @media (width >= 40rem) {
+      max-height: calc(100svh - 4rem);
+    }
+  }
+</style>

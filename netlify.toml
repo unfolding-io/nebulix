@@ -1,20 +1,3 @@
 [build]
-  base = "SITES/AstroThemes"
+  command = "npm run build"
   publish = "dist"
-  edge_functions = "edge-functions"
-
-[[edge_functions]]
-  function = "subscribe-mailchimp"
-  path = "/api/subscribe-mailchimp"
-
-[[edge_functions]]
-  function = "contact-slack"
-  path = "/api/contact-slack"
-
-[[edge_functions]]
-  function = "contact-mailgun"
-  path = "/api/contact-mailgun"
-
-[[edge_functions]]
-  function = "contact-postmark"
-  path = "/api/contact-postmark"

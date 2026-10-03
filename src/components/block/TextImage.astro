@@ -1,0 +1,221 @@
+---
+import SmartPicture from "@components/media/SmartPicture.astro";
+import Lightbox from "@components/media/Lightbox.astro";
+import { Icon } from "astro-icon/components";
+import { marked } from "marked";
+import Button from "@components/navigation/Button.astro";
+import { t } from "@util/translate";
+import {
+  sizesBanner,
+  sizesTextImageColumn,
+  sizesTextImageRow,
+  widthsColumn,
+  widthsViewport,
+} from "@util/images";
+import { getLightboxImage } from "@util/lightbox";
+
+const {
+  title,
+  content,
+  thumbnail,
+  template,
+  reverse,
+  container,
+  buttons,
+  aspect,
+  image_size,
+} = Astro.props;
+
+const renderedContent = marked.parse(content);
+const roundedClass =
+  template == "column" && container !== "none" ? "rounded-md" : "";
+
+const sizes =
+  template === "banner"
+    ? sizesBanner()
+    : template === "column"
+      ? sizesTextImageColumn(container, image_size)
+      : sizesTextImageRow(container);
+
+const columnWidths = widthsColumn(container, image_size);
+const bannerWidths = widthsViewport(1920);
+const lightbox = await getLightboxImage(thumbnail);
+
+const columnClass = () => {
+  if (template !== "column") return "";
+  return `column-grid column-grid-${image_size || 50}`;
+};
+---
+
+<div
+  class={`container-${container} ${columnClass()} text-image gap-8 text-image__${template} ${
+    reverse ? "reverse" : "normal"
+  } ${template === "banner" ? "nebulix-parallax bg-dark" : ""}`}
+>
+    <div class="media">
+      {
+        thumbnail && (
+          <>
+            {template !== "banner" && lightbox && (
+              <Lightbox
+                src={lightbox.href}
+                width={lightbox.width}
+                height={lightbox.height}
+                ariaLabel={t("enlarge_image")}
+                className={`img text-lightgroup group relative block overflow-hidden ${roundedClass}`}
+              >
+                <div class="transition-transform duration-1000 ease-in hover:scale-105 hover:duration-[1s]">
+                  <SmartPicture
+                    src={thumbnail}
+                    widths={columnWidths}
+                    alt={title}
+                    aspect={aspect}
+                    sizes={sizes}
+                    class={
+                      aspect
+                        ? "h-auto w-full object-cover"
+                        : "h-auto w-full"
+                    }
+                    style={aspect ? `aspect-ratio: ${aspect}` : undefined}
+                  />
+                </div>
+                <div class="absolute right-2 top-2 z-10 h-14 w-14 rounded-full bg-dark/40 text-white opacity-0 transition-all duration-1000 group-hover:opacity-100">
+                  <Icon
+                    name="zoom"
+                    class="pointer-events-none absolute right-4 top-4 h-6 w-6 opacity-80"
+                  />
+                </div>
+              </Lightbox>
+            )}
+
+            {template === "banner" && (
+              <SmartPicture
+                src={thumbnail}
+                alt={title}
+                widths={bannerWidths}
+                sizes={sizes}
+                class="parallax h-full w-full object-cover"
+              />
+            )}
+          </>
+        )
+      }
+    </div>
+
+    <div class="text-image__content my-auto flex h-full flex-1">
+      <div class="my-auto">
+        <div
+          set:html={renderedContent}
+          class="richtext fade-up"
+          style="--animation-delay: 0.4s"
+        />
+
+        {
+          buttons && (
+            <div
+              style="--animation-delay: 0.6s"
+              class={`fade-up inline-flex flex-wrap gap-4  ${
+                template === "banner"
+                  ? "mb-8 w-full justify-center py-0"
+                  : "py-8"
+              }`}
+            >
+              {buttons.map((btn) => (
+                <Button {...btn} />
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </div>
+</div>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .text-image {
+    @apply gap-8;
+  }
+  .text-image__row {
+    @apply relative flex flex-col flex-nowrap;
+  }
+  .text-image__row.reverse {
+    @apply flex-col-reverse;
+  }
+  .text-image__row .media {
+    width: calc(100% + var(--container-spacing));
+    margin-inline: calc(var(--layout-spacing) * -1);
+  }
+  .text-image__row .media .img {
+    @apply sticky top-8;
+  }
+  .text-image__banner {
+    @apply relative overflow-hidden;
+  }
+  .text-image__banner:not(.container-none) {
+    @apply rounded-md;
+  }
+  .text-image__banner .media {
+    @apply pointer-events-none absolute inset-0;
+  }
+  .text-image__banner .text-image__content {
+    @apply relative z-10 grid h-full w-full place-items-center bg-dark/30 py-20;
+  }
+  .text-image__banner .text-image__content .richtext {
+    @apply max-w-2xl p-8 text-center text-white;
+  }
+
+  .column-grid .img {
+    @apply sticky top-8;
+  }
+  .column-grid-25,
+  .column-grid-33,
+  .column-grid-66,
+  .column-grid-75 {
+    @apply grid;
+  }
+  .column-grid-50 {
+    @apply grid md:grid-cols-2;
+  }
+  @media (width >= 48rem) {
+    .column-grid-25 {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+    .column-grid-25.reverse {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    }
+    .column-grid-33 {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+    .column-grid-33.reverse {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
+    .column-grid-66 {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
+    .column-grid-66.reverse {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+    .column-grid-75 {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    }
+    .column-grid-75.reverse {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+    .column-grid.normal .media {
+      @apply col-start-2 row-start-1;
+    }
+    .column-grid.normal .text-image__content {
+      @apply col-start-1 row-start-1;
+    }
+    .column-grid.container-none .text-image__content {
+      padding-inline: var(--container-spacing);
+    }
+  }
+  .column-grid.container-none .text-image__content {
+    padding-inline: var(--layout-spacing);
+  }
+  .column-grid.container-none .img {
+    @apply sticky top-0;
+  }
+</style>

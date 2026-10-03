@@ -1,0 +1,65 @@
+---
+tag:
+  - Docs
+title: How to customize the theme
+description: Customize your Nebulix template effortlessly with these quick tips
+  on colors, fonts, logos, and icons
+intro: Customize your Nebulix template effortlessly with these quick tips on
+  colors, fonts, logos, and icons
+blocks: []
+style:
+  template: split
+  card_template: grid
+  hero_template: image
+  container: md
+  hero_image_opacity: ""
+pubDate: 2023-09-03T12:14:45.064+02:00
+thumbnail: /src/assets/nebulix-style.jpeg
+---
+## Tailwind, Tailwind, Tailwind
+
+This template is built on Tailwind CSS v4. Shared utilities live in `src/styles/global.css` (buttons, containers, richtext). Prefer Tailwind classes in components; keep custom CSS for nested markdown (`.richtext`) or third-party overrides, using `@apply` when you need a reusable class.
+
+### Colors & surfaces
+
+A **surface** is a named background + foreground pair for light and dark mode. Edit them in the CMS under **SETTINGS → STYLE → SURFACES**:
+
+- **Name** — label in the picker  
+- **Slug** — becomes the CSS class `surface-{slug}`  
+- **Light / dark background & foreground** — color pickers  
+
+Built-in palette tokens (`primary`, `secondary`, `dark`, `light`, …) used by Tailwind utilities like `bg-primary` / `text-dark` are defined in `src/styles/global.css` and swap with `html[data-theme="dark"]`.
+
+Blocks, buttons, and heroes pick a surface by slug (e.g. `primary` → `surface-primary`).
+
+### Images & lightbox
+
+Content images use Astro `<Picture>` via `SmartPicture` with layout-aware `sizes` / `widths`. Clicking an enlargeable image opens **PhotoSwipe** on the page (no separate `/images/…` route).
+
+### Fonts
+
+Fonts use Astro’s built-in Fonts API with the Fontsource provider (preload + optimized fallbacks). Configure families in `astro.config.mjs`, render `<Font />` in `src/components/BaseHead.astro`, and wire the CSS variable in `/src/styles/global.css`.
+
+```javascript
+import { defineConfig, fontProviders } from "astro/config";
+
+export default defineConfig({
+  fonts: [{
+    name: "Inter Tight",
+    cssVariable: "--font-inter-tight",
+    provider: fontProviders.fontsource(),
+    styles: ["normal", "italic"],
+    weights: ["100 900"],
+    subsets: ["latin"],
+    fallbacks: ["sans-serif"],
+  }],
+});
+```
+
+### Logo
+
+For the logo, you have the flexibility to use an SVG file. Simply replace the existing logo file located at `src/icons/logo.svg` with your own logo.
+
+### Icons
+
+All icons used in this template are stored in `src/icons`. These icons are not only employed by the theme but are also accessible for use in the Button and Feature components. Should you wish to add new icons, you can do so via the CMS under SETTINGS > STYLE > ICONS.

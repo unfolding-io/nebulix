@@ -1,0 +1,95 @@
+---
+import SmartPicture from "@components/media/SmartPicture.astro";
+import LightboxGallery from "@components/media/LightboxGallery.vue";
+import { Icon } from "astro-icon/components";
+import { t } from "@util/translate";
+import { sizesGallery, widthsGallery } from "@util/images";
+import { getLightboxImage } from "@util/lightbox";
+
+const { title, images, container, aspect } = Astro.props;
+const sizes = sizesGallery(container);
+const widths = widthsGallery(container);
+
+const slides = (
+  await Promise.all(
+    (images || []).map(async (image) => ({
+      image,
+      lightbox: await getLightboxImage(image.image),
+    })),
+  )
+).filter((slide) => slide.lightbox);
+---
+
+<div class={`container-${container} gap-8 grid`}>
+  <h2 class="title-sm fade-in">{title}</h2>
+  <LightboxGallery
+    client:visible
+    id={`gallery-${title || "images"}`}
+    className={`image-grid-${container}`}
+  >
+    {
+      slides.map(({ image, lightbox }, index) => (
+        <a
+          aria-label={t("enlarge_image")}
+          style={`--animation-delay: ${(index + 1) * 150}ms`}
+          class="fade-up group relative block overflow-hidden rounded-md"
+          href={lightbox!.href}
+          data-pswp-width={lightbox!.width}
+          data-pswp-height={lightbox!.height}
+          data-cropped="true"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div class="transition-transform duration-1000 ease-in group-hover:scale-110 group-hover:duration-[2s]">
+            <SmartPicture
+              src={image.image}
+              alt={image.title}
+              sizes={sizes}
+              widths={widths}
+              aspect={aspect}
+              class={
+                aspect ? "h-auto w-full object-cover" : "h-auto w-full"
+              }
+              style={aspect ? `aspect-ratio: ${aspect}` : undefined}
+            />
+          </div>
+          <div class="absolute inset-0 z-10 opacity-0 transition-all duration-1000 hover:opacity-100">
+            <Icon
+              name="zoom"
+              class="pointer-events-none absolute right-4 top-4 h-6 w-6 opacity-80"
+            />
+          </div>
+        </a>
+      ))
+    }
+  </LightboxGallery>
+</div>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .image-grid {
+    @apply grid;
+    gap: var(--grid-spacing);
+  }
+  .image-grid-sm {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3;
+  }
+  .image-grid-md {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3;
+  }
+  .image-grid-lg {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3;
+  }
+  .image-grid-xl {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4;
+  }
+  .image-grid-full {
+    gap: var(--grid-spacing);
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5;
+  }
+</style>

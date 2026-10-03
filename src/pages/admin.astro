@@ -1,0 +1,74 @@
+---
+/* SVELTIA CMS ADMIN */
+import { menu, page, settings, post, project } from "@cms/index.mjs";
+
+const lang = import.meta.env.WEBSITE_LANGUAGE;
+const url = Astro.site;
+
+const config = {
+  locale: lang,
+  site_url: url,
+  logo_url: "https://nebulix.unfolding.io/logo.svg",
+  load_config_file: false,
+  // GitHub backend: on localhost Sveltia offers “Work with local repository”
+  // (File System Access). Pick the git repo root (folder that contains `.git`).
+  // test-repo is in-memory only and always starts empty — do not use for real content.
+  backend: {
+    name: "github",
+    repo: "unfolding-io/nebulix",
+    branch: "main",
+  },
+  search: true,
+  media_folder: "src/assets",
+  public_folder: "/src/assets",
+  media_library: {
+    max_file_size: 2012000,
+  },
+  collections: [page, post, project, menu, settings],
+};
+
+const configJson = JSON.stringify(config);
+---
+
+<!doctype html>
+<html lang={lang || "en"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Nebulix Admin | by unfolding.io</title>
+    <!-- Sveltia UI uses Material Symbols ligatures; ensure the font is available in <head> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0&display=block"
+    />
+  </head>
+  <body>
+    <script
+      is:inline
+      id="nebulix-cms-config"
+      type="application/json"
+      set:html={configJson}
+    ></script>
+    <script is:inline>
+      window.CMS_MANUAL_INIT = true;
+      const config = JSON.parse(
+        document.getElementById("nebulix-cms-config").textContent || "{}",
+      );
+
+      const script = document.createElement("script");
+      script.src = "/admin/sveltia-cms.js";
+      script.onload = () => {
+        const init = window.initCMS || window.CMS?.init?.bind(window.CMS);
+        if (typeof init === "function") {
+          init({ config });
+        } else {
+          console.error("Sveltia CMS init function not found");
+        }
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+---
+/* BLOG ARCHIVE PAGES */
+import { getEntry } from "astro:content";
+import PageLayoutArchive from "@layouts/PageLayoutArchive.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths({ paginate }) {
+  const posts = (await getCollection("project")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  const projectConfig = await getEntry("config", "project");
+  if (!projectConfig) throw new Error("Missing config entry: project");
+  return paginate(posts, { pageSize: projectConfig.data.per_page });
+}
+
+const posts = (await getCollection("project")).sort(
+  (a, b) => a.data.date.valueOf() - b.data.date.valueOf(),
+);
+const allTags = posts.map((post) => post.data.tag).filter((post) => !!post);
+const tag = [...new Set(allTags.flat(1))];
+const base_url = import.meta.env.PORTFOLIO_SLUG;
+const { page } = Astro.props;
+const projectConfig = await getEntry("config", "project");
+if (!projectConfig) throw new Error("Missing config entry: project");
+const { data } = projectConfig;
+---
+
+<PageLayoutArchive {page} {tag} {data} {base_url} />

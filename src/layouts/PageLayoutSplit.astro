@@ -1,0 +1,187 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import SmartPicture from "@components/media/SmartPicture.astro";
+import ItemFilter from "@components/navigation/ItemFilter.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import Block from "@components/block/Block.astro";
+import Button from "@components/navigation/Button.astro";
+import { surfaceClass } from "@util/surfaces";
+import { sizesSplitHero, widthsViewport } from "@util/images";
+
+const {
+  title,
+  description,
+  thumbnail,
+  og_image,
+  intro,
+  tag,
+  filters,
+  pubDate,
+  base_url,
+  blocks,
+  style,
+  filter,
+  filter_type,
+  hero_buttons,
+} = Astro.props;
+
+const { slug } = Astro.params;
+const pageTitle = `${title} ${filter ? `#${filter}` : ""}`;
+const hasBlocks = blocks && blocks.length > 0;
+const heroSurface = surfaceClass(style?.hero_surface || "dark");
+---
+
+<BaseLayout
+  title={pageTitle}
+  {description}
+  pageClass={style.page_class}
+  {thumbnail}
+  {og_image}
+>
+  <div class="page-split__grid">
+    <div
+      class="z-10"
+      id="header"
+      transition:name={`hero_${slug || Math.random()}`}
+    >
+      <div
+        class={`${heroSurface} sticky top-0 overflow-hidden sm:h-screen`}
+      >
+        {
+          thumbnail && (
+            <SmartPicture
+              src={thumbnail}
+              sizes={sizesSplitHero()}
+              widths={widthsViewport(1920)}
+              loading="eager"
+              alt={title}
+              class="z-0 h-full w-full object-cover sm:h-screen"
+              style={`opacity: ${style.hero_image_opacity || 0.7}`}
+            />
+          )
+        }
+
+        <div
+          class="page-split__title absolute inset-0 z-10 grid place-items-center"
+        >
+          <div class="w-full">
+            {
+              pubDate && (
+                <span class="text-overline">
+                  <FormattedDate date={pubDate} />
+                </span>
+              )
+            }
+            <h1 class="title">
+              {title}
+            </h1>
+            {intro && <div class="subtitle balance pt-4"> {intro}</div>}
+
+            {
+              hero_buttons && hero_buttons.length > 0 && (
+                <div class="inline-flex flex-wrap  gap-4 py-8 ">
+                  {hero_buttons.map((btn) => (
+                    <Button {...btn} />
+                  ))}
+                </div>
+              )
+            }
+            {
+              tag && (
+                <ItemFilter
+                  filters={tag}
+                  className="mt-4"
+                  links={true}
+                  {base_url}
+                />
+              )
+            }
+
+            {
+              filters && (
+                <ItemFilter
+                  filters={filters}
+                  className="mt-4"
+                  links={true}
+                  active={filter}
+                  type={filter_type}
+                  {base_url}
+                />
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="page-split__content z-0 mb-0 mt-8 w-full md:max-w-2xl md:pl-0 md:pr-8"
+    >
+      <div class={`flex h-full flex-col ${hasBlocks ? "pb-10" : "pb-20"}`}>
+        <slot />
+
+        {!hasBlocks && <slot name="nav" />}
+      </div>
+    </div>
+  </div>
+  {
+    hasBlocks && (
+      <>
+        <div class={style.block_class || "my-20"}>
+          {blocks.map((section) => (
+            <Block {...section} />
+          ))}
+        </div>
+        <div class="container-md pb-20">
+          <slot name="nav" />
+        </div>
+      </>
+    )
+  }
+</BaseLayout>
+
+<style>
+  @reference "../styles/global.css";
+
+  .page-split__grid {
+    @apply grid 2xl:gap-14;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (width >= 48rem) {
+    .page-split__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+  @media (width >= 96rem) {
+    .page-split__grid {
+      grid-template-columns: 40vw minmax(0, 1fr);
+    }
+  }
+  .page-split__title {
+    padding: var(--layout-spacing);
+  }
+  .page-split__content {
+    padding-inline: var(--layout-spacing);
+  }
+</style>
+
+<style is:global>
+  @reference "../styles/global.css";
+
+  .page-split__content .img,
+  .page-split__content iframe {
+    width: calc(100% + var(--container-spacing));
+    margin-left: calc(var(--layout-spacing) * -1);
+    @apply my-10 h-auto;
+  }
+  @media (width >= 48rem) {
+    .page-split__content .img,
+    .page-split__content iframe {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  .page-split__content iframe {
+    @apply aspect-video;
+  }
+</style>

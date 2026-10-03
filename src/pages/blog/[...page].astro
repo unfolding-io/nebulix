@@ -1,0 +1,31 @@
+---
+/* BLOG ARCHIVE PAGES */
+import { getEntry } from "astro:content";
+import PageLayoutArchive from "@layouts/PageLayoutArchive.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths({ paginate }) {
+  const posts = (await getCollection("blog")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+  const blogConfig = await getEntry("config", "blog");
+  if (!blogConfig) throw new Error("Missing config entry: blog");
+
+  return paginate(posts, { pageSize: blogConfig.data.per_page });
+}
+const base_url = import.meta.env.BLOG_SLUG;
+const { page } = Astro.props;
+
+const blogConfig = await getEntry("config", "blog");
+if (!blogConfig) throw new Error("Missing config entry: blog");
+const { data } = blogConfig;
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),
+);
+/* get the used tags */
+const allFilters = posts.map((post) => post.data.tag).filter((post) => !!post);
+const filters = [...new Set(allFilters.flat(1))];
+---
+
+<PageLayoutArchive {page} {filters} {data} {base_url} />

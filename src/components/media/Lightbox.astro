@@ -1,0 +1,30 @@
+---
+interface Props {
+  src: string;
+  width: number | string;
+  height: number | string;
+  className?: string;
+  ariaLabel?: string;
+}
+
+const {
+  src,
+  width,
+  height,
+  className = "",
+  ariaLabel = "Enlarge image",
+} = Astro.props;
+---
+
+<a
+  href={src}
+  aria-label={ariaLabel}
+  class={className}
+  data-pswp-width={width}
+  data-pswp-height={height}
+  target="_blank"
+  rel="noreferrer"
+  data-cropped="true"
+>
+  <slot />
+</a>

@@ -1,0 +1,61 @@
+{
+  "name": "nebulix",
+  "type": "module",
+  "license": "CC BY-ND 4.0",
+  "version": "1.0.0",
+  "keywords": [
+    "astro",
+    "Sveltia CMS",
+    "Vue 3",
+    "mdx",
+    "markdown"
+  ],
+  "description": "Fast & Green Theme Based on Astro + Sveltia CMS. Blogs, Portfolios, Menus & Beyond",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "postbuild": "pagefind --site dist --output-path dist/_pagefind",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "check": "astro check",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "dev:demo": "cross-env BLOG_SLUG=blog PORTFOLIO_SLUG=work MENU_SLUG=menu WEBSITE_LANGUAGE=en CURRENCY=USD UNITS=metric NODE_VERSION=22 astro dev"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/mdx": "^8.0.2",
+    "@astrojs/netlify": "^8.2.6",
+    "@astrojs/sitemap": "^3.3.1",
+    "@astrojs/vue": "^7.0.3",
+    "@nanostores/vue": "^1.0.0",
+    "@remark-embedder/core": "^3.0.3",
+    "@remark-embedder/transformer-oembed": "^5.0.1",
+    "@tailwindcss/vite": "^4.1.4",
+    "@vueuse/core": "^13.1.0",
+    "@vueuse/integrations": "^13.1.0",
+    "astro": "^7.3.5",
+    "astro-icon": "^1.1.5",
+    "async-validator": "^4.2.5",
+    "marked": "^15.0.11",
+    "nanostores": "^1.0.1",
+    "photoswipe": "^5.4.4",
+    "rehype-external-links": "^3.0.0",
+    "remark-unwrap-images": "^4.0.1",
+    "tailwindcss": "^4.1.4",
+    "vue": "^3.5.13",
+    "vue3-popper": "^1.5.0",
+    "vue3-toastify": "^0.2.8"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "cross-env": "^7.0.3",
+    "pagefind": "^1.3.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "typescript": "^5.8.3"
+  }
+}

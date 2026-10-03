@@ -1,0 +1,137 @@
+---
+tag:
+  - Docs
+title: Getting started 🚀
+description: How to install and Nebulix.
+intro: Clone, Configure, Deploy
+style:
+  template: split
+  card_template: grid
+  hero_template: image
+  container: md
+  hero_image_opacity: ""
+pubDate: 2023-09-03T12:18:03.122+02:00
+thumbnail: /src/assets/nebulala_rocket.jpeg
+---
+
+## Clone this repo or deploy to Netlify
+
+Easily deploy this theme to Netlify with a single click.
+
+| [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/unfolding-io/nebulix#BLOG_SLUG=blog&PORTFOLIO_SLUG=work&MENU_SLUG=menu&WEBSITE_LANGUAGE=en&CURRENCY=USD&UNITS=metric&NODE_VERSION=22) | [![GitHub Repo stars](https://img.shields.io/github/stars/unfolding-io/nebulix?logo=github)](https://github.com/unfolding-io/nebulix) |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+
+## 1. Setting up the .env file
+
+Copy `env.txt` to `.env` and fill in your details:
+
+```bash
+cp env.txt .env
+```
+
+```ENV
+BLOG_SLUG=blog
+PORTFOLIO_SLUG=work
+MENU_SLUG=menu
+WEBSITE_LANGUAGE=en
+CURRENCY=USD
+UNITS=metric
+NEWSLETTER_PROVIDER=mailchimp
+MAILCHIMP_API_KEY=XXXXXXXXXXXXXXXX-us21
+MAILCHIMP_SERVER_PREFIX=us21
+MAILCHIMP_LIST_ID=XXXXXXXXX
+NODE_VERSION=22
+
+FROM_EMAIL_ADDRESS=test@email.com
+TO_EMAIL_ADDRESS=test@email.com
+
+MAILGUN_API_KEY=XXXXXXXXX
+MAILGUN_DOMAIN=XXXXXXXXX
+MAILGUN_API_URL=https://api.eu.mailgun.net
+
+POSTMARK_SERVER_TOKEN=XXXXXXXXX
+
+SLACK_CHANNEL_ID=XXXXXXXXX
+SLACK_TOKEN=XXXXXXXXX
+```
+
+### 2. Configure Sveltia CMS
+
+Edit `src/pages/admin.astro` and set your Git backend (GitHub by default):
+
+```javascript
+backend: {
+  name: "github",
+  repo: "your-org/your-repo",
+  branch: "main",
+},
+```
+
+On localhost, Sveltia can work with the local repository via the File System Access API (“Work with local repository”). Point it at the git root (the folder that contains `.git`).
+
+See [Sveltia CMS backends](https://github.com/sveltia/sveltia-cms#backends) for GitLab and other options.
+
+### 3. Add your site to the Astro config
+
+```javascript
+export default defineConfig({
+  site: "https://your-website.com",
+  // ...
+});
+```
+
+### 4. Install dependencies
+
+```bash
+npm install
+```
+
+### 🛠️ 5. Start the development server
+
+```bash
+npm run dev
+```
+
+Open the site at http://localhost:4321 and the CMS at http://localhost:4321/admin/
+
+## ❌ Removing collections
+
+If you don’t need a blog, portfolio, or restaurant menu, remove the matching files under `src/content` and the page templates under `src/pages`.
+
+## 🛸 Commands
+
+| Command           | Action                                      |
+| ----------------- | ------------------------------------------- |
+| `npm install`     | Install dependencies                        |
+| `npm run dev`     | Local dev server (`localhost:4321`)         |
+| `npm run build`   | Production build + Pagefind index → `dist/` |
+| `npm run preview` | Preview the production build                |
+| `npm run astro …` | Astro CLI (`astro check`, etc.)             |
+
+## Deploy
+
+Nebulix ships with the **Netlify** adapter so [Astro Actions](https://docs.astro.build/en/guides/actions/) (contact + newsletter) can run on the server. You can swap to Cloudflare or Vercel — see the root [README](/).
+
+## 👀 Want to learn more about Astro?
+
+Check out [Astro documentation](https://docs.astro.build) or jump into Astro's [Discord server](https://astro.build/chat).
+
+## 📚 Tech stack
+
+Astro 7, Sveltia CMS, Vue 3, Tailwind CSS v4, MDX, Pagefind, PhotoSwipe, Astro Actions
+
+## 🛟 Support
+
+If you encounter any issues or bugs, open an issue in the repository with steps to reproduce.
+
+## 👑 Premium support
+
+Need priority help, custom integrations, design, or development? Email [hello@unfolding.io](mailto:hello@unfolding.io) or find me on [UpWork](https://www.upwork.com/freelancers/~01dcde6b3915c74c30).
+
+## ☕️ Buy me a coffee
+
+Want to power late-night coding sessions? [Buy me a coffee](https://github.com/sponsors)
+
+## 📝 License
+
+Want to remove the attribution? [Purchase a license](/pricing).
