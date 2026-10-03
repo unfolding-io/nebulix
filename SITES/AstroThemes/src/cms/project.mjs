@@ -1,13 +1,14 @@
 import { toolbarButtons, blocks, style, buttons } from "./common.mjs";
+import { cmsPath } from "./paths.mjs";
 import { t } from "@util/translate";
 export const project = {
   name: "project",
   identifier_field: "title",
-  folder: "src/content/project",
+  folder: cmsPath("src/content/project"),
   label: t("project"),
   format: "frontmatter",
   extension: "mdx",
-  icon: "portfolio",
+  icon: "work",
   create: true,
   editor: {
     preview: false,

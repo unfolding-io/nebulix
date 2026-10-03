@@ -1,14 +1,15 @@
 import { toolbarButtons, blocks, buttons, style } from "./common.mjs";
+import { cmsPath } from "./paths.mjs";
 
 import { t } from "@util/translate";
 export const page = {
   name: "page",
   identifier_field: "title",
-  folder: "src/content/page",
+  folder: cmsPath("src/content/page"),
   label: "Pages",
   format: "frontmatter",
   extension: "mdx",
-  icon: "page",
+  icon: "article",
   create: true,
   editor: {
     preview: false,

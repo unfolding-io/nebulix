@@ -51,7 +51,7 @@ See [`env.txt`](env.txt). Key vars:
 
 Open `/admin` in the browser. Collection definitions live in [`src/cms/`](src/cms/). Media is stored under `src/assets`.
 
-Configure a real Git backend in [`src/pages/admin.astro`](src/pages/admin.astro) before production (default uses `test-repo` for local testing).
+On **localhost**, Sveltia offers “Work with local repository” (File System Access). Choose the **git repo root** (the folder that contains `.git`, not only `SITES/AstroThemes`) so collection paths like `SITES/AstroThemes/src/content/...` resolve. For production, sign in with GitHub; backend settings are in [`src/pages/admin.astro`](src/pages/admin.astro).
 
 ## Scripts
 

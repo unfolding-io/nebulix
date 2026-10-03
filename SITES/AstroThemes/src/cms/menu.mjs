@@ -1,15 +1,16 @@
 import { t } from "@util/translate";
 import { toolbarButtons } from "./common.mjs";
+import { cmsPath } from "./paths.mjs";
 
 export const menu = {
   name: "menu",
   identifier_field: "title",
-  folder: "src/content/menu",
+  folder: cmsPath("src/content/menu"),
   label: t("menu"),
   format: "frontmatter",
   extension: "mdx",
   create: true,
-  icon: "menu",
+  icon: "restaurant_menu",
   editor: {
     preview: false,
     frame: false,

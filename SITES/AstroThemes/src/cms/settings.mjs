@@ -1,5 +1,6 @@
 import { t } from "@util/translate";
 import { buttons, style } from "./common.mjs";
+import { cmsPath } from "./paths.mjs";
 
 export const settings = {
   name: "config",
@@ -15,7 +16,7 @@ export const settings = {
     {
       name: "about",
       label: t("about"),
-      file: "src/content/config/about.mdx",
+      file: cmsPath("src/content/config/about.mdx"),
 
       fields: [
         { name: "sitename", label: t("site_name"), widget: "string" },
@@ -45,7 +46,7 @@ export const settings = {
     {
       name: "blog",
       label: t("blog_settings"),
-      file: "src/content/config/blog.mdx",
+      file: cmsPath("src/content/config/blog.mdx"),
 
       fields: [
         { name: "title", label: t("title"), widget: "string" },
@@ -127,7 +128,7 @@ export const settings = {
     {
       name: "project",
       label: t("portfolio_settings"),
-      file: "src/content/config/project.mdx",
+      file: cmsPath("src/content/config/project.mdx"),
 
       fields: [
         { name: "title", label: t("title"), widget: "string" },
@@ -217,7 +218,7 @@ export const settings = {
     {
       name: "navigation",
       label: t("navigation"),
-      file: "src/content/config/navigation.mdx",
+      file: cmsPath("src/content/config/navigation.mdx"),
       fields: [
         {
           name: "main_menu",
@@ -256,7 +257,7 @@ export const settings = {
       name: "contact",
       label: t("contact_social"),
 
-      file: "src/content/config/contact.mdx",
+      file: cmsPath("src/content/config/contact.mdx"),
 
       fields: [
         { name: "email", label: t("email"), widget: "string", required: true },
@@ -349,7 +350,7 @@ export const settings = {
               label: t("image"),
               name: "thumbnail",
               widget: "image",
-              media_folder: "/src/assets",
+              media_folder: cmsPath("src/assets"),
               required: true,
             },
           ],
@@ -359,7 +360,7 @@ export const settings = {
     {
       name: "style",
       label: t("style"),
-      file: "src/content/config/style.mdx",
+      file: cmsPath("src/content/config/style.mdx"),
 
       fields: [
         {
@@ -388,7 +389,7 @@ export const settings = {
               name: "icon",
               label: t("icon"),
               widget: "image",
-              media_folder: "/src/icons",
+              media_folder: cmsPath("src/icons"),
               pattern: [
                 "[^\\s]+(.*?)\\.(svg|SVG)$",
                 "please upload a valid SVG icon",
