@@ -86,12 +86,13 @@ function loadCSS() {
 </script>
 
 <style lang="postcss">
+
 .search-modal {
-  @apply fixed inset-0;
+  position: fixed; inset: 0;
   z-index: 99999999;
 
   .pagefind-ui__search-clear {
-    @apply mr-8;
+    margin-right: 2rem;
   }
 }
 
@@ -110,7 +111,7 @@ function loadCSS() {
 }
 
 .search-scroll {
-  @apply h-full overflow-x-hidden overflow-y-scroll py-4;
+  height: 100%; overflow-x: hidden; overflow-y: scroll; padding-block: 1rem;
 
   scrollbar-width: none;
   -ms-overflow-style: none;

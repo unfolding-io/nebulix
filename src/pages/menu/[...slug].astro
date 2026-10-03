@@ -1,11 +1,12 @@
 ---
 /* MENU PAGES */
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import PageLayoutWide from "@layouts/PageLayoutWide.astro";
 import ItemNav from "@components/navigation/ItemNav.astro";
 import MenuList from "@components/menu/MenuList.astro";
 import { slugify, getArchiveNav } from "@util/helpers";
+import { mdxComponents } from "@src/lib/mdxComponents";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("menu")).sort(
@@ -26,11 +27,11 @@ export async function getStaticPaths() {
         ...post.data,
         nav: {
           next: {
-            slug: next?.slug,
+            id: next?.id,
             title: next?.data?.title,
           },
           prev: {
-            slug: prev?.slug,
+            id: prev?.id,
             title: prev?.data?.title,
           },
           index: index,
@@ -39,7 +40,7 @@ export async function getStaticPaths() {
     };
 
     return {
-      params: { slug: post.slug },
+      params: { slug: post.id },
       props: {
         ...postcontent,
       },
@@ -49,7 +50,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"menu">;
 const base_url = import.meta.env.MENU_SLUG;
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 const { data } = Astro.props;
 ---
 
@@ -72,7 +73,7 @@ const { data } = Astro.props;
     <MenuList categories={data.categories} />
   </div>
   <div class={`richtext menu__content mx-auto max-w-3xl text-center`}>
-    <Content />
+    <Content components={mdxComponents} />
     <div class="container-md pb-20" slot="nav">
       <ItemNav nav={post.data.nav} {base_url} />
     </div>
@@ -80,13 +81,15 @@ const { data } = Astro.props;
 </PageLayoutWide>
 
 <style is:global>
+@reference "../../styles/global.css";
+
   .menu__content {
     .img,
     iframe {
       width: calc(100% + var(--container-spacing));
-      margin-left: calc(var(--spacing) * -1);
+      margin-left: calc(var(--layout-spacing) * -1);
       @apply my-10 aspect-video h-auto;
-      @screen md {
+      @media (width >= 48rem) {
         width: 100%;
         margin-left: 0;
       }

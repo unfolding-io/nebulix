@@ -23,23 +23,34 @@
   </form>
 </template>
 
-<script setup>
-import { ref, computed, reactive } from "vue";
+<script setup lang="ts">
+import { ref, computed, reactive, onMounted } from "vue";
 import { t } from "@util/translate";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import Loading from "@components/common/Loading.vue";
-import "vue3-toastify/dist/index.css";
 import { toast } from "vue3-toastify";
-const props = defineProps({
-  type: {
-    type: String,
-    required: false,
-    default: "mailchimp",
-  },
-  list_id: String,
+import { actions } from "astro:actions";
+
+onMounted(async () => {
+  if (document.getElementById("toastify-css")) return;
+  const cssUrl = (await import("vue3-toastify/dist/index.css?url")).default;
+  const link = document.createElement("link");
+  link.id = "toastify-css";
+  link.rel = "stylesheet";
+  link.href = cssUrl;
+  document.head.appendChild(link);
 });
+
+const props = withDefaults(
+  defineProps<{
+    type?: string;
+    list_id?: string;
+  }>(),
+  {
+    type: "mailchimp",
+  },
+);
 const loading = ref(false);
-const message = ref(null);
 const form = reactive({ email: "" });
 const rules = {
   email: [
@@ -54,33 +65,32 @@ const canSubmit = computed(() => {
   return !loading.value && isFinished.value && pass.value;
 });
 
-const submit = () => {
-  if (props.type === "mailchimp") {
-    loading.value = true;
-    fetch("/api/subscribe-mailchimp", {
-      method: "POST",
-      body: JSON.stringify({ email: form.email }),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.status === "pending") {
-          toast.success(t("newsletter_thanks"));
-          form.email = "";
-        } else if (data.status === "Member Exists") {
-          toast.info(t("newsletter_already_subscribed"));
-          form.email = "";
-        } else {
-          toast.error(t("newsletter_error"));
-        }
-      })
-      .catch((e) => {
-        message.value = t("newsletter_error");
-        toast.error(t("newsletter_error"));
-      })
-      .finally(() => {
-        loading.value = false;
-      });
+const submit = async () => {
+  if (props.type !== "mailchimp" || !canSubmit.value) return;
+
+  loading.value = true;
+  try {
+    const { data, error } = await actions.subscribe({
+      email: form.email,
+      provider: "mailchimp",
+    });
+
+    if (error) {
+      toast.error(t("newsletter_error"));
+      return;
+    }
+
+    if (data?.status === "exists") {
+      toast.info(t("newsletter_already_subscribed"));
+    } else {
+      toast.success(t("newsletter_thanks"));
+    }
+    form.email = "";
+  } catch (e) {
+    console.error("subscribe action error", e);
+    toast.error(t("newsletter_error"));
+  } finally {
+    loading.value = false;
   }
 };
 </script>

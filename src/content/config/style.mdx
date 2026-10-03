@@ -1,31 +1,83 @@
 ---
 surface:
   - name: base
-    class: surface-base
+    slug: base
+    light_bg: "#f3f1ef"
+    light_fg: "#191c26"
+    dark_bg: "#191c26"
+    dark_fg: "#f3f1ef"
   - name: primary
-    class: surface-primary
+    slug: primary
+    light_bg: "#4b268f"
+    light_fg: "#ffffff"
+    dark_bg: "#875ed4"
+    dark_fg: "#ffffff"
   - name: secondary
-    class: surface-secondary
+    slug: secondary
+    light_bg: "#6b9ac7"
+    light_fg: "#191c26"
+    dark_bg: "#6b9ac7"
+    dark_fg: "#191c26"
   - name: light
-    class: surface-light
+    slug: light
+    light_bg: "#f3f1ef"
+    light_fg: "#191c26"
+    dark_bg: "#f3f1ef"
+    dark_fg: "#191c26"
   - name: dark
-    class: surface-dark
+    slug: dark
+    light_bg: "#191c26"
+    light_fg: "#f3f1ef"
+    dark_bg: "#000000"
+    dark_fg: "#f3f1ef"
   - name: accent
-    class: surface-accent
+    slug: accent
+    light_bg: "#777096"
+    light_fg: "#f3f1ef"
+    dark_bg: "#777096"
+    dark_fg: "#f3f1ef"
   - name: warning
-    class: surface-warning
-  - class: surface-danger
-    name: danger
+    slug: warning
+    light_bg: "#ca792d"
+    light_fg: "#ffffff"
+    dark_bg: "#ca792d"
+    dark_fg: "#ffffff"
+  - name: danger
+    slug: danger
+    light_bg: "#b4190e"
+    light_fg: "#ffffff"
+    dark_bg: "#b4190e"
+    dark_fg: "#ffffff"
   - name: info
-    class: surface-info
+    slug: info
+    light_bg: "#191c26"
+    light_fg: "#f3f1ef"
+    dark_bg: "#875ed4"
+    dark_fg: "#ffffff"
   - name: success
-    class: surface-success
-  - name: light Slate
-    class: bg-slate-200 text-dark dark:bg-slate-800 dark:text-white
-  - name: tailwind
-    class: bg-[#38bdf8] text-black
-  - name: snipcart
-    class: bg-[#fc0] text-black
+    slug: success
+    light_bg: "#4d8965"
+    light_fg: "#ffffff"
+    dark_bg: "#4d8965"
+    dark_fg: "#ffffff"
+  - name: sky
+    slug: sky
+    light_bg: "#38bdf8"
+    light_fg: "#000000"
+    dark_bg: "#0ea5e9"
+    dark_fg: "#000000"
+  - name: yellow
+    slug: yellow
+    light_bg: "#ffcc00"
+    light_fg: "#000000"
+    dark_bg: "#ffcc00"
+    dark_fg: "#000000"
+  - name: panel
+    slug: panel
+    light_bg: "#e2e8f0"
+    light_fg: "#191c26"
+    dark_bg: "#1e293b"
+    dark_fg: "#f3f1ef"
 icons:
   - name: "right ➡ "
     icon: /src/icons/right.svg

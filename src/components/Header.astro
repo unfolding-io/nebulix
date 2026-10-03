@@ -3,14 +3,26 @@ import NavMobile from "@components/navigation/NavMobile.vue";
 import { Icon } from "astro-icon/components";
 
 import PageFind from "@components/common/PageFind.astro";
-import CartButton from "@components/shop/CartButton.vue";
 import ColorSwitch from "@components/common/ColorSwitch.vue";
 import { t } from "@util/translate";
 
-const { menu, title, social } = Astro.props;
+interface NavLink {
+  href: string;
+  label?: string;
+  icon?: string;
+}
+
+interface Props {
+  menu?: NavLink[];
+  title: string;
+  social?: NavLink[];
+  about?: Record<string, unknown>;
+}
+
+const { menu = [], title, social = [] } = Astro.props as Props;
 const currentPath = Astro.url.pathname.split("/")[1];
 
-const isActive = (href) => {
+const isActive = (href: string) => {
   if (currentPath === "" && href == "/") return true;
   if (currentPath !== "" && href.startsWith(`/${currentPath}`)) return true;
 };
@@ -42,16 +54,6 @@ const isActive = (href) => {
       (
         <ul class="nav-underline relative -mr-4  ml-auto flex flex-nowrap justify-end pl-4 uppercase md:mr-0">
           <li>
-            <CartButton
-              label={t("cart")}
-              client:idle
-              transition:persist
-              transition:name="cart"
-            >
-              <Icon name="shopping-cart" class="h-6 w-6" />
-            </CartButton>
-          </li>
-          <li>
             <PageFind />
           </li>
 
@@ -70,12 +72,12 @@ const isActive = (href) => {
             ))}
 
           <li>
-            <ColorSwitch client:idle />
+            <ColorSwitch client:interaction />
           </li>
 
           <li class="md:hidden">
             <NavMobile
-              client:idle
+              client:media-idle="(max-width: 767px)"
               translations={{ menu: t("menu"), close: t("close") }}
             >
               <Icon name="menu-solid" class="h-10 w-10" slot="menu" />
@@ -130,45 +132,9 @@ const isActive = (href) => {
   </nav>
 </header>
 <style>
+@reference "../styles/global.css";
+
   .nav {
     @apply transition-transform duration-500;
-    ul {
-      --_gap: 1rem;
-    }
-    .nav-underline li:not(ul li ul li) {
-      @apply relative overflow-hidden;
-      padding: calc(var(--_gap) / 2);
-      min-inline-size: 1.3rem;
-
-      &::after {
-        @apply absolute rounded-full bg-primary;
-        content: "";
-        inset-inline: 0;
-        inset-block-end: 0;
-        block-size: 5px;
-
-        translate: var(--_translate, 0);
-        scale: var(--_scale, 0) 1;
-        transition:
-          scale 100ms var(--_scale-delay, 0ms),
-          translate 200ms,
-          color 200ms;
-      }
-      &:hover ~ li {
-        --_translate: -100%;
-        --_scale-delay: 200ms;
-      }
-    }
-    &:hover li {
-      --_translate: 100%;
-      --_scale-delay: 200ms;
-    }
-
-    li:hover {
-      --_scale: 1;
-      --_translate: 0;
-      --_scale-delay: 0ms;
-      @apply text-primary;
-    }
   }
 </style>

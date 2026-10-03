@@ -25,16 +25,16 @@ const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
       </a>
 
       {
-        about.data.footer_text && (
+        about?.data?.footer_text && (
           <div
             class="balance pr-4 pt-4 text-sm opacity-70"
-            set:html={marked.parse(about.data.footer_text)}
+            set:html={marked.parse(about?.data?.footer_text)}
           />
         )
       }
       <div class="mt-auto flex gap-2 pt-4 text-xs opacity-70">
         <span>&copy;{today.getFullYear()}</span>
-        <span> {about.data.sitename}</span>
+        <span> {about?.data?.sitename}</span>
       </div>
     </div>
     <div class="grid w-full lg:w-2/3">
@@ -42,8 +42,8 @@ const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
         class="flex-wrap justify-center gap-8 text-center sm:flex sm:justify-between sm:text-left"
       >
         {
-          navigation.data.footer_menus &&
-            navigation.data.footer_menus.map((menu) => (
+          navigation?.data?.footer_menus &&
+            navigation?.data?.footer_menus.map((menu) => (
               <div class="min-w-[12rem] space-y-3 sm:max-w-[14rem]">
                 <h3 class="font-semibold uppercase">{menu.label}</h3>
                 <ul class="space-y-1">
@@ -66,9 +66,9 @@ const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
           <div class="font-semibold uppercase">{t("social")}</div>
           <div class="flex flex-col">
             {
-              contact.data.social && (
+              contact?.data?.social && (
                 <ul class="-ml-1 flex  flex-wrap justify-center gap-2 sm:justify-start ">
-                  {contact.data.social.map((link) => (
+                  {contact?.data?.social.map((link) => (
                     <li>
                       <a
                         href={link.href}
@@ -91,7 +91,7 @@ const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
             <div class="gap:10 flex-col content-end  items-end justify-end  py-0 pt-8 sm:ml-auto sm:flex sm:max-w-md sm:pt-0 sm:text-right">
               <div
                 class="richtext dense no-lead balance leading-none opacity-80"
-                set:html={marked.parse(about.data.newsletter_text)}
+                set:html={marked.parse(about?.data?.newsletter_text ?? "")}
               />
               <Newsletter client:visible />
             </div>
@@ -104,7 +104,7 @@ const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
   <!-- 👉👉 CC BY-ND 4.0 ©️unfolding.io  👈👈 -->
   <!-- ⚠️⚠️ DO NOT REMOVE THE ATTRIBUTION ⚠️⚠️ -->
   <!-- Or hide this trough css or js. Keep it visible and readeble-->
-  <!-- if you want to remove the attribution you can purchase a license at https://nebulix.unfolding.io/shop and support further development  🙏🙏 -->
+  <!-- if you want to remove the attribution you can purchase a license at https://nebulix.unfolding.io/pricing and support further development  🙏🙏 -->
 
   <div class="relative w-full overflow-hidden">
     <div class="attribution container-xl grid place-items-start">

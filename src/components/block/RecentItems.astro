@@ -3,10 +3,22 @@ import { getCollection } from "astro:content";
 import { marked } from "marked";
 import ItemCard from "@components/cards/ItemCard.astro";
 import ItemCardSmall from "@components/cards/ItemCardSmall.astro";
-import Intersecting from "@components/common/Intersecting.vue";
 import { Icon } from "astro-icon/components";
 import { t } from "@util/translate";
 import { getGridImageSizes, slugify } from "@util/helpers";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  title?: string;
+  container?: string;
+  template?: string;
+  content?: string;
+  count?: number;
+  page_type?: string;
+  post_tag?: string[];
+  portfolio_tag?: string[];
+  animate?: boolean;
+}
 
 const {
   title,
@@ -18,10 +30,15 @@ const {
   post_tag,
   portfolio_tag,
   animate,
-} = Astro.props;
+} = Astro.props as Props;
 
-let base_url;
-let posts;
+type RecentPost =
+  | CollectionEntry<"blog">
+  | CollectionEntry<"menu">
+  | CollectionEntry<"project">;
+
+let base_url = "";
+let posts: RecentPost[] = [];
 if (page_type === "blog") {
   base_url = import.meta.env.BLOG_SLUG;
   posts = (await getCollection("blog")).sort(
@@ -29,7 +46,7 @@ if (page_type === "blog") {
   );
 
   if (post_tag && post_tag.length > 0)
-    posts = posts.filter(
+    posts = (posts as CollectionEntry<"blog">[]).filter(
       (post) =>
         post.data?.tag &&
         post_tag.some((t) => post.data?.tag && post.data.tag.includes(t)),
@@ -49,7 +66,7 @@ if (page_type === "project") {
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
   if (portfolio_tag && portfolio_tag.length > 0)
-    posts = posts.filter(
+    posts = (posts as CollectionEntry<"project">[]).filter(
       (post) =>
         post.data?.tag &&
         portfolio_tag.some((t) => post.data?.tag && post.data.tag.includes(t)),
@@ -61,14 +78,13 @@ if (count && count > 0) posts = posts.slice(0, count);
 const sizes = getGridImageSizes(container);
 ---
 
-<Intersecting client:visible className="w-full">
-  <div
-    class={`recent-blogs grid gap-8 fade-up container-${container || "md"} `}
-  >
+<div
+  class={`recent-blogs grid gap-8 fade-up container-${container || "md"} `}
+>
     {
       template === "grid" && (
         <>
-          <h2 class="title-sm" id={slugify(title)}>
+          <h2 class="title-sm" id={slugify(title ?? "")}>
             {title}
           </h2>
           {content && <div class="richtext" set:html={marked.parse(content)} />}
@@ -108,7 +124,7 @@ const sizes = getGridImageSizes(container);
         <div class="grid gap-14 md:grid-cols-2">
           <div>
             <div class="sticky top-8 grid gap-4">
-              <h2 class="title-sm" id={slugify(title)}>
+              <h2 class="title-sm" id={slugify(title ?? "")}>
                 {title}
               </h2>
               {content && (
@@ -138,17 +154,17 @@ const sizes = getGridImageSizes(container);
         </div>
       )
     }
-  </div>
-</Intersecting>
+</div>
 
-<style lang="postcss">
-.recent-blogs ul.bloglist {
-		width: calc(100% + var(--container-spacing));
-		margin-left: calc(var(--spacing) * -1);
-		
-		@screen md {  
-			width: 100%;
-			margin-left: 0;                      
-		}
-	}
+<style>
+  .recent-blogs ul.bloglist {
+    width: calc(100% + var(--container-spacing));
+    margin-left: calc(var(--layout-spacing) * -1);
+  }
+  @media (width >= 48rem) {
+    .recent-blogs ul.bloglist {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
 </style>

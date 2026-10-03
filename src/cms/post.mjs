@@ -2,12 +2,12 @@ import { toolbarButtons, style, buttons, blocks } from "./common.mjs";
 import { t } from "@util/translate";
 export const post = {
   name: "posts",
-  identifier_field: "name",
+  identifier_field: "title",
   folder: "src/content/blog",
   label: t("blog"),
   format: "frontmatter",
   extension: "mdx",
-  icon: "news",
+  icon: "newspaper",
   create: true,
   editor: {
     preview: false,

@@ -5,22 +5,25 @@ import { getCollection } from "astro:content";
 import PageLayoutArchive from "@layouts/PageLayoutArchive.astro";
 import { getPagination, getCategoryData } from "@util/helpers";
 
-export async function getStaticPaths({ paginate }) {
+export async function getStaticPaths() {
   const posts = (await getCollection("project"))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
     .filter((post) => !!post.data?.tag);
 
-  const { data } = await getEntry("config", "project");
+  const projectConfig = await getEntry("config", "project");
+  if (!projectConfig) throw new Error("Missing config entry: project");
   const allFilters = posts
     .map((post) => post.data.tag)
     .filter((post) => !!post);
   const filters = [...new Set(allFilters.flat(1))];
-  return getPagination(posts, filters, data, "tag");
+  return getPagination(posts, filters, projectConfig.data, "tag");
 }
 const base_url = import.meta.env.PORTFOLIO_SLUG;
 const { lastPage, currentPage, page, filter, filters, filter_type } =
   Astro.props;
-let { data } = await getEntry("config", "project");
+const projectConfig = await getEntry("config", "project");
+if (!projectConfig) throw new Error("Missing config entry: project");
+let { data } = projectConfig;
 delete data.hero_buttons;
 
 /* GET HERO INFO FROM CONFIG */

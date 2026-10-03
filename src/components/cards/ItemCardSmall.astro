@@ -1,16 +1,16 @@
 ---
 import FormattedDate from "../FormattedDate.astro";
 import ItemFilter from "../navigation/ItemFilter.astro";
-import { Picture } from "astro-imagetools/components";
-import ProductPrice from "@components/shop/ProductPrice.astro";
+import SmartPicture from "@components/media/SmartPicture.astro";
+import { sizesFixed, widthsFixed } from "@util/images";
 
 const { content, base_url, animate } = Astro.props;
-const animation = `hero_${animate ? content.slug : Math.random()}`;
-const cardAnimation = `card_${animate ? content.slug : Math.random()}`;
+const animation = `hero_${animate ? content.id : Math.random()}`;
+const cardAnimation = `card_${animate ? content.id : Math.random()}`;
 ---
 
 <a
-  href={`/${base_url}/${content.slug}/`}
+  href={`/${base_url}/${content.id}/`}
   transition:name={`${cardAnimation}`}
   class="fade-up surface-overlay-hover group relative z-10 flex justify-between gap-8 rounded-md px-5 py-4 md:-ml-4 md:p-4"
 >
@@ -30,18 +30,9 @@ const cardAnimation = `card_${animate ? content.slug : Math.random()}`;
         <p class="balance line-clamp-3 py-1">{content.data.intro}</p>
       )
     }
-    {
-      content.data.price && (
-        <ProductPrice
-          price={content.data.price}
-          offer_price={content.data.offer_price}
-          in_stock={content.data.in_stock}
-        />
-      )
-    }
 
     {
-      content.data.tag && !content.data.price && (
+      content.data.tag && (
         <ItemFilter filters={content.data.tag} className="mt-2" {base_url} />
       )
     }
@@ -52,19 +43,12 @@ const cardAnimation = `card_${animate ? content.slug : Math.random()}`;
   >
     {
       content.data.thumbnail && (
-        <Picture
-          attributes={{
-            picture: {
-              class: "z-0 w-20",
-            },
-          }}
-          position="attention"
+        <SmartPicture
           src={content.data.thumbnail}
-          width={100}
-          height={100}
-          ar={1}
+          widths={widthsFixed(80)}
+          sizes={sizesFixed(80)}
           alt={content.data.title}
-          layout="fullWidth"
+          class="z-0 h-full w-20 object-cover"
         />
       )
     }

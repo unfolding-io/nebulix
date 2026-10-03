@@ -1,13 +1,16 @@
 ---
-import { Picture } from "astro-imagetools/components";
-const { slot, ...props } = Astro.props;
-import Intersecting from "@components/common/Intersecting.vue";
+import SmartPicture from "@components/media/SmartPicture.astro";
+import Lightbox from "@components/media/Lightbox.astro";
 import { t } from "@util/translate";
+import { sizesMdx, widthsContainer } from "@util/images";
+import { getLightboxImage } from "@util/lightbox";
+
+const { slot, ...props } = Astro.props;
 const imageName = props.src.split("/").pop().split(".")[0];
 const imgAlt = imageName ? imageName : "no-name";
 const ext = props.src.split(".").pop();
 
-function isPixelBasedImage(extension) {
+function isPixelBasedImage(extension: string) {
   const pixelBasedFormats = [
     "jpg",
     "jpeg",
@@ -22,29 +25,26 @@ function isPixelBasedImage(extension) {
   return pixelBasedFormats.includes(extension.toLowerCase());
 }
 const isSvg = !isPixelBasedImage(ext);
-
-//
+const lightbox = !isSvg ? await getLightboxImage(props.src) : null;
 ---
 
 {
-  !isSvg && (
-    <Intersecting client:visible>
-      <a
-        href={`/images/${imgAlt}`}
-        class="img fade-up block"
-        transition:name={`image_${imgAlt}`}
-        aria-label={t("enlarge_image")}
-      >
-        <Picture
-          {...props}
-          alt={imgAlt}
-          width={768}
-          breakpoints={[
-            360, 390, 412, 601, 768, 820, 962, 1280, 1440, 1536, 1920,
-          ]}
-        />
-      </a>
-    </Intersecting>
+  !isSvg && lightbox && (
+    <Lightbox
+      src={lightbox.href}
+      width={lightbox.width}
+      height={lightbox.height}
+      ariaLabel={t("enlarge_image")}
+      className="img fade-up block"
+    >
+      <SmartPicture
+        src={props.src}
+        alt={imgAlt}
+        widths={widthsContainer("sm")}
+        sizes={sizesMdx()}
+        class={props.class}
+      />
+    </Lightbox>
   )
 }
 {isSvg && <img {...props} alt={imgAlt} />}

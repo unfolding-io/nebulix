@@ -1,38 +1,33 @@
 ---
 import FormattedDate from "../FormattedDate.astro";
 import ItemFilter from "@components/navigation/ItemFilter.astro";
-import { Picture } from "astro-imagetools/components";
-import ProductPrice from "@components/shop/ProductPrice.astro";
+import SmartPicture from "@components/media/SmartPicture.astro";
+import { sizesGridCard, widthsGridCard } from "@util/images";
 
 const { content, base_url, sizes, animate } = Astro.props;
+const imageSizes = sizes || sizesGridCard("md");
+const imageWidths = widthsGridCard("md");
 
-const animation = `hero_${animate ? content.slug : Math.random()}`;
+const animation = `hero_${animate ? content.id : Math.random()}`;
 ---
 
 <a
-  href={`/${base_url}/${content.slug}/`}
-  class="blog-card surface-dark fade-up group relative z-10 block overflow-hidden rounded-md"
+  href={`/${base_url}/${content.id}/`}
+  class="blog-card surface-dark fade-up group relative z-10 block aspect-square overflow-hidden rounded-md"
   transition:name={`${animation}`}
 >
   <div
-    class="group-over:ease-out group-over:opacity-100 relative z-10 opacity-90 transition-all duration-1000 ease-in group-hover:scale-125 group-hover:opacity-50 group-hover:duration-[6s]"
+    class="group-over:ease-out group-over:opacity-100 absolute inset-0 z-10 opacity-90 transition-all duration-1000 ease-in group-hover:scale-125 group-hover:opacity-50 group-hover:duration-[6s]"
   >
     {
       content.data.thumbnail && (
-        <Picture
-          attributes={{
-            picture: {
-              class: "fade-in",
-            },
-          }}
-          sizes={sizes ? sizes : "100vw"}
-          position="attention"
+        <SmartPicture
           src={content.data.thumbnail}
-          width={600}
-          height={600}
-          ar={1}
+          sizes={imageSizes}
+          widths={imageWidths}
+          aspect={1}
           alt={content.data.title}
-          layout="fill"
+          class="fade-in h-full w-full object-cover"
         />
       )
     }
@@ -59,18 +54,9 @@ const animation = `hero_${animate ? content.slug : Math.random()}`;
           </div>
         )
       }
-      {
-        content.data.price && (
-          <ProductPrice
-            price={content.data.price}
-            offer_price={content.data.offer_price}
-            in_stock={content.data.in_stock}
-          />
-        )
-      }
 
       {
-        content.data.tag && !content.data.price && (
+        content.data.tag && (
           <ItemFilter filters={content.data.tag} className="mt-2" {base_url} />
         )
       }
@@ -81,18 +67,17 @@ const animation = `hero_${animate ? content.slug : Math.random()}`;
 <style>
   .blog-card {
     container-type: inline-size;
-    h2 {
-      line-height: 1.2;
-      font-size: 2.5rem;
-      font-size: clamp(1.5rem, 8cqi, 8rem);
-    }
-
-    &__content {
-      background: radial-gradient(
-        circle,
-        rgba(0, 0, 0, 0.6) 25%,
-        rgba(0, 0, 0, 0) 90%
-      );
-    }
+  }
+  .blog-card h2 {
+    line-height: 1.2;
+    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 8cqi, 8rem);
+  }
+  .blog-card__content {
+    background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.6) 25%,
+      rgba(0, 0, 0, 0) 90%
+    );
   }
 </style>

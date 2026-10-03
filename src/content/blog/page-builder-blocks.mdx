@@ -5,7 +5,7 @@ tag:
 title: Building your page with blocks
 description: Unlock Nebulix core features, including seamless embeds,
   customizable blocks, and unique view transitions. Explore Text, Image Gallery,
-  Recent Items, Shop Categories, Shop Products, Features, and Rich Text blocks."
+  Recent Items, Features, Pricing, and Rich Text blocks.
 intro: Explore Nebulix versatile blocks, seamless MDX content integration, and
   captivating View Transitions
 blocks:
@@ -33,7 +33,7 @@ blocks:
 
 
       **Row Template:** The row template presents your content in a stacked format, seamlessly blending images and text for a visually appealing presentation.
-    surface: bg-slate-200 text-dark dark:bg-slate-800 dark:text-white
+    surface: panel
   - type: text_image
     component: TextImage
     container: lg
@@ -49,7 +49,7 @@ blocks:
 
 
       This is a text image block reversed with a xl container and image width is 66%
-    surface: bg-slate-200 text-dark dark:bg-slate-800 dark:text-white
+    surface: panel
   - type: text_image
     component: TextImage
     container: none
@@ -207,46 +207,6 @@ blocks:
       - Docs
     title: Recent Items (grid)
     content: "\n\n\n"
-  - type: shop_categories
-    component: ShopCategories
-    container: md
-    template: list
-    animate: false
-    title: Shop Catagories
-    content: >
-      Our Shop Categories Block offers the flexibility to display all or
-      specific categories of products. Choose from a variety of templates,
-      including list, grid, or flex, to customize the appearance of your
-      category listings.
-  - type: shop_categories
-    component: ShopCategories
-    container: md
-    template: grid
-    animate: true
-    title: Shop Categories (grid)
-  - type: shop_products
-    component: ShopProducts
-    count: 4
-    container: md
-    template: list
-    animate: false
-    categories:
-      - "Merch"
-    title: Shop Products
-    content: >
-      Enhance your online store with the Shop Products Block, which allows you
-      to feature selected products or an entire category. Tailor the appearance
-      of your product listings by choosing from versatile templates such as
-      list, flex, or grid.
-  - type: shop_products
-    component: ShopProducts
-    count: 6
-    container: md
-    template: flex
-    animate: true
-    categories:
-      - "Merch"
-    title: Shop Products (flex)
   - type: features
     component: Features
     container: md
@@ -295,11 +255,13 @@ Each page features a primary MDX content field, serving as the core content area
 
 ![Cosmic MDX editor](/src/assets/embeds.png)
 
+Images in Text/image and gallery blocks open with **PhotoSwipe** (in-page lightbox).
+
 ## What are blocks?
 
-In Nebulix, blocks are fundamental building elements that enable yu to construct custom web pages. These blocks serve as the foundational components for your webpage's layout and content.
+In Nebulix, blocks are fundamental building elements that enable you to construct custom web pages. These blocks serve as the foundational components for your webpage's layout and content.
 
-What makes Nebula particularly powerful is that each block can be individually styled using custom classes, allowing you to fine-tune their appearance, adjust container widths, and even modify their surfaces.
+What makes Nebulix particularly powerful is that each block can be individually styled using custom classes, allowing you to fine-tune their appearance, adjust container widths, and even modify their surfaces.
 
 ### View Transitions
 
@@ -310,7 +272,5 @@ This theme harnesses the power of the View Transitions API. Please note that tra
 - [Text-Image](#text-image)
 - [gallery](#gallery-block)
 - [Recent Items](#recent-items)
-- [Shop Catagories](#shop-catagories)
-- [Shop Products](#shop-products)
 - [Features](#features)
 - Rich Text

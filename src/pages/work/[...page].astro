@@ -8,8 +8,9 @@ export async function getStaticPaths({ paginate }) {
   const posts = (await getCollection("project")).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
-  const { data } = await getEntry("config", "project");
-  return paginate(posts, { pageSize: data.per_page });
+  const projectConfig = await getEntry("config", "project");
+  if (!projectConfig) throw new Error("Missing config entry: project");
+  return paginate(posts, { pageSize: projectConfig.data.per_page });
 }
 
 const posts = (await getCollection("project")).sort(
@@ -19,7 +20,9 @@ const allTags = posts.map((post) => post.data.tag).filter((post) => !!post);
 const tag = [...new Set(allTags.flat(1))];
 const base_url = import.meta.env.PORTFOLIO_SLUG;
 const { page } = Astro.props;
-const { data } = await getEntry("config", "project");
+const projectConfig = await getEntry("config", "project");
+if (!projectConfig) throw new Error("Missing config entry: project");
+const { data } = projectConfig;
 ---
 
 <PageLayoutArchive {page} {tag} {data} {base_url} />

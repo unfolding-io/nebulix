@@ -1,61 +1,85 @@
-import { defineConfig } from "astro/config";
-import { astroImageTools } from "astro-imagetools";
+import { defineConfig, fontProviders } from "astro/config";
 import icon from "astro-icon";
 import mdx from "@astrojs/mdx";
-import m2dx from "astro-m2dx";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import { unified } from "@astrojs/markdown-remark";
 import rehypeExternalLinks from "rehype-external-links";
 import fauxRemarkEmbedder from "@remark-embedder/core";
 import fauxOembedTransformer from "@remark-embedder/transformer-oembed";
-
-const remarkEmbedder = fauxRemarkEmbedder.default;
-const oembedTransformer = fauxOembedTransformer.default;
-
+import remarkUnwrapImages from "remark-unwrap-images";
 import vue from "@astrojs/vue";
-/** @type {import('astro-m2dx').Options} */
+import tailwindcss from "@tailwindcss/vite";
+import clientMediaIdle from "./src/integrations/clientMediaIdle.ts";
+import clientInteraction from "./src/integrations/clientInteraction.ts";
 
-const m2dxOptions = {
-  exportComponents: true,
-  unwrapImages: true,
-  autoImports: true,
-};
+// Default adapter: Netlify (powers Astro Actions for contact/newsletter).
+// Swap for another host: `npx astro add cloudflare` or `npx astro add vercel`.
+import netlify from "@astrojs/netlify";
+
+const remarkEmbedder = fauxRemarkEmbedder.default ?? fauxRemarkEmbedder;
+const oembedTransformer = fauxOembedTransformer.default ?? fauxOembedTransformer;
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://nebulix.unfolding.io",
+
+  fonts: [
+    {
+      name: "Inter Tight",
+      cssVariable: "--font-inter-tight",
+      provider: fontProviders.fontsource(),
+      styles: ["normal"],
+      weights: ["300 800"],
+      subsets: ["latin"],
+      fallbacks: ["sans-serif"],
+    },
+    {
+      name: "Inter Tight",
+      cssVariable: "--font-inter-tight",
+      provider: fontProviders.fontsource(),
+      styles: ["italic"],
+      weights: [600],
+      subsets: ["latin"],
+      fallbacks: ["sans-serif"],
+    },
+  ],
+
   integrations: [
     icon(),
     mdx({}),
     sitemap(),
-    tailwind(),
     vue({
       appEntrypoint: "/src/pages/_app",
     }),
-    astroImageTools,
+    clientMediaIdle(),
+    clientInteraction(),
   ],
+
   markdown: {
-    extendDefaultPlugins: true,
-    remarkPlugins: [
-      [
-        remarkEmbedder,
-        {
-          transformers: [oembedTransformer],
-        },
+    processor: unified({
+      remarkPlugins: [
+        [
+          remarkEmbedder,
+          {
+            transformers: [oembedTransformer],
+          },
+        ],
+        remarkUnwrapImages,
       ],
-      [m2dx, m2dxOptions],
-    ],
-    rehypePlugins: [
-      [
-        rehypeExternalLinks,
-        {
-          rel: ["nofollow"],
-          target: ["_blank"],
-        },
+      rehypePlugins: [
+        [
+          rehypeExternalLinks,
+          {
+            rel: ["nofollow"],
+            target: ["_blank"],
+          },
+        ],
       ],
-    ],
+    }),
   },
+
   vite: {
+    plugins: [tailwindcss()],
     build: {
       rollupOptions: {
         external: [
@@ -67,11 +91,16 @@ export default defineConfig({
       assetsInlineLimit: 10096,
     },
   },
+
   build: {
     inlineStylesheets: "always",
   },
+
   scopedStyleStrategy: "attribute",
+
   prefetch: {
-    defaultStrategy: "viewport",
+    defaultStrategy: "hover",
   },
+
+  adapter: netlify(),
 });

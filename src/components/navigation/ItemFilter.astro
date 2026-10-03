@@ -1,6 +1,17 @@
 ---
-const { filters, className, links, active, base_url, type } = Astro.props;
 import { slugify } from "@util/helpers";
+
+interface Props {
+  filters: string[];
+  className?: string;
+  links?: boolean;
+  active?: string;
+  base_url?: string;
+  type?: string;
+}
+
+const { filters, className, links, active, base_url, type } =
+  Astro.props as Props;
 ---
 
 <div
@@ -13,7 +24,7 @@ import { slugify } from "@util/helpers";
           href={`/${base_url}${
             filter === active ? "" : `/${type || "tag"}/${slugify(filter)}`
           }`}
-          class={`block rounded-md px-2 py-0.5 text-xs uppercase tracking-widest transition-all duration-300 hover:bg-opacity-60 hover:underline
+          class={`block rounded-md px-2 py-0.5 text-xs uppercase tracking-widest transition-all duration-300 hover:opacity-60 hover:underline
 						${filter == active ? "underline" : ""} `}
         >
           {filter}

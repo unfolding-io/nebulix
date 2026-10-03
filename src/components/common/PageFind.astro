@@ -5,15 +5,13 @@ import PageFinder from "./PageFind.vue";
 ---
 
 <PageFinder
-  client:visible
+  client:interaction
   translations={{
     search: t("search"),
     close: t("close"),
     clear: t("clear"),
   }}
-  client:visible
 >
-  '
-  <Icon name="search" class="h-6 w-6" slot="btn-search" />'
+  <Icon name="search" class="h-6 w-6" slot="btn-search" />
   <Icon name="close" class="h-10 w-10" slot="btn-close" />
 </PageFinder>

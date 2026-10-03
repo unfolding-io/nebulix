@@ -1,7 +1,6 @@
 {
   "Order": "Naruči",
   "about": "O nama",
-  "add_to_cart": "Dodaj u košaricu",
   "allergens": "Alergeni",
   "alt_text": "Alt tekst",
   "animate_transition": "Animate Transition",
@@ -137,7 +136,6 @@
   "shop_settings": "Postavke trgovine",
   "show_more": "Pokaži više",
   "site_name": "Ime stranice",
-  "snipcart_file_id": "Snipcart file ID",
   "socials": "Socijalni mediji",
   "soybeans": "soja",
   "style": "Stil",
@@ -154,5 +152,9 @@
   "weight": "Težina",
   "weight_in_grams": "Težina u gramima",
   "width": "Širina",
-  "width_in_cm": "Širina u cm"
+  "width_in_cm": "Širina u cm",
+  "message": "Poruka",
+  "phone": "Telefon",
+  "topic": "Tema",
+  "submit": "Pošalji"
 }

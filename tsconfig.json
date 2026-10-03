@@ -1,5 +1,7 @@
 {
   "extends": "astro/tsconfigs/base",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "**/dist/**", "node_modules", ".netlify", "public"],
   "compilerOptions": {
     "strictNullChecks": true,
     "verbatimModuleSyntax": true,

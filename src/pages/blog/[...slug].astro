@@ -2,12 +2,13 @@
 /* BLOG POST PAGES */
 import { getArchiveNav } from "@util/helpers";
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Breadcrumb from "@components/navigation/Breadcrumb.astro";
 import ItemNav from "@components/navigation/ItemNav.astro";
 import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
 import PageLayoutWide from "@layouts/PageLayoutWide.astro";
 import { t } from "@util/translate";
+import { mdxComponents } from "@src/lib/mdxComponents";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog")).sort(
@@ -22,18 +23,18 @@ export async function getStaticPaths() {
     prev = archiveNav.prev;
 
     return {
-      params: { slug: post.slug },
+      params: { slug: post.id },
       props: {
         ...post,
         data: {
           ...post.data,
           nav: {
             next: {
-              slug: next?.slug,
+              id: next?.id,
               title: next?.data?.title,
             },
             prev: {
-              slug: prev?.slug,
+              id: prev?.id,
               title: prev?.data?.title,
             },
             index: index,
@@ -47,7 +48,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"blog">;
 const base_url = import.meta.env.BLOG_SLUG;
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 let searchFilters = [`${t("content")}:${base_url}`];
 if (post?.data?.tag) {
@@ -68,7 +69,7 @@ const filter = post.data?.tag
     <PageLayoutWide {...post.data} {base_url}>
       <Breadcrumb title={post.data.title} filter={filter} />
       <div class="richtext">
-        <Content />
+        <Content components={mdxComponents} />
       </div>
       <div class="container-md pb-20" slot="nav">
         <ItemNav nav={post.data.nav} {base_url} />
@@ -87,7 +88,7 @@ const filter = post.data?.tag
     <PageLayoutSplit {...post.data} {base_url}>
       <Breadcrumb title={post.data.title} filter={filter} />
       <div class="richtext pb-8">
-        <Content />
+        <Content components={mdxComponents} />
       </div>
       <ItemNav nav={post.data.nav} {base_url} slot="nav" />
       <div class="search-indexing hidden">

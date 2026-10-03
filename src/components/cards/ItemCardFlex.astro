@@ -1,16 +1,16 @@
 ---
 import FormattedDate from "../FormattedDate.astro";
 import ItemFilter from "../navigation/ItemFilter.astro";
-import { Picture } from "astro-imagetools/components";
-import ProductPrice from "@components/shop/ProductPrice.astro";
+import SmartPicture from "@components/media/SmartPicture.astro";
+import { sizesFixed, widthsFixed } from "@util/images";
 
 const { content, base_url, animate } = Astro.props;
 
-const animation = `hero_${animate ? content.slug : Math.random()}`;
+const animation = `hero_${animate ? content.id : Math.random()}`;
 ---
 
 <a
-  href={`/${base_url}/${content.slug}/`}
+  href={`/${base_url}/${content.id}/`}
   class="flex-card fade-up group relative z-10 flex max-w-md flex-1 flex-col items-center gap-4 rounded-md text-center"
 >
   <div class="h-40 w-40 shrink-0 grow-0 overflow-hidden rounded-md">
@@ -20,19 +20,12 @@ const animation = `hero_${animate ? content.slug : Math.random()}`;
           class="transition-transform duration-500 group-hover:scale-110 group-hover:duration-[3s]"
           transition:name={`${animation}`}
         >
-          <Picture
-            attributes={{
-              picture: {
-                class: "z-0 w-40 fade-in ",
-              },
-            }}
-            position="attention"
+          <SmartPicture
             src={content.data.thumbnail}
-            width={200}
-            height={200}
-            ar={1}
+            widths={widthsFixed(160)}
+            sizes={sizesFixed(160)}
             alt={content.data.title}
-            layout="fullWidth"
+            class="z-0 w-40 fade-in h-full object-cover"
           />
         </div>
       )
@@ -56,26 +49,15 @@ const animation = `hero_${animate ? content.slug : Math.random()}`;
     }
 
     {
-      content.data.price && (
-        <ProductPrice
-          price={content.data.price}
-          offer_price={content.data.offer_price}
-          in_stock={content.data.in_stock}
-        />
-      )
-    }
-
-    {
-      content.data.tag && !content.data.price && (
+      content.data.tag && (
         <ItemFilter filters={content.data.tag} className="mt-2" {base_url} />
       )
     }
   </div>
 </a>
-<style lang="postcss">
-	.flex-card {
-			min-width: min(100vw - var(--spacing), 14rem);
-			max-width: 22rem;
-	}
-
+<style>
+  .flex-card {
+    min-width: min(100vw - var(--layout-spacing), 14rem);
+    max-width: 22rem;
+  }
 </style>

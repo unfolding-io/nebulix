@@ -9,7 +9,7 @@ import { t } from "@util/translate";
     {
       nav.prev && nav.prev.title && (
         <a
-          href={`/${base_url}/${nav.prev.slug}`}
+          href={`/${base_url}/${nav.prev.id}`}
           class="balanced subtitle line-clamp-2 block w-full text-left"
         >
           {nav.prev.title}
@@ -19,7 +19,7 @@ import { t } from "@util/translate";
     {
       nav.next && nav.next?.title && (
         <a
-          href={`/${base_url}/${nav.next.slug}`}
+          href={`/${base_url}/${nav.next.id}`}
           class="balanced subtitle col-start-2 line-clamp-2  block w-full text-right"
         >
           {nav.next.title}

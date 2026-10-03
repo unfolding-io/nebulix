@@ -18,58 +18,42 @@ thumbnail: /src/assets/nebulix-style.jpeg
 ---
 ## Tailwind, Tailwind, Tailwind
 
-This template is built upon the versatile Tailwind CSS framework. If you wish to modify elements styled with Tailwind, take a look at the `tailwind.config.cjs` file and the `src/style/global.css` file.
+This template is built on Tailwind CSS v4. Shared utilities live in `src/styles/global.css` (buttons, containers, richtext). Prefer Tailwind classes in components; keep custom CSS for nested markdown (`.richtext`) or third-party overrides, using `@apply` when you need a reusable class.
 
-### Colors
+### Colors & surfaces
 
-When it comes to customizing the color scheme of your content, this template employs a concept known as "surfaces." A surface combines background and foreground colors and also provides optional color settings for dark mode. The foundational surfaces are predefined in `src/style/global.css`, and you are encouraged to make adjustments as needed.
+A **surface** is a named background + foreground pair for light and dark mode. Edit them in the CMS under **SETTINGS → STYLE → SURFACES**:
 
-In this template, we have established the following color categories: `primary`, `secondary`, `accent`, `dark`, `light`, `success`, `info`, `warning`, and `danger`. To tailor these colors to your specific requirements, navigate to the `/src/style/global.css` file. Here, we use only RGB values to seamlessly integrate with Tailwind.
+- **Name** — label in the picker  
+- **Slug** — becomes the CSS class `surface-{slug}`  
+- **Light / dark background & foreground** — color pickers  
 
-```css
-:root {
-	--color-primary: 75 38 143;
-	--color-secondary: 107 154 199;
-	--color-accent: 119 112 150;
-	--color-warning: 202 121 45;
-	--color-danger: 244 67 54;
-	--color-success: 77 137 101;
-	--color-dark: 25 28 38;
-	--color-light: 243 241 239;
-	--color-info: 25 28 38;
-}
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-primary: 135 94 212;
-		--color-secondary: 107 154 199;
-		--color-accent: 119 112 150;
-		--color-warning: 202 121 45;
-		--color-danger: 244 67 54;
-		--color-success: 77 137 101;
-		--color-dark: 25 28 38;
-		--color-light: 243 241 239;
-		--color-info: 25 28 38;
-	}
-}
-```
+Built-in palette tokens (`primary`, `secondary`, `dark`, `light`, …) used by Tailwind utilities like `bg-primary` / `text-dark` are defined in `src/styles/global.css` and swap with `html[data-theme="dark"]`.
 
-### Defining Surfaces in the CMS
+Blocks, buttons, and heroes pick a surface by slug (e.g. `primary` → `surface-primary`).
 
-Certain elements like blocks, buttons, and various components offer a surface selection feature. To manage these surface classes, visit the CMS under SETTINGS > STYLE > SURFACES. Here, you can create your own custom classes or use existing Tailwind classes.
+### Images & lightbox
 
-**For instance:**
-
-**Name**: Pink
-
-**CSS**: `bg-pink-500 text-black dark:bg-pink-900 dark:text-white`
+Content images use Astro `<Picture>` via `SmartPicture` with layout-aware `sizes` / `widths`. Clicking an enlargeable image (Text/Image, gallery, MDX images, menu thumbs) opens **PhotoSwipe** on the page — no separate `/images/…` route. Archive **grid** cards use a square crop.
 
 ### Fonts
 
-To optimize website loading speed, we utilize Fontsource for fonts. However, you are not bound to this choice; feel free to use any font of your preference. Ensure that you set the font family in the body of `/src/styles/global.css` and in `tailwind.config.cjs`. The fonts are imported in `src/layouts/BaseLayout.astro`.
+Fonts use Astro’s built-in Fonts API with the Fontsource provider (preload + optimized fallbacks). Configure families in `astro.config.mjs`, render `<Font />` in `src/components/BaseHead.astro`, and wire the CSS variable in `/src/styles/global.css`.
 
 ```javascript
-import '@fontsource-variable/inter-tight'
-import '@fontsource-variable/inter-tight/wght-italic.css'
+import { defineConfig, fontProviders } from "astro/config";
+
+export default defineConfig({
+  fonts: [{
+    name: "Inter Tight",
+    cssVariable: "--font-inter-tight",
+    provider: fontProviders.fontsource(),
+    styles: ["normal", "italic"],
+    weights: ["100 900"],
+    subsets: ["latin"],
+    fallbacks: ["sans-serif"],
+  }],
+});
 ```
 
 ### Logo

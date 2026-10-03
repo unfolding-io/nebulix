@@ -2,8 +2,41 @@
 import { slugify } from "@util/helpers";
 import { Icon } from "astro-icon/components";
 import Button from "@components/navigation/Button.astro";
+import { surfaceClass } from "@util/surfaces";
 
-const { title, prices, style } = Astro.props;
+interface PriceFeature {
+  icon?: string;
+  icon_class?: string;
+  label?: string;
+  value?: string;
+}
+
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface PriceTier {
+  price?: string;
+  price_suffix?: string;
+  title?: string;
+  intro?: string;
+  surface?: string;
+  features: PriceFeature[];
+  buttons?: ButtonLink[];
+}
+
+interface Props {
+  title?: string;
+  prices?: PriceTier[];
+  style?: { container?: string };
+}
+
+const { title, prices, style } = Astro.props as Props;
 const id = title ? slugify(title) : "pricing";
 ---
 
@@ -18,10 +51,10 @@ const id = title ? slugify(title) : "pricing";
     prices && prices.length > 0 && (
       <div class="flex flex-wrap gap-8">
         {prices.map((price) => (
-          <div class="surface-price flex min-w-[290px] flex-1 grow  overflow-hidden rounded-md @container">
+          <div class="surface-overlay flex min-w-[290px] flex-1 grow overflow-hidden rounded-md shadow-sm @container">
             <div class="price-grid grid w-full @xl:flex">
               <div
-                class={`relative h-fit @xl:h-full @xl:w-[16rem] @2xl:w-[31%] ${price.surface}`}
+                class={`relative h-fit @xl:h-full @xl:w-[16rem] @2xl:w-[31%] ${surfaceClass(price.surface)}`}
               >
                 <div class=" flex-shrink-0 px-8 pb-14 pt-8 ">
                   <div class="flex-wrap items-end gap-2">
@@ -71,22 +104,18 @@ const id = title ? slugify(title) : "pricing";
 </div>
 
 <style>
+@reference "../../styles/global.css";
+
   .price-grid {
     grid-template-rows: min-content auto min-content;
   }
 
-  .surface-price {
-    @apply bg-white text-dark dark:bg-black dark:text-light;
-    .shape-fill {
-      @apply fill-white dark:fill-black;
-    }
+  .features__item {
+    min-width: min(100vw - var(--layout-spacing), 16rem);
   }
-  .features {
-    &__item {
-      min-width: min(100vw - var(--spacing), 16rem);
-      @screen sm {
-        max-width: 22rem;
-      }
+  @media (width >= 40rem) {
+    .features__item {
+      max-width: 22rem;
     }
   }
 </style>

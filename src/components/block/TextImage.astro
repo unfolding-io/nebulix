@@ -1,10 +1,39 @@
 ---
-import { Picture } from "astro-imagetools/components";
+import SmartPicture from "@components/media/SmartPicture.astro";
+import Lightbox from "@components/media/Lightbox.astro";
 import { Icon } from "astro-icon/components";
 import { marked } from "marked";
-import Intersecting from "@components/common/Intersecting.vue";
 import Button from "@components/navigation/Button.astro";
 import { t } from "@util/translate";
+import {
+  sizesBanner,
+  sizesTextImageColumn,
+  sizesTextImageRow,
+  widthsColumn,
+  widthsViewport,
+} from "@util/images";
+import { getLightboxImage } from "@util/lightbox";
+
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface Props {
+  title?: string;
+  content?: string;
+  thumbnail?: string;
+  template?: string;
+  reverse?: boolean;
+  container?: string;
+  buttons?: ButtonLink[];
+  aspect?: string;
+  image_size?: string;
+}
 
 const {
   title,
@@ -16,111 +45,77 @@ const {
   buttons,
   aspect,
   image_size,
-  animate,
-} = Astro.props;
+} = Astro.props as Props;
 
-const renderedContent = marked.parse(content);
-const containerSizes = {
-  sm: "40rem", //640px
-  md: "55rem", // 880px
-  lg: "65rem", //1040
-  xl: "75rem", // 1200
-  full: "100vw", // 1200
-  none: "100vw", // 1200
-};
+const renderedContent = marked.parse(content ?? "");
 const roundedClass =
   template == "column" && container !== "none" ? "rounded-md" : "";
-/* IMAGES SIZES */
-let sizes = "100vw";
-if (template === "column") {
-  const percent = (100 / parseInt(image_size)).toFixed(2);
-  sizes = `(max-width: 767px) calc(100vw - 4rem), (min-width: ${containerSizes[container]} ) calc(${containerSizes[container]} / ${percent}), calc(100vw / 4rem), calc(${containerSizes[container]} / ${percent})`;
-} else {
-  sizes = `min(100vw, ${containerSizes[container]})`;
-}
 
-const imageName = thumbnail.split("/").pop().split(".")[0];
+const sizes =
+  template === "banner"
+    ? sizesBanner()
+    : template === "column"
+      ? sizesTextImageColumn(container, image_size)
+      : sizesTextImageRow(container);
+
+const columnWidths = widthsColumn(container, image_size);
+const bannerWidths = widthsViewport(1920);
+const lightbox = await getLightboxImage(thumbnail);
 
 const columnClass = () => {
   if (template !== "column") return "";
   return `column-grid column-grid-${image_size || 50}`;
 };
-
-const animation = `image_${animate ? imageName : Math.random()}`;
 ---
 
-<Intersecting client:visible className="w-full">
-  <div
-    class={`container-${container} ${columnClass()} text-image gap-8 text-image__${template} ${
-      reverse ? "reverse" : "normal"
-    } ${template === "banner" ? "nebulix-parallax bg-dark" : ""}`}
-  >
+<div
+  class={`container-${container} ${columnClass()} text-image gap-8 text-image__${template} ${
+    reverse ? "reverse" : "normal"
+  } ${template === "banner" ? "nebulix-parallax bg-dark" : ""}`}
+>
     <div class="media">
       {
-        imageName && (
+        thumbnail && (
           <>
-            {template !== "banner" && (
-              <a
-                class={`img text-lightgroup group relative block overflow-hidden ${roundedClass}`}
-                href={`/images/${imageName}`}
-                transition:name={`${animation}`}
-                aria-label={t("enlarge_image")}
-                data-animation={animation}
+            {template !== "banner" && lightbox && (
+              <Lightbox
+                src={lightbox.href}
+                width={lightbox.width}
+                height={lightbox.height}
+                ariaLabel={t("enlarge_image")}
+                className={`img text-lightgroup group relative block overflow-hidden ${roundedClass}`}
               >
-                <div
-                  class={`transition-transform duration-1000 ease-in hover:scale-105 hover:duration-[1s]`}
-                >
-                  <Picture
+                <div class="transition-transform duration-1000 ease-in hover:scale-105 hover:duration-[1s]">
+                  <SmartPicture
                     src={thumbnail}
-                    breakpoints={[
-                      360, 390, 412, 601, 768, 820, 962, 1280, 1440, 1536, 1920,
-                    ]}
+                    widths={columnWidths}
                     alt={title}
-                    layout="fullWidth"
                     aspect={aspect}
-                    position="attention"
                     sizes={sizes}
+                    class={
+                      aspect
+                        ? "h-auto w-full object-cover"
+                        : "h-auto w-full"
+                    }
+                    style={aspect ? `aspect-ratio: ${aspect}` : undefined}
                   />
                 </div>
-                <div class="absolute right-2 top-2 z-10 h-14 w-14 rounded-full bg-dark bg-opacity-40 text-white opacity-0 transition-all duration-1000 group-hover:opacity-100">
+                <div class="absolute right-2 top-2 z-10 h-14 w-14 rounded-full bg-dark/40 text-white opacity-0 transition-all duration-1000 group-hover:opacity-100">
                   <Icon
                     name="zoom"
                     class="pointer-events-none absolute right-4 top-4 h-6 w-6 opacity-80"
                   />
                 </div>
-              </a>
+              </Lightbox>
             )}
 
             {template === "banner" && (
-              <Picture
-                attributes={{ picture: { class: "parallax" } }}
+              <SmartPicture
                 src={thumbnail}
-                width={1920}
-                height={900}
-                ar={2.25}
                 alt={title}
-                layout="fill"
-                breakpoints={[1000, 1280, 1440, 1536, 1920]}
-                position="attention"
+                widths={bannerWidths}
                 sizes={sizes}
-                artDirectives={[
-                  {
-                    media: "(max-width: 500px)",
-                    ar: 0.7,
-                    src: thumbnail,
-                    breakpoints: [
-                      320, 360, 390, 412, 500, 601, 768, 1024, 1200,
-                    ],
-                  },
-                  {
-                    media: "(max-width: 1000px)",
-                    ar: 1,
-                    src: thumbnail,
-                    breakpoints: [
-                      500, 601, 768, 820, 962, 1280, 1440, 1536, 1920,
-                    ],
-                  },
-                ]}
+                class="parallax h-full w-full object-cover"
               />
             )}
           </>
@@ -154,133 +149,94 @@ const animation = `image_${animate ? imageName : Math.random()}`;
         }
       </div>
     </div>
-  </div>
-</Intersecting>
+</div>
 
-<style lang="postcss">
-	.text-image {
-        @apply gap-8;
+<style>
+  @reference "../../styles/global.css";
 
-		&__row {
-			@apply flex relative flex-col flex-nowrap ;
-			&.reverse {
-				@apply flex-col-reverse;
-			}
+  .text-image {
+    @apply gap-8;
+  }
+  .text-image__row {
+    @apply relative flex flex-col flex-nowrap;
+  }
+  .text-image__row.reverse {
+    @apply flex-col-reverse;
+  }
+  .text-image__row .media {
+    width: calc(100% + var(--container-spacing));
+    margin-inline: calc(var(--layout-spacing) * -1);
+  }
+  .text-image__row .media .img {
+    @apply sticky top-8;
+  }
+  .text-image__banner {
+    @apply relative overflow-hidden;
+  }
+  .text-image__banner:not(.container-none) {
+    @apply rounded-md;
+  }
+  .text-image__banner .media {
+    @apply pointer-events-none absolute inset-0;
+  }
+  .text-image__banner .text-image__content {
+    @apply relative z-10 grid h-full w-full place-items-center bg-dark/30 py-20;
+  }
+  .text-image__banner .text-image__content .richtext {
+    @apply max-w-2xl p-8 text-center text-white;
+  }
 
-			.media {
-				width: calc(100% + var(--container-spacing));
-				margin-inline: calc(var(--spacing) * -1);
-				 
-				.img {
-					@apply sticky top-8;
-				}
-			}
-		}
-		&__banner {
-			@apply relative overflow-hidden;  
-			&:not(.container-none){
-				@apply rounded-md;
-
-			} 
-			 
-			.media {
-				@apply absolute inset-0 pointer-events-none;
-			}
-            .text-image__content {
-                @apply relative z-10 w-full h-full  grid place-items-center py-20 bg-dark bg-opacity-30;
-                .richtext {
-                    @apply p-8 text-white max-w-2xl text-center;
-                }
-                
-            }
-		}
-
-	}
-
-	.column-grid {
-
-		.img {
-					@apply sticky top-8;
-				}
-		&-25 {
-			@apply grid ;
-			@screen md { 
-			    grid-template-columns: minmax(0,3fr) minmax(0,1fr);
-				&.reverse {
-					grid-template-columns: minmax(0,1fr) minmax(0,3fr);
-				}
-			}
-			
-		}
-		&-33 {
-			@apply grid;
-			@screen md {
-				grid-template-columns: minmax(0,2fr) minmax(0,1fr);
-				   &.reverse {
-					   grid-template-columns: minmax(0,1fr) minmax(0,2fr);
-				   }
-			}
-		}
-
-		&-50 {
-			@apply grid md:grid-cols-2;
-			
-		}
-		&-66 {
-			@apply grid ;
-			@screen md {
-				 grid-template-columns: minmax(0,1fr) minmax(0,2fr);
-				&.reverse {
-					grid-template-columns: minmax(0,2fr) minmax(0,1fr);
-				}
-
-			}
-			
-			
-		}
-		&-75 {
-			@apply grid ;
-			@screen md {
-
-				grid-template-columns: minmax(0,1fr) minmax(0,3fr);
-				   &.reverse {
-					   grid-template-columns: minmax(0,3fr) minmax(0,1fr);
-				   }
-			}
-			
-		}
-
-
-
-		&.normal {
-
-			@screen md {
-
-				.media {
-					@apply col-start-2 row-start-1;
-					
-				}
-				.text-image__content {
-					@apply col-start-1 row-start-1 ;
-				}
-			}
-		}	
-		
-		&.container-none {
-			.text-image__content {
-				padding-inline: var(--spacing);
-					@screen md {
-						padding-inline: var(--container-spacing);
-					}
-				}
-
-				.img {
-					@apply sticky top-0;
-				}
-			
-		}
-			
-	}
-
-	
+  .column-grid .img {
+    @apply sticky top-8;
+  }
+  .column-grid-25,
+  .column-grid-33,
+  .column-grid-66,
+  .column-grid-75 {
+    @apply grid;
+  }
+  .column-grid-50 {
+    @apply grid md:grid-cols-2;
+  }
+  @media (width >= 48rem) {
+    .column-grid-25 {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+    .column-grid-25.reverse {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    }
+    .column-grid-33 {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+    .column-grid-33.reverse {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
+    .column-grid-66 {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
+    .column-grid-66.reverse {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+    .column-grid-75 {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    }
+    .column-grid-75.reverse {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+    }
+    .column-grid.normal .media {
+      @apply col-start-2 row-start-1;
+    }
+    .column-grid.normal .text-image__content {
+      @apply col-start-1 row-start-1;
+    }
+    .column-grid.container-none .text-image__content {
+      padding-inline: var(--container-spacing);
+    }
+  }
+  .column-grid.container-none .text-image__content {
+    padding-inline: var(--layout-spacing);
+  }
+  .column-grid.container-none .img {
+    @apply sticky top-0;
+  }
 </style>

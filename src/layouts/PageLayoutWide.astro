@@ -3,29 +3,45 @@ import Block from "@components/block/Block.astro";
 import BaseLayout from "./BaseLayout.astro";
 import HeroImage from "@components/hero/HeroImage.astro";
 import HeroPlain from "@components/hero/HeroPlain.astro";
+import type { PageStyle } from "@src/types/page-style";
 
-const props = Astro.props;
-const { title, description, blocks, style, thumbnail, og_image } = Astro.props;
-const contentClass = style.hero_template === "plain" ? "py-0" : "py-20";
+interface BlockSection {
+  component: string;
+  [key: string]: unknown;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  blocks?: BlockSection[];
+  style?: PageStyle;
+  thumbnail?: string;
+  og_image?: string;
+  [key: string]: unknown;
+}
+
+const props = Astro.props as Props;
+const { title, description, blocks, style, thumbnail, og_image } = props;
+const contentClass = style?.hero_template === "plain" ? "py-0" : "py-20";
 const hasBlocks = blocks && blocks.length > 0;
 ---
 
 <BaseLayout
   {title}
   {description}
-  pageClass={style.page_class}
+  pageClass={style?.page_class}
   {thumbnail}
   {og_image}
 >
   {
-    style.hero_template == "plain" && (
+    style?.hero_template == "plain" && (
       <HeroPlain {...props}>
         <slot name="hero" />
       </HeroPlain>
     )
   }
   {
-    style.hero_template == "image" && (
+    style?.hero_template == "image" && (
       <HeroImage {...props}>
         <slot name="hero" />
       </HeroImage>
@@ -34,7 +50,7 @@ const hasBlocks = blocks && blocks.length > 0;
 
   <div class="relative z-10 w-full" id="more">
     <div
-      class=`page__content container-${style.container || 'md'} ${style.content_class || contentClass} `
+      class=`page__content container-${style?.container || 'md'} ${style?.content_class || contentClass} `
     >
       <slot />
       {!hasBlocks && <slot name="nav" />}
@@ -43,7 +59,7 @@ const hasBlocks = blocks && blocks.length > 0;
     {
       hasBlocks && (
         <>
-          <div class={style.block_class}>
+          <div class={style?.block_class}>
             {blocks.map((section) => (
               <Block {...section} />
             ))}
@@ -53,13 +69,12 @@ const hasBlocks = blocks && blocks.length > 0;
         </>
       )
     }
-    <div class="pointer-events-none fixed bottom-0 z-40 w-full">
-      <slot name="cart" />
-    </div>
   </div>
 </BaseLayout>
 
 <style is:global>
+@reference "../styles/global.css";
+
   .page__content {
     &:empty {
       display: none;
@@ -70,9 +85,9 @@ const hasBlocks = blocks && blocks.length > 0;
     .img,
     iframe {
       width: calc(100% + var(--container-spacing));
-      margin-left: calc(var(--spacing) * -1);
+      margin-left: calc(var(--layout-spacing) * -1);
       @apply my-10 aspect-video h-auto;
-      @screen md {
+      @media (width >= 48rem) {
         width: 100%;
         margin-left: 0;
       }

@@ -1,10 +1,11 @@
 ---
 import { getEntry } from "astro:content";
-import { ViewTransitions } from "astro:transitions";
-import { importImage } from "astro-imagetools/api";
+import { ClientRouter } from "astro:transitions";
+import { Font, getImage } from "astro:assets";
+import { resolveAsset } from "@util/assets";
 import "../styles/global.css";
 
-const { data } = await getEntry("config", "about");
+const about = await getEntry("config", "about");
 
 interface Props {
   title: string;
@@ -14,14 +15,30 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, thumbnail } = Astro.props;
-const searchImage = !!thumbnail
-  ? await importImage(`${thumbnail}?w=120&h=120&ar=1&position=entropy`)
+
+const thumbAsset = thumbnail ? resolveAsset(thumbnail) : undefined;
+const searchImage = thumbAsset
+  ? (
+      await getImage({
+        src: thumbAsset,
+        width: 120,
+        height: 120,
+        format: "webp",
+      })
+    ).src
   : null;
-const socialImage = !!thumbnail
-  ? await importImage(`${thumbnail}?w=1200&h=630&ar=1&position=entropy`)
+const socialImage = thumbAsset
+  ? (
+      await getImage({
+        src: thumbAsset,
+        width: 1200,
+        height: 630,
+        format: "jpg",
+      })
+    ).src
   : null;
 
-const pageTitle = `${title} | ${data.sitename}`;
+const pageTitle = `${title} | ${about?.data?.sitename ?? "Nebulix"}`;
 ---
 
 <!-- Global Metadata -->
@@ -29,6 +46,10 @@ const pageTitle = `${title} | ${data.sitename}`;
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
+<Font
+  cssVariable="--font-inter-tight"
+  preload={[{ style: "normal", subset: "latin" }]}
+/>
 
 <!-- Canonical URL -->
 <link rel="canonical" data-pagefind-meta="url[href]" href={canonicalURL} />
@@ -81,5 +102,19 @@ const pageTitle = `${title} | ${data.sitename}`;
   document.addEventListener("astro:after-swap", setDarkMode);
 </script>
 
-<ViewTransitions fallback="swap" />
-<script src="/scroll-timeline.js" is:inline defer></script>
+<ClientRouter fallback="swap" />
+<script is:inline>
+  if (!CSS.supports("animation-timeline", "view()")) {
+    const loadPolyfill = () => {
+      const s = document.createElement("script");
+      s.src = "/scroll-timeline.js";
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(loadPolyfill, { timeout: 2000 });
+    } else {
+      setTimeout(loadPolyfill, 1);
+    }
+  }
+</script>

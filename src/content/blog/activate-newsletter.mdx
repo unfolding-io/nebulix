@@ -16,13 +16,13 @@ thumbnail: /src/assets/cosmic_contact_settings.jpeg
 ---
 ## Mailing list
 
-Our newsletter feature is currently powered by Netlify edge functions and is compatible exclusively with Mailchimp. Set up your newsletter by providing your Mailchimp credentials in the .env file
+The newsletter uses an [Astro Action](https://docs.astro.build/en/guides/actions/) (`actions.subscribe`) and currently supports Mailchimp only. Add your credentials to `.env` (and the same keys on your host):
 
 ```.env
 NEWSLETTER_PROVIDER=mailchimp
 MAILCHIMP_API_KEY=XXXXXXXXXXXXXXXX-us21
-MAILCHIMP_SERVER_PREFIX=us21	
+MAILCHIMP_SERVER_PREFIX=us21
 MAILCHIMP_LIST_ID=XXXXXXXXX
 ```
 
-You can edit the **Join Us** text in your site settings `SETTINGS > ABOUT`
+You can edit the **Join Us** text in your site settings `SETTINGS > ABOUT`. Deploy with a server adapter (Netlify, Cloudflare, or Vercel) so Actions can run — see the project README.

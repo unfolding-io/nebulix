@@ -4,14 +4,14 @@ import TextImage from "./TextImage.astro";
 import RecentItems from "./RecentItems.astro";
 import RichText from "./RichText.astro";
 import Features from "./Features.astro";
-import ShopCategories from "./ShopCategories.astro";
-import ShopProducts from "./ShopProducts.astro";
 import PricingTable from "./PricingTable.astro";
+import { surfaceClass } from "@util/surfaces";
 const { slot, ...props } = Astro.props;
+const surface = surfaceClass(props.surface);
 ---
 
 <section
-  class={`${props.surface || ""} ${
+  class={`${surface} ${
     props.block_class ? props.block_class : "py-8 sm:py-20"
   }`}
 >
@@ -20,7 +20,5 @@ const { slot, ...props } = Astro.props;
   {props.component === "RecentItems" && <RecentItems {...props} />}
   {props.component === "RichText" && <RichText {...props} />}
   {props.component === "Features" && <Features {...props} />}
-  {props.component === "ShopCategories" && <ShopCategories {...props} />}
-  {props.component === "ShopProducts" && <ShopProducts {...props} />}
   {props.component === "PricingTable" && <PricingTable {...props} />}
 </section>

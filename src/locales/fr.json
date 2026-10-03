@@ -1,7 +1,6 @@
 {
   "Order": "Commander",
   "about": "A propos de nous",
-  "add_to_cart": "Ajouter au panier",
   "allergens": "Alergène",
   "alt_text": "Texte alternatif",
   "animate_transition": "Transition d'animation",
@@ -137,7 +136,6 @@
   "shop_settings": "Paramètres du magasin",
   "show_more": "En savoir plus",
   "site_name": "Nom du site",
-  "snipcart_file_id": "ID de votre fichier Snipcart",
   "socials": "Réseaux sociaux",
   "soybeans": "Soja",
   "style": "Style",
@@ -155,6 +153,10 @@
   "weight_in_grams": "Poid en grammes",
   "width": "Largeur",
   "width_in_cm": "Largeur en cm",
+  "message": "Message",
+  "phone": "Téléphone",
+  "topic": "Sujet",
+  "submit": "Envoyer",
   "contact_thanks": "Merci de nous avoir contacté, nous allons revenir vers vous aussitot que possible.",
   "contact_error": "Nous n'avons pas pus envoyer votre message, merci de ré-essayer."
 }

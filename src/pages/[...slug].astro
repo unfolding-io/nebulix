@@ -1,13 +1,14 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
 import PageLayoutWide from "@layouts/PageLayoutWide.astro";
+import { mdxComponents } from "@src/lib/mdxComponents";
 
 export async function getStaticPaths() {
   const posts = await getCollection("page");
   let params = posts.map((post) => {
-    let slug = post.slug != "index" ? post.slug : undefined;
+    let slug = post.id != "index" ? post.id : undefined;
     return {
       params: { slug: slug },
       props: { ...post },
@@ -18,7 +19,7 @@ export async function getStaticPaths() {
 
 type Props = CollectionEntry<"page">;
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 {
@@ -26,7 +27,7 @@ const { Content } = await post.render();
   post.data.style.template === "full" && (
     <PageLayoutWide {...post.data}>
       <div class="richtext">
-        <Content />
+        <Content components={mdxComponents} />
       </div>
     </PageLayoutWide>
   )
@@ -36,7 +37,7 @@ const { Content } = await post.render();
   post.data.style.template === "split" && (
     <PageLayoutSplit {...post.data}>
       <div class="richtext">
-        <Content />
+        <Content components={mdxComponents} />
       </div>
     </PageLayoutSplit>
   )

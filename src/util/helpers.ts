@@ -41,7 +41,7 @@ export function getPagination(
 	data: any,
 	type: string
 ): Array<{ params: { slug: string }; props: any }[] | false> {
-	return filters.flatMap((filter) => {
+	return filters.flatMap((filter: string) => {
 		const filterSlug = slugify(filter)
 		const filterPosts = posts.filter((post) => post.data[type] && post.data[type].includes(filter))
 
@@ -92,36 +92,7 @@ export function getPagination(
 	})
 }
 
-export function getGridImageSizes(container: string): string {
-	if (container === 'full')
-		return '(min-width: 640px) calc(55rem / 2 - 0.66rem),(min-width: 768px) calc(55rem / 3 - 0.66rem), (min-width: 1024px) calc(65rem / 4 - 0.66rem), (min-width: 1536px) calc(75rem / 4 - 0.66rem), calc(100vw - 4rem)'
-
-	if (container === 'xl')
-		return '(min-width: 640px) calc(55rem / 2 - 0.66rem),(min-width: 768px) calc(55rem / 3 - 0.66rem), (min-width: 1024px) calc(65rem / 4 - 0.66rem), calc(100vw - 4rem)'
-
-	if (container === 'lg' || container === 'md')
-		return '(min-width: 640px) calc(55rem / 2 - 0.66rem),(min-width: 768px) calc(55rem / 3 - 0.66rem), calc(100vw - 4rem)'
-
-	if (container === 'sm')
-		return '(min-width: 640px) calc(55rem / 2 - 0.66rem),(min-width: 768px) calc(55rem / 3 - 0.66rem), calc(100vw - 4rem)'
-
-	return 'calc(100vw - 4rem)'
-}
-
-export function getImageUrl(thumbnail: string | null): string {
-	if (!thumbnail) return '#'
-	return `/images/${thumbnail.split('/').pop()!.split('.')[0]}`
-}
-
-export function getImageName(thumbnail: string | null): string | null {
-	if (!thumbnail) return null
-	return thumbnail.split('/').pop()!.split('.')[0]
-}
-
-export function getImageTransitionName(thumbnail: string | null): string {
-	if (!thumbnail) return `not_found_${Math.random()}`
-	return `image_${thumbnail.split('/').pop()!.split('.')[0]}`
-}
+export { sizesGridCard as getGridImageSizes } from './images'
 
 export function getCategoryData(categories: any[] | undefined, category: string): any | null {
  

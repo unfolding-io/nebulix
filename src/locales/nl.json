@@ -1,7 +1,6 @@
 {
   "Order": "Volgorde",
   "about": "Over ons",
-  "add_to_cart": "Toevoegen",
   "allergens": "Allergenen",
   "alt_text": "Alt Tekst",
   "animate_transition": "Geanimeerde transitie",
@@ -135,7 +134,6 @@
   "shop_settings": "Winkel instellingen",
   "show_more": "Laat meer zien",
   "site_name": "Website Naam",
-  "snipcart_file_id": "snipcart_bestand_id",
   "socials": "Socials",
   "soybeans": "Soja bonen",
   "style": "Stijl",
@@ -152,5 +150,9 @@
   "weight": "Gewicht",
   "weight_in_grams": "Gewicht in gram",
   "width": "Breedte",
-  "width_in_cm": "Breedte in cm"
+  "width_in_cm": "Breedte in cm",
+  "message": "Bericht",
+  "phone": "Telefoon",
+  "topic": "Onderwerp",
+  "submit": "Versturen"
 }

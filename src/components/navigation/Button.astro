@@ -1,13 +1,15 @@
 ---
 import { Icon } from "astro-icon/components";
 import { getIconName } from "@util/helpers";
+import { surfaceClass } from "@util/surfaces";
 const { href, label, icon, icon_only, color, className } = Astro.props;
 const target = href.includes("http") ? "_blank" : "_self";
+const colorClass = color ? surfaceClass(color) : "surface-primary";
 ---
 
 <a
   href={href}
-  class={`btn ${color || `surface-primary`} ${className || ""} ${
+  class={`btn ${colorClass} ${className || ""} ${
     !icon_only || "btn-icon"
   }`}
   target={target}

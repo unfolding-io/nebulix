@@ -8,14 +8,17 @@ export async function getStaticPaths({ paginate }) {
   const posts = (await getCollection("blog")).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
   );
-  const { data } = await getEntry("config", "blog");
+  const blogConfig = await getEntry("config", "blog");
+  if (!blogConfig) throw new Error("Missing config entry: blog");
 
-  return paginate(posts, { pageSize: data.per_page });
+  return paginate(posts, { pageSize: blogConfig.data.per_page });
 }
 const base_url = import.meta.env.BLOG_SLUG;
 const { page } = Astro.props;
- 
-const { data } = await getEntry("config", "blog");
+
+const blogConfig = await getEntry("config", "blog");
+if (!blogConfig) throw new Error("Missing config entry: blog");
+const { data } = blogConfig;
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf(),

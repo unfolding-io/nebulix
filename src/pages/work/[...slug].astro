@@ -2,12 +2,13 @@
 /* BLOG POST PAGES */
 import type { CollectionEntry } from "astro:content";
 import { getArchiveNav } from "@util/helpers";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Breadcrumb from "@components/navigation/Breadcrumb.astro";
 import ItemNav from "@components/navigation/ItemNav.astro";
 import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
 import PageLayoutWide from "@layouts/PageLayoutWide.astro";
 import { t } from "@util/translate";
+import { mdxComponents } from "@src/lib/mdxComponents";
 export async function getStaticPaths() {
   const posts = (await getCollection("project")).sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -22,18 +23,18 @@ export async function getStaticPaths() {
     prev = archiveNav.prev;
 
     return {
-      params: { slug: post.slug },
+      params: { slug: post.id },
       props: {
         ...post,
         data: {
           ...post.data,
           nav: {
             next: {
-              slug: next?.slug,
+              id: next?.id,
               title: next?.data?.title,
             },
             prev: {
-              slug: prev?.slug,
+              id: prev?.id,
               title: prev?.data?.title,
             },
             index: index,
@@ -46,7 +47,7 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"project">;
 const base_url = import.meta.env.PORTFOLIO_SLUG;
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 let searchFilters = [`${t("content")}:${base_url}`];
 if (post?.data?.tag) {
@@ -67,7 +68,7 @@ const filter = post.data?.tag
     <PageLayoutWide {...post.data} {base_url}>
       <Breadcrumb title={post.data.title} filter={filter} />
       <div class="richtext">
-        <Content />
+        <Content components={mdxComponents} />
       </div>
       {post.data.features && (
         <div class="pt-auto flex h-full max-w-md content-end border border-primary py-8 ">
@@ -101,12 +102,12 @@ const filter = post.data?.tag
       <Breadcrumb title={post.data.title} filter={filter} />
 
       <div class="richtext">
-        <Content />
+        <Content components={mdxComponents} />
       </div>
       {post.data.features && (
         <div class="pt-auto flex h-full max-w-md content-end py-8 ">
           <div class="sticky bottom-8 self-end">
-            {post.data.features.map((feature, index) => (
+            {post.data.features.map((feature) => (
               <div class=" flex justify-stretch gap-4">
                 <div class="flex-0 sm:fex-1  min-w-[120px] font-bold">
                   {" "}

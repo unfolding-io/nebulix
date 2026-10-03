@@ -1,8 +1,34 @@
 ---
-import { Picture } from "astro-imagetools/components";
+import SmartPicture from "@components/media/SmartPicture.astro";
 import Button from "@components/navigation/Button.astro";
 import ItemFilter from "@components/navigation/ItemFilter.astro";
 import FormattedDate from "@components/FormattedDate.astro";
+import { surfaceClass } from "@util/surfaces";
+import { sizesViewport, widthsViewport } from "@util/images";
+import type { PageStyle } from "@src/types/page-style";
+
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface Props {
+  title?: string;
+  thumbnail?: string;
+  hero_buttons?: ButtonLink[];
+  intro?: string;
+  tag?: string[];
+  filter?: string;
+  filters?: string[];
+  filter_type?: string;
+  style?: PageStyle;
+  pubDate?: Date;
+  base_url?: string;
+}
 
 const {
   title,
@@ -16,59 +42,49 @@ const {
   style,
   pubDate,
   base_url,
-} = Astro.props;
+} = Astro.props as Props;
 
 const { slug } = Astro.params;
+const heroSurface = surfaceClass(style?.hero_surface || "dark");
+const heroOpacityRaw = style?.hero_image_opacity;
+const heroOpacity =
+  heroOpacityRaw === "" || heroOpacityRaw == null
+    ? 0.7
+    : Number(heroOpacityRaw);
+const heroDim = Number(
+  (1 - (Number.isFinite(heroOpacity) ? heroOpacity : 0.7)).toFixed(3),
+);
 ---
 
 <div
-  class={`hero relative overflow-hidden nebulix-parallax ${
-    style.hero_surface || "surface-dark"
-  } ${style.hero_class || ""}`}
+  class={`hero relative overflow-hidden nebulix-parallax ${heroSurface} ${style?.hero_class || ""}`}
   transition:name={`hero_${slug || Math.random()}`}
   id="header"
 >
   {
     thumbnail && (
-      <div class="media parallax h-full w-full">
-        <Picture
-          attributes={{
-            picture: {
-              class: "sm:h-screen",
-              style: `opacity: ${style.hero_image_opacity || 0.7}`,
-            },
-          }}
+      <div class="media parallax relative h-full w-full">
+        <SmartPicture
           src={thumbnail}
-          width={1920}
-          height={1080}
-          ar={16 / 10}
           alt={title}
-          breakpoints={[1000, 1280, 1440, 1536, 1920]}
-          sizes="100vw"
-          loading="eager"
-          layout="fill"
-          position="entropy"
-          artDirectives={[
-            {
-              media: "(max-width: 500px)",
-              ar: 0.6,
-              src: thumbnail,
-              breakpoints: [320, 360, 390, 412, 500, 601, 768, 1024, 1200],
-            },
-            {
-              media: "(max-width: 1000px)",
-              ar: 1,
-              src: thumbnail,
-              breakpoints: [500, 601, 768, 820, 962, 1280, 1440, 1536, 1920],
-            },
-          ]}
+          widths={widthsViewport(1920)}
+          sizes={sizesViewport()}
+          priority
+          class="h-full w-full object-cover sm:h-screen"
         />
+        {heroDim > 0 && (
+          <div
+            class="pointer-events-none absolute inset-0 z-[1] bg-dark"
+            style={`opacity: ${heroDim}`}
+            aria-hidden="true"
+          />
+        )}
       </div>
     )
   }
 
   <div
-    class="absolute inset-0 z-10 grid place-items-center bg-dark bg-opacity-20"
+    class="absolute inset-0 z-10 grid place-items-center bg-dark/20"
   >
     <div class="container-xl py-8">
       <div class="max-w-3xl">
@@ -82,7 +98,7 @@ const { slug } = Astro.params;
         <h1 class="title">
           {title}
         </h1>
-        {intro && <div class="subtitle balance py2"> {intro}</div>}
+        {intro && <div class="subtitle balance pt-4"> {intro}</div>}
 
         {
           tag && (
@@ -124,12 +140,12 @@ const { slug } = Astro.params;
 
 <style>
   .hero {
-    @screen sm {
+    @media (width >= 40rem) {
       min-height: calc(100svh - 4rem);
     }
   }
   .media {
-    @screen sm {
+    @media (width >= 40rem) {
       max-height: calc(100svh - 4rem);
     }
   }
