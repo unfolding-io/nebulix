@@ -23,6 +23,13 @@ interface Props {
   /** When set (width/height ratio), height is derived from width. */
   aspect?: string | number | null;
   style?: string;
+  /**
+   * Above-the-fold / LCP image. Sets loading=eager, decoding=sync,
+   * fetchpriority=high via Astro Picture.
+   */
+  priority?: boolean;
+  fetchpriority?: "high" | "low" | "auto";
+  decoding?: "async" | "sync" | "auto";
 }
 
 const {
@@ -37,6 +44,9 @@ const {
   height: heightProp,
   aspect,
   style,
+  priority = false,
+  fetchpriority,
+  decoding,
 } = Astro.props;
 
 const image = typeof src === "string" ? resolveAsset(src) : src || undefined;
@@ -64,10 +74,13 @@ const widths =
       sizes={sizes}
       formats={formats}
       class={className}
-      loading={loading}
+      loading={priority ? "eager" : loading}
       width={width}
       height={height}
       style={style}
+      {...(priority ? { priority: true as const } : {})}
+      {...(fetchpriority ? { fetchpriority } : {})}
+      {...(decoding ? { decoding } : {})}
     />
   )
 }

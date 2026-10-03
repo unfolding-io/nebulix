@@ -61,6 +61,14 @@ const { slug } = Astro.params;
 const pageTitle = `${title} ${filter ? `#${filter}` : ""}`;
 const hasBlocks = blocks && blocks.length > 0;
 const heroSurface = surfaceClass(style?.hero_surface ?? "dark");
+const heroOpacityRaw = style?.hero_image_opacity;
+const heroOpacity =
+  heroOpacityRaw === "" || heroOpacityRaw == null
+    ? 0.7
+    : Number(heroOpacityRaw);
+const heroDim = Number(
+  (1 - (Number.isFinite(heroOpacity) ? heroOpacity : 0.7)).toFixed(3),
+);
 ---
 
 <BaseLayout
@@ -77,24 +85,32 @@ const heroSurface = surfaceClass(style?.hero_surface ?? "dark");
       transition:name={`hero_${slug || Math.random()}`}
     >
       <div
-        class={`${heroSurface} sticky top-0 overflow-hidden sm:h-screen`}
+        class={`${heroSurface} relative sticky top-0 overflow-hidden sm:h-screen`}
       >
         {
           thumbnail && (
-            <SmartPicture
-              src={thumbnail}
-              sizes={sizesSplitHero()}
-              widths={widthsViewport(1920)}
-              loading="eager"
-              alt={title}
-              class="z-0 h-full w-full object-cover sm:h-screen"
-              style={`opacity: ${style?.hero_image_opacity || 0.7}`}
-            />
+            <>
+              <SmartPicture
+                src={thumbnail}
+                sizes={sizesSplitHero()}
+                widths={widthsViewport(1920)}
+                priority
+                alt={title}
+                class="z-0 h-full w-full object-cover sm:h-screen"
+              />
+              {heroDim > 0 && (
+                <div
+                  class="pointer-events-none absolute inset-0 z-[1] bg-dark"
+                  style={`opacity: ${heroDim}`}
+                  aria-hidden="true"
+                />
+              )}
+            </>
           )
         }
 
         <div
-          class="page-split__title absolute inset-0 z-10 grid place-items-center"
+          class="page-split__title absolute inset-0 z-10 grid place-items-center bg-dark/20"
         >
           <div class="w-full">
             {

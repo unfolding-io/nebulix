@@ -27,8 +27,17 @@ export default defineConfig({
       name: "Inter Tight",
       cssVariable: "--font-inter-tight",
       provider: fontProviders.fontsource(),
-      styles: ["normal", "italic"],
-      weights: ["100 900"],
+      styles: ["normal"],
+      weights: ["300 800"],
+      subsets: ["latin"],
+      fallbacks: ["sans-serif"],
+    },
+    {
+      name: "Inter Tight",
+      cssVariable: "--font-inter-tight",
+      provider: fontProviders.fontsource(),
+      styles: ["italic"],
+      weights: [600],
       subsets: ["latin"],
       fallbacks: ["sans-serif"],
     },
@@ -88,7 +97,7 @@ export default defineConfig({
   scopedStyleStrategy: "attribute",
 
   prefetch: {
-    defaultStrategy: "viewport",
+    defaultStrategy: "hover",
   },
 
   adapter: netlify(),

@@ -6,5 +6,7 @@
 
 /_astro/*
   cache-control: public,max-age=31536000,immutable
+/scroll-timeline.js
+  cache-control: public,max-age=31536000,immutable
 /favicon.svg
   cache-control: public,max-age=2628000

@@ -46,6 +46,14 @@ const {
 
 const { slug } = Astro.params;
 const heroSurface = surfaceClass(style?.hero_surface || "dark");
+const heroOpacityRaw = style?.hero_image_opacity;
+const heroOpacity =
+  heroOpacityRaw === "" || heroOpacityRaw == null
+    ? 0.7
+    : Number(heroOpacityRaw);
+const heroDim = Number(
+  (1 - (Number.isFinite(heroOpacity) ? heroOpacity : 0.7)).toFixed(3),
+);
 ---
 
 <div
@@ -55,16 +63,22 @@ const heroSurface = surfaceClass(style?.hero_surface || "dark");
 >
   {
     thumbnail && (
-      <div class="media parallax h-full w-full">
+      <div class="media parallax relative h-full w-full">
         <SmartPicture
           src={thumbnail}
           alt={title}
           widths={widthsViewport(1920)}
           sizes={sizesViewport()}
-          loading="eager"
+          priority
           class="h-full w-full object-cover sm:h-screen"
-          style={`opacity: ${style?.hero_image_opacity || 0.7}`}
         />
+        {heroDim > 0 && (
+          <div
+            class="pointer-events-none absolute inset-0 z-[1] bg-dark"
+            style={`opacity: ${heroDim}`}
+            aria-hidden="true"
+          />
+        )}
       </div>
     )
   }

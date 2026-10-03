@@ -24,13 +24,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, onMounted } from "vue";
 import { t } from "@util/translate";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import Loading from "@components/common/Loading.vue";
-import "vue3-toastify/dist/index.css";
 import { toast } from "vue3-toastify";
 import { actions } from "astro:actions";
+
+onMounted(async () => {
+  if (document.getElementById("toastify-css")) return;
+  const cssUrl = (await import("vue3-toastify/dist/index.css?url")).default;
+  const link = document.createElement("link");
+  link.id = "toastify-css";
+  link.rel = "stylesheet";
+  link.href = cssUrl;
+  document.head.appendChild(link);
+});
 
 const props = withDefaults(
   defineProps<{

@@ -58,7 +58,7 @@ const surfaceCss = buildSurfaceStyles(styleConfig?.data?.surface ?? []);
     </Footer>
     <Init client:idle />
 
-    <ContactDialog client:only="vue" contact={contact?.data?.form}>
+    <ContactDialog client:idle contact={contact?.data?.form}>
       {
         contact?.data?.form?.intro && (
           <div

@@ -142,7 +142,7 @@ import { showContact } from "@src/store";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import { useTextareaAutosize } from "@vueuse/core";
 import Loading from "@components/common/Loading.vue";
-import "vue3-toastify/dist/index.css";
+import Popper from "vue3-popper";
 import { toast } from "vue3-toastify";
 import { actions } from "astro:actions";
 
@@ -179,7 +179,15 @@ const rules = {
 };
 const { pass, isFinished, errorFields } = useAsyncValidator(form, rules);
 
-onMounted(() => {});
+onMounted(async () => {
+  if (document.getElementById("toastify-css")) return;
+  const cssUrl = (await import("vue3-toastify/dist/index.css?url")).default;
+  const link = document.createElement("link");
+  link.id = "toastify-css";
+  link.rel = "stylesheet";
+  link.href = cssUrl;
+  document.head.appendChild(link);
+});
 
 const topic = ref(null);
 const showPopper = ref(false);

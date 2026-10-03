@@ -46,7 +46,10 @@ const pageTitle = `${title} | ${about?.data?.sitename ?? "Nebulix"}`;
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
-<Font cssVariable="--font-inter-tight" preload />
+<Font
+  cssVariable="--font-inter-tight"
+  preload={[{ style: "normal", subset: "latin" }]}
+/>
 
 <!-- Canonical URL -->
 <link rel="canonical" data-pagefind-meta="url[href]" href={canonicalURL} />
@@ -100,4 +103,18 @@ const pageTitle = `${title} | ${about?.data?.sitename ?? "Nebulix"}`;
 </script>
 
 <ClientRouter fallback="swap" />
-<script src="/scroll-timeline.js" is:inline defer></script>
+<script is:inline>
+  if (!CSS.supports("animation-timeline", "view()")) {
+    const loadPolyfill = () => {
+      const s = document.createElement("script");
+      s.src = "/scroll-timeline.js";
+      s.defer = true;
+      document.head.appendChild(s);
+    };
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(loadPolyfill, { timeout: 2000 });
+    } else {
+      setTimeout(loadPolyfill, 1);
+    }
+  }
+</script>
