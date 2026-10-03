@@ -3,6 +3,29 @@ import Button from "@components/navigation/Button.astro";
 import ItemFilter from "@components/navigation/ItemFilter.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import { surfaceClass } from "@util/surfaces";
+import type { PageStyle } from "@src/types/page-style";
+
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface Props {
+  title?: string;
+  hero_buttons?: ButtonLink[];
+  intro?: string;
+  tag?: string[];
+  style?: PageStyle;
+  pubDate?: Date;
+  base_url?: string;
+  filters?: string[];
+  filter?: string;
+  filter_type?: string;
+}
 
 const {
   title,
@@ -15,13 +38,12 @@ const {
   filters,
   filter,
   filter_type,
-} = Astro.props;
-const { slug } = Astro.params;
+} = Astro.props as Props;
 const heroSurface = surfaceClass(style?.hero_surface);
 ---
 
 <div
-  class={`z-0 overflow-hidden ${heroSurface} ${style.hero_class || ""}`}
+  class={`z-0 overflow-hidden ${heroSurface} ${style?.hero_class || ""}`}
   id="header"
 >
   <div class="z-10 grid place-items-center">

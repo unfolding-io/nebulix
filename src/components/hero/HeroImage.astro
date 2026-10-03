@@ -5,6 +5,30 @@ import ItemFilter from "@components/navigation/ItemFilter.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import { surfaceClass } from "@util/surfaces";
 import { sizesViewport, widthsViewport } from "@util/images";
+import type { PageStyle } from "@src/types/page-style";
+
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface Props {
+  title?: string;
+  thumbnail?: string;
+  hero_buttons?: ButtonLink[];
+  intro?: string;
+  tag?: string[];
+  filter?: string;
+  filters?: string[];
+  filter_type?: string;
+  style?: PageStyle;
+  pubDate?: Date;
+  base_url?: string;
+}
 
 const {
   title,
@@ -18,14 +42,14 @@ const {
   style,
   pubDate,
   base_url,
-} = Astro.props;
+} = Astro.props as Props;
 
 const { slug } = Astro.params;
 const heroSurface = surfaceClass(style?.hero_surface || "dark");
 ---
 
 <div
-  class={`hero relative overflow-hidden nebulix-parallax ${heroSurface} ${style.hero_class || ""}`}
+  class={`hero relative overflow-hidden nebulix-parallax ${heroSurface} ${style?.hero_class || ""}`}
   transition:name={`hero_${slug || Math.random()}`}
   id="header"
 >
@@ -39,7 +63,7 @@ const heroSurface = surfaceClass(style?.hero_surface || "dark");
           sizes={sizesViewport()}
           loading="eager"
           class="h-full w-full object-cover sm:h-screen"
-          style={`opacity: ${style.hero_image_opacity || 0.7}`}
+          style={`opacity: ${style?.hero_image_opacity || 0.7}`}
         />
       </div>
     )

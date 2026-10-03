@@ -4,7 +4,39 @@ import { Icon } from "astro-icon/components";
 import Button from "@components/navigation/Button.astro";
 import { surfaceClass } from "@util/surfaces";
 
-const { title, prices, style } = Astro.props;
+interface PriceFeature {
+  icon?: string;
+  icon_class?: string;
+  label?: string;
+  value?: string;
+}
+
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface PriceTier {
+  price?: string;
+  price_suffix?: string;
+  title?: string;
+  intro?: string;
+  surface?: string;
+  features: PriceFeature[];
+  buttons?: ButtonLink[];
+}
+
+interface Props {
+  title?: string;
+  prices?: PriceTier[];
+  style?: { container?: string };
+}
+
+const { title, prices, style } = Astro.props as Props;
 const id = title ? slugify(title) : "pricing";
 ---
 

@@ -10,7 +10,7 @@ const imageName = props.src.split("/").pop().split(".")[0];
 const imgAlt = imageName ? imageName : "no-name";
 const ext = props.src.split(".").pop();
 
-function isPixelBasedImage(extension) {
+function isPixelBasedImage(extension: string) {
   const pixelBasedFormats = [
     "jpg",
     "jpeg",

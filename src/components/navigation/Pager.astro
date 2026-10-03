@@ -9,7 +9,7 @@ export interface Props {
 
 const { currentPage, totalPage, url } = Astro.props as Props;
 
-let pageStatuses = Array.from({ length: totalPage }, (v, i) => i + 1).map(
+let pageStatuses = Array.from({ length: totalPage }, (_, i) => i + 1).map(
   (i) => {
     var item = {
       pageNumber: i,
@@ -20,7 +20,7 @@ let pageStatuses = Array.from({ length: totalPage }, (v, i) => i + 1).map(
   },
 );
 
-function isDisabled(i) {
+function isDisabled(i: number) {
   if (Number(totalPage) <= 6) return false;
   if (i <= 2 || i >= Number(totalPage) - 1) return false;
   if (currentPage == i - 1 || currentPage == i || currentPage == i + 1)

@@ -41,7 +41,7 @@ export function getPagination(
 	data: any,
 	type: string
 ): Array<{ params: { slug: string }; props: any }[] | false> {
-	return filters.flatMap((filter) => {
+	return filters.flatMap((filter: string) => {
 		const filterSlug = slugify(filter)
 		const filterPosts = posts.filter((post) => post.data[type] && post.data[type].includes(filter))
 

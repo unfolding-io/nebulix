@@ -10,12 +10,12 @@ export const server = {
     accept: "json",
     input: z.object({
       provider: contactProvider,
-      email: z.string().email(),
+      email: z.email(),
       name: z.string().min(1),
       phone: z.string().optional().default(""),
       message: z.string().min(10),
       topic: z.string().min(1),
-      topicEmail: z.union([z.string().email(), z.literal("")]).optional(),
+      topicEmail: z.union([z.email(), z.literal("")]).optional(),
       topicChannel: z.string().optional().default(""),
     }),
     handler: async (input) => {
@@ -44,7 +44,7 @@ export const server = {
   subscribe: defineAction({
     accept: "json",
     input: z.object({
-      email: z.string().email(),
+      email: z.email(),
       provider: z.enum(["mailchimp"]).default("mailchimp"),
     }),
     handler: async ({ email, provider }) => {

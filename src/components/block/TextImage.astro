@@ -14,6 +14,27 @@ import {
 } from "@util/images";
 import { getLightboxImage } from "@util/lightbox";
 
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface Props {
+  title?: string;
+  content?: string;
+  thumbnail?: string;
+  template?: string;
+  reverse?: boolean;
+  container?: string;
+  buttons?: ButtonLink[];
+  aspect?: string;
+  image_size?: string;
+}
+
 const {
   title,
   content,
@@ -24,9 +45,9 @@ const {
   buttons,
   aspect,
   image_size,
-} = Astro.props;
+} = Astro.props as Props;
 
-const renderedContent = marked.parse(content);
+const renderedContent = marked.parse(content ?? "");
 const roundedClass =
   template == "column" && container !== "none" ? "rounded-md" : "";
 

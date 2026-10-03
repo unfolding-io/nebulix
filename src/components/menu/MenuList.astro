@@ -9,7 +9,39 @@ import { t } from "@util/translate";
 import { sizesMenuThumb, widthsGridCard } from "@util/images";
 import { getLightboxImage } from "@util/lightbox";
 
-const { categories } = Astro.props;
+interface MenuItemPrice {
+  label?: string;
+  price?: number;
+}
+
+interface MenuItem {
+  title?: string;
+  intro?: string;
+  thumbnail?: string;
+  price?: MenuItemPrice[];
+  details?: {
+    labels?: string | string[];
+    allergens?: string | string[];
+    description?: string;
+  };
+}
+
+interface MenuCategory {
+  title: string;
+  intro?: string;
+  menu_items: MenuItem[];
+}
+
+interface Props {
+  categories: MenuCategory[];
+}
+
+function listOrSingle(value: string | string[] | undefined): string[] {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+const { categories } = Astro.props as Props;
 
 const thumbs: string[] = (categories || [])
   .flatMap((cat: { menu_items?: { thumbnail?: string }[] }) => cat.menu_items || [])
@@ -71,8 +103,7 @@ const lightboxBySrc = Object.fromEntries(
                       {item.title}
                       <span class="ml-auto" />
 
-                      {item.details.labels &&
-                        item.details.labels.map((name) => (
+                      {listOrSingle(item.details?.labels).map((name) => (
                           <Label name={name} />
                         ))}
                     </h3>
@@ -88,8 +119,7 @@ const lightboxBySrc = Object.fromEntries(
                   {item.price && (
                     <div class="mt-auto flex w-full justify-between  gap-4 pt-4">
                       <div class="flex flex-wrap content-end justify-start">
-                        {item.details.allergens &&
-                          item.details.allergens.map((name) => (
+                        {listOrSingle(item.details?.allergens).map((name) => (
                             <Label name={name} />
                           ))}
                       </div>

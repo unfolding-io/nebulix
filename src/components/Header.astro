@@ -6,10 +6,23 @@ import PageFind from "@components/common/PageFind.astro";
 import ColorSwitch from "@components/common/ColorSwitch.vue";
 import { t } from "@util/translate";
 
-const { menu, title, social } = Astro.props;
+interface NavLink {
+  href: string;
+  label?: string;
+  icon?: string;
+}
+
+interface Props {
+  menu?: NavLink[];
+  title: string;
+  social?: NavLink[];
+  about?: Record<string, unknown>;
+}
+
+const { menu = [], title, social = [] } = Astro.props as Props;
 const currentPath = Astro.url.pathname.split("/")[1];
 
-const isActive = (href) => {
+const isActive = (href: string) => {
   if (currentPath === "" && href == "/") return true;
   if (currentPath !== "" && href.startsWith(`/${currentPath}`)) return true;
 };

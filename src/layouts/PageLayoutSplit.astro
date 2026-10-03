@@ -7,6 +7,38 @@ import Block from "@components/block/Block.astro";
 import Button from "@components/navigation/Button.astro";
 import { surfaceClass } from "@util/surfaces";
 import { sizesSplitHero, widthsViewport } from "@util/images";
+import type { PageStyle } from "@src/types/page-style";
+
+interface ButtonLink {
+  href: string;
+  label: string;
+  icon?: string;
+  icon_only?: boolean;
+  color?: string;
+  className?: string;
+}
+
+interface BlockSection {
+  component: string;
+  [key: string]: unknown;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  thumbnail?: string;
+  og_image?: string;
+  intro?: string;
+  tag?: string[];
+  filters?: string[];
+  pubDate?: Date;
+  base_url?: string;
+  blocks?: BlockSection[];
+  style?: PageStyle;
+  filter?: string;
+  filter_type?: string;
+  hero_buttons?: ButtonLink[];
+}
 
 const {
   title,
@@ -23,18 +55,18 @@ const {
   filter,
   filter_type,
   hero_buttons,
-} = Astro.props;
+} = Astro.props as Props;
 
 const { slug } = Astro.params;
 const pageTitle = `${title} ${filter ? `#${filter}` : ""}`;
 const hasBlocks = blocks && blocks.length > 0;
-const heroSurface = surfaceClass(style?.hero_surface || "dark");
+const heroSurface = surfaceClass(style?.hero_surface ?? "dark");
 ---
 
 <BaseLayout
   title={pageTitle}
   {description}
-  pageClass={style.page_class}
+  pageClass={style?.page_class}
   {thumbnail}
   {og_image}
 >
@@ -56,7 +88,7 @@ const heroSurface = surfaceClass(style?.hero_surface || "dark");
               loading="eager"
               alt={title}
               class="z-0 h-full w-full object-cover sm:h-screen"
-              style={`opacity: ${style.hero_image_opacity || 0.7}`}
+              style={`opacity: ${style?.hero_image_opacity || 0.7}`}
             />
           )
         }
@@ -127,7 +159,7 @@ const heroSurface = surfaceClass(style?.hero_surface || "dark");
   {
     hasBlocks && (
       <>
-        <div class={style.block_class || "my-20"}>
+        <div class={style?.block_class || "my-20"}>
           {blocks.map((section) => (
             <Block {...section} />
           ))}

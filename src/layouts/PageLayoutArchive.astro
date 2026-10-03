@@ -8,11 +8,40 @@ import ItemCard from "@components/cards/ItemCard.astro";
 import ItemCardFlex from "@components/cards/ItemCardFlex.astro";
 import ItemCardSmall from "@components/cards/ItemCardSmall.astro";
 import { slugify } from "@util/helpers";
+import type { CollectionEntry } from "astro:content";
+import type { PageStyle } from "@src/types/page-style";
 
-const { data, page, filters, base_url, filter, filter_type, tag } = Astro.props;
-const style = data?.style ? data.style : page.data.style;
+type ArchiveEntry = CollectionEntry<"blog"> | CollectionEntry<"project">;
+
+interface ArchivePageData {
+  body?: string;
+  style?: PageStyle;
+  [key: string]: unknown;
+}
+
+interface Props {
+  data: ArchivePageData;
+  page: {
+    data: ArchiveEntry[];
+    lastPage: number;
+    currentPage: number;
+  };
+  filters?: string[];
+  base_url: string;
+  filter?: string;
+  filter_type?: string;
+  tag?: string[];
+}
+
+const { data, page, filters, base_url, filter, filter_type, tag } =
+  Astro.props as Props;
+const paginatedPosts = page.data;
+const style: PageStyle =
+  data?.style ??
+  (paginatedPosts as unknown as { style?: PageStyle }).style ??
+  {};
 const sizes = getGridImageSizes(data?.style?.container || "md");
-const template = style?.template ? data.style.template : "split";
+const template = style?.template ? style.template : "split";
 let pagerSlug = base_url;
  
 
@@ -21,7 +50,7 @@ if (filter) pagerSlug += `/${slugify(filter)}`;
 
 const itemsWrapClass = () => {
   if (style.card_template === "grid")
-    return `grid auto-grid-${data.style.container} gap-4 pb-32`;
+    return `grid auto-grid-${style.container || "md"} gap-4 pb-32`;
   if (style.hero_template === "image")
     return `flex flex-wrap justify-center pt-14 pb-20 flex-grid gap-x-4 gap-y-8`;
   return `flex flex-wrap gap-x-4 gap-y-8 justify-center pb-32 flex-grid `;
@@ -41,7 +70,7 @@ const itemsWrapClass = () => {
     >
       {data.body && data.body !== " " && (
         <div
-          class={`richtext ${data.style.content_class || "pb-14"}`}
+          class={`richtext ${style.content_class || "pb-14"}`}
           set:html={marked.parse(data.body)}
         />
       )}
@@ -78,9 +107,9 @@ const itemsWrapClass = () => {
       {tag}
     >
       {data.body && data.body !== "" && (
-        <section class={` ${data.style.content_class || "pb-14"}`}>
+        <section class={` ${style.content_class || "pb-14"}`}>
           <div
-            class={`richtext container-${data.style.container}`}
+            class={`richtext container-${style.container || "md"}`}
             set:html={marked.parse(data.body)}
           />
         </section>

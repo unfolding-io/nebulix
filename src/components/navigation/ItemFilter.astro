@@ -1,6 +1,17 @@
 ---
-const { filters, className, links, active, base_url, type } = Astro.props;
 import { slugify } from "@util/helpers";
+
+interface Props {
+  filters: string[];
+  className?: string;
+  links?: boolean;
+  active?: string;
+  base_url?: string;
+  type?: string;
+}
+
+const { filters, className, links, active, base_url, type } =
+  Astro.props as Props;
 ---
 
 <div

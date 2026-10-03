@@ -5,7 +5,7 @@ import { getCollection } from "astro:content";
 import PageLayoutArchive from "@layouts/PageLayoutArchive.astro";
 import { getPagination, getCategoryData } from "@util/helpers";
 
-export async function getStaticPaths({ paginate }) {
+export async function getStaticPaths() {
   const posts = (await getCollection("project"))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
     .filter((post) => !!post.data?.tag);

@@ -3,11 +3,24 @@ import { marked } from "marked";
 import { Icon } from "astro-icon/components";
 import { getIconName } from "@util/helpers";
 import { surfaceClass } from "@util/surfaces";
-const { content, container, features } = Astro.props;
+
+interface Feature {
+  icon?: string;
+  color?: string;
+  content: string;
+}
+
+interface Props {
+  content?: string;
+  container?: string;
+  features?: Feature[];
+}
+
+const { content, container, features } = Astro.props as Props;
 ---
 
 <div class={`container-${container} fade-up features grid gap-8`}>
-  <div set:html={marked.parse(content)} class="richtext fade-up" />
+  <div set:html={marked.parse(content ?? "")} class="richtext fade-up" />
 
   {
     features && (

@@ -6,7 +6,20 @@ import { t } from "@util/translate";
 import { sizesGallery, widthsGallery } from "@util/images";
 import { getLightboxImage } from "@util/lightbox";
 
-const { title, images, container, aspect } = Astro.props;
+interface GalleryImage {
+  image: string;
+  title?: string;
+  alt?: string;
+}
+
+interface Props {
+  title?: string;
+  images?: GalleryImage[];
+  container?: string;
+  aspect?: string;
+}
+
+const { title, images, container, aspect } = Astro.props as Props;
 const sizes = sizesGallery(container);
 const widths = widthsGallery(container);
 
