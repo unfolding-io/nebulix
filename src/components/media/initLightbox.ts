@@ -10,6 +10,9 @@ function destroyAll() {
     instance.destroy();
   }
   instances.clear();
+  document.querySelectorAll<HTMLElement>("[data-pswp-bound]").forEach((el) => {
+    delete el.dataset.pswpBound;
+  });
 }
 
 function ensureStyles() {
@@ -38,26 +41,30 @@ function isStandaloneTarget(el: Element | null): el is HTMLAnchorElement {
   return true;
 }
 
-async function openStandalone(el: HTMLAnchorElement) {
+async function bindStandalone(el: HTMLAnchorElement) {
+  if (el.dataset.pswpBound === "true") return;
+
   await ensureStyles();
 
   if (!modulePromise) {
     modulePromise = import("photoswipe/lightbox");
   }
 
-  const { default: Lightbox } = await modulePromise;
+  // Preload the core module so the first open has slide content ready.
+  const [{ default: Lightbox }] = await Promise.all([
+    modulePromise,
+    import("photoswipe"),
+  ]);
 
-  if (el.dataset.pswpBound !== "true") {
-    el.dataset.pswpBound = "true";
+  if (el.dataset.pswpBound === "true") return;
+  el.dataset.pswpBound = "true";
 
-    const lightbox = new Lightbox({
-      gallery: el,
-      pswpModule: () => import("photoswipe"),
-    });
-    lightbox.init();
-    instances.add(lightbox);
-    lightbox.loadAndOpen(0);
-  }
+  const lightbox = new Lightbox({
+    gallery: el,
+    pswpModule: () => import("photoswipe"),
+  });
+  lightbox.init();
+  instances.add(lightbox);
 }
 
 function onDocumentClick(event: MouseEvent) {
@@ -68,8 +75,16 @@ function onDocumentClick(event: MouseEvent) {
   if (!isStandaloneTarget(link)) return;
   if (link.dataset.pswpBound === "true") return;
 
+  // First click only binds; opening via loadAndOpen right after lazy init
+  // often shows an empty stage. Replay the click once PhotoSwipe is bound.
   event.preventDefault();
-  void openStandalone(link);
+  event.stopPropagation();
+
+  void bindStandalone(link).then(() => {
+    requestAnimationFrame(() => {
+      link.click();
+    });
+  });
 }
 
 /** Lazy-bind PhotoSwipe on first click of standalone `a[data-pswp-width]` links. */
