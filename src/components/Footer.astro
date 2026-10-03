@@ -10,7 +10,9 @@ let about = await getEntry("config", "about");
 let contact = await getEntry("config", "contact");
 let navigation = await getEntry("config", "navigation");
 
-const showNewsletter = !!import.meta.env.NEWSLETTER_PROVIDER;
+const showNewsletter = !!(
+  import.meta.env.NEWSLETTER_PROVIDER || import.meta.env.NEWSLETTER_ENDPOINT
+);
 ---
 
 <footer class="surface-footer relative grid">

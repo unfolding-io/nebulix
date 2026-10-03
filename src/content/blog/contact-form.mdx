@@ -18,19 +18,22 @@ thumbnail: /src/assets/cosmic_contact_settings.jpeg
 
 The contact form is handled by an [Astro Action](https://docs.astro.build/en/guides/actions/) (`actions.contact`) with providers in `src/lib/forms/`. Multiple topics are supported — each topic can have its own destination email or Slack channel. Open the dialog with a link to `href="#contact"`.
 
-Configure the form in the CMS under **SETTINGS > CONTACT & SOCIAL**. Set provider secrets in `.env` locally and in your host’s environment UI for production (Netlify / Cloudflare / Vercel). Also set `FROM_EMAIL_ADDRESS` / `TO_EMAIL_ADDRESS` for Mailgun and Postmark.
+Configure the form in the CMS under **SETTINGS > CONTACT & SOCIAL** (provider: `mailgun`, `postmark`, or `slack`). Set secrets in `.env` locally and in your host’s environment UI for production. `CONTACT_FORM_ENDPOINT` overrides the CMS provider when set. For Mailgun/Postmark, `FROM_EMAIL_ADDRESS` must be an authorized sender on your domain.
 
 On desktop the dialog shows an optional side image from the CMS; on mobile the form is shown alone.
 
 ### MailGun
 
-For mailgun you have to add these values in your .env. the `MAILGUN_API_URL` can be `https://api.mailgun.net/v3` or `https://api.eu.mailgun.net` depending on your region.
-
 ```
+CONTACT_FORM_ENDPOINT=mailgun
+FROM_EMAIL_ADDRESS=hello@your-domain.com
+TO_EMAIL_ADDRESS=hello@your-domain.com
 MAILGUN_API_KEY=XXXXXXXXX
-MAILGUN_DOMAIN=XXXXXXXXX
+MAILGUN_DOMAIN=your-domain.com
 MAILGUN_API_URL=https://api.eu.mailgun.net
 ```
+
+`MAILGUN_API_URL` is `https://api.eu.mailgun.net` (EU) or `https://api.mailgun.net` (US) — do not include `/v3` (the action adds it).
 
 ### Postmark
 
