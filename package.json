@@ -46,7 +46,6 @@
     "remark-unwrap-images": "^4.0.1",
     "tailwindcss": "^4.1.4",
     "vue": "^3.5.13",
-    "vue3-popper": "^1.5.0",
     "vue3-toastify": "^0.2.8"
   },
   "devDependencies": {

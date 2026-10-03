@@ -5,7 +5,7 @@
       class="dialog pointer-events-auto fixed inset-0 z-[1000] grid w-full cursor-pointer place-items-center bg-dark/50 backdrop-blur-sm"
       @click="hide()"
     >
-      <div @click.stop class="container-md relative">
+      <div @click.stop class="container-md relative cursor-default">
         <div
           class="surface-base dialog__inner relative grid grid-cols-1 overflow-hidden rounded-2xl shadow-xl md:grid-cols-[4fr_5fr]"
         >
@@ -15,8 +15,8 @@
           <div
             class="hide-scrollbar dialog__content relative overflow-hidden p-8 md:p-14"
           >
-            <form @submit.prevent="submit" class="grid gap-8">
-              <div class="grid gap-4 pb-8">
+            <form @submit.prevent="submit" class="grid gap-4">
+              <div class="grid gap-2 pb-2">
                 <h2 class="title-sm">{{ contact?.title }}</h2>
 
                 <slot name="content" />
@@ -26,44 +26,22 @@
                 v-if="contact.topics.length > 1"
               >
                 <label for="contact-topic">{{ t("topic") }} *</label>
-                <Popper
-                  placement="bottom-start"
-                  offsetDistance="1"
-                  :show="showPopper"
-                  class="w-full"
+                <select
+                  id="contact-topic"
+                  class="select surface-overlay w-full"
+                  :value="topic || ''"
+                  @change="onTopicChange"
+                  required
                 >
-                  <button
-                    id="contact-topic"
-                    type="button"
-                    @click="showPopper = !showPopper"
-                    class="select surface-overlay w-full text-left"
+                  <option value="" disabled>Select</option>
+                  <option
+                    v-for="(item, index) in contact.topics"
+                    :key="index"
+                    :value="item.label"
                   >
-                    {{ !!topic ? topic : "Select" }}
-                  </button>
-
-                  <template #content>
-                    <ul>
-                      <li
-                        v-for="(item, index) in contact.topics"
-                        :key="index"
-                        :class="
-                          topic == item.label ? 'bg-dark/10' : ''
-                        "
-                      >
-                        <button
-                          type="button"
-                          class="w-full p-2 text-left hover:bg-dark hover:bg-dark/10"
-                          @click="
-                            setTopic(item);
-                            showPopper = false;
-                          "
-                        >
-                          {{ item.label }}
-                        </button>
-                      </li>
-                    </ul>
-                  </template>
-                </Popper>
+                    {{ item.label }}
+                  </option>
+                </select>
               </div>
               <div class="input-group">
                 <label for="contact-name">{{ t("name") }} *</label>
@@ -142,7 +120,6 @@ import { showContact } from "@src/store";
 import { useAsyncValidator } from "@vueuse/integrations/useAsyncValidator";
 import { useTextareaAutosize } from "@vueuse/core";
 import Loading from "@components/common/Loading.vue";
-import Popper from "vue3-popper";
 import { toast } from "vue3-toastify";
 import { actions } from "astro:actions";
 
@@ -190,7 +167,6 @@ onMounted(async () => {
 });
 
 const topic = ref(null);
-const showPopper = ref(false);
 const loading = ref(false);
 const topicChannel = ref(null);
 const topicEmail = ref(null);
@@ -203,6 +179,12 @@ const setTopic = (data) => {
   topic.value = data.label;
   topicEmail.value = data.email;
   topicChannel.value = data.slack_id;
+};
+
+const onTopicChange = (event) => {
+  const label = event.target?.value;
+  const item = props.contact?.topics?.find((entry) => entry.label === label);
+  if (item) setTopic(item);
 };
 
 if (props.contact.topics.length === 1) {
@@ -281,9 +263,6 @@ watch(
 
 <style>
 /* Nested form control chrome — kept as CSS (not practical as scattered utilities) */
-.dialog {
-  --popper-theme-padding: 0;
-}
 .dialog__inner {
   max-height: calc(100vh - 2rem);
   overflow-x: hidden;
@@ -310,7 +289,7 @@ watch(
 
 .input-group {
   display: grid;
-  gap: 0.375rem;
+  gap: 0.25rem;
 }
 .input-group input,
 .input-group textarea,
@@ -320,6 +299,14 @@ watch(
   border-radius: 1rem;
   padding: 0.625rem 0.75rem;
   line-height: 1.5;
+}
+.input-group .select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
 }
 .input-group textarea {
   /* 3 rows of text + vertical padding */

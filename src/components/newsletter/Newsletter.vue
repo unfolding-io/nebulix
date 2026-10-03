@@ -76,7 +76,8 @@ const submit = async () => {
     });
 
     if (error) {
-      toast.error(t("newsletter_error"));
+      console.error("subscribe action error", error);
+      toast.error(error.message || t("newsletter_error"));
       return;
     }
 

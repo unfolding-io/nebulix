@@ -2,8 +2,20 @@ import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro/zod";
 import { sendContact } from "@src/lib/forms/contact";
 import { subscribeMailchimp } from "@src/lib/forms/mailchimp";
+import { optionalEnv } from "@src/lib/forms/env";
 
 const contactProvider = z.enum(["mailgun", "postmark", "slack"]);
+
+function resolveContactProvider(
+  fromClient: z.infer<typeof contactProvider>,
+): z.infer<typeof contactProvider> {
+  // Prefer env (CONTACT_FORM_ENDPOINT) over CMS so host secrets can drive routing.
+  const fromEnv = optionalEnv("CONTACT_FORM_ENDPOINT")?.trim().toLowerCase();
+  if (fromEnv === "mailgun" || fromEnv === "postmark" || fromEnv === "slack") {
+    return fromEnv;
+  }
+  return fromClient;
+}
 
 export const server = {
   contact: defineAction({
@@ -21,7 +33,7 @@ export const server = {
     handler: async (input) => {
       try {
         return await sendContact({
-          provider: input.provider,
+          provider: resolveContactProvider(input.provider),
           email: input.email,
           name: input.name,
           phone: input.phone || undefined,

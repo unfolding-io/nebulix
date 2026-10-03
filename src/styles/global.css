@@ -20,15 +20,6 @@
   --w-md: 55rem;
   --w-sm: 40rem;
   --w-container: 55rem;
-
-  --popper-theme-background-color: var(--palette-primary);
-  --popper-theme-background-color-hover: var(--palette-primary);
-  --popper-theme-text-color: var(--palette-light);
-  --popper-theme-border-width: 0px;
-  --popper-theme-border-style: solid;
-  --popper-theme-border-radius: 0.2rem;
-  --popper-theme-padding: 0.4rem;
-  --popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
 }
 
 html[data-theme="dark"] {
@@ -174,25 +165,6 @@ body {
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-/* POPPER */
-.popper {
-  transition: background 250ms ease-in-out;
-  background: var(--popper-theme-background-color);
-  padding: var(--popper-theme-padding);
-  color: var(--popper-theme-text-color);
-  border-radius: var(--popper-theme-border-radius);
-  border-width: var(--popper-theme-border-width);
-  border-style: var(--popper-theme-border-style);
-  border-color: var(--popper-theme-border-color);
-  box-shadow: var(--popper-theme-box-shadow);
-  z-index: v-bind(zIndex);
-}
-
-.popper:hover,
-.popper:hover > #arrow::before {
-  background: var(--popper-theme-background-color-hover);
 }
 
 /* MARKDOWN HTML */
