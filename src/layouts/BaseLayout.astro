@@ -56,9 +56,9 @@ const surfaceCss = buildSurfaceStyles(styleConfig?.data?.surface ?? []);
         </div>
       </div>
     </Footer>
-    <Init client:idle />
+    <Init client:interaction />
 
-    <ContactDialog client:idle contact={contact?.data?.form}>
+    <ContactDialog client:interaction contact={contact?.data?.form}>
       {
         contact?.data?.form?.intro && (
           <div

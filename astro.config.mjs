@@ -10,6 +10,7 @@ import remarkUnwrapImages from "remark-unwrap-images";
 import vue from "@astrojs/vue";
 import tailwindcss from "@tailwindcss/vite";
 import clientMediaIdle from "./src/integrations/clientMediaIdle.ts";
+import clientInteraction from "./src/integrations/clientInteraction.ts";
 
 // Default adapter: Netlify (powers Astro Actions for contact/newsletter).
 // Swap for another host: `npx astro add cloudflare` or `npx astro add vercel`.
@@ -51,6 +52,7 @@ export default defineConfig({
       appEntrypoint: "/src/pages/_app",
     }),
     clientMediaIdle(),
+    clientInteraction(),
   ],
 
   markdown: {
