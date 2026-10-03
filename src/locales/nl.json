@@ -150,5 +150,9 @@
   "weight": "Gewicht",
   "weight_in_grams": "Gewicht in gram",
   "width": "Breedte",
-  "width_in_cm": "Breedte in cm"
+  "width_in_cm": "Breedte in cm",
+  "message": "Bericht",
+  "phone": "Telefoon",
+  "topic": "Onderwerp",
+  "submit": "Versturen"
 }

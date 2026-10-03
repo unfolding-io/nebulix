@@ -153,6 +153,10 @@
   "weight_in_grams": "Poid en grammes",
   "width": "Largeur",
   "width_in_cm": "Largeur en cm",
+  "message": "Message",
+  "phone": "Téléphone",
+  "topic": "Sujet",
+  "submit": "Envoyer",
   "contact_thanks": "Merci de nous avoir contacté, nous allons revenir vers vous aussitot que possible.",
   "contact_error": "Nous n'avons pas pus envoyer votre message, merci de ré-essayer."
 }

@@ -9,7 +9,7 @@
         <div
           class="surface-base dialog__inner relative grid grid-cols-1 overflow-hidden rounded-2xl shadow-xl md:grid-cols-[4fr_5fr]"
         >
-          <div class="overflow-hidden md:block">
+          <div class="dialog__media hidden overflow-hidden md:block md:h-full">
             <slot name="image" />
           </div>
           <div
@@ -25,6 +25,7 @@
                 class="input-group z-20 w-full"
                 v-if="contact.topics.length > 1"
               >
+                <label for="contact-topic">{{ t("topic") }} *</label>
                 <Popper
                   placement="bottom-start"
                   offsetDistance="1"
@@ -32,6 +33,7 @@
                   class="w-full"
                 >
                   <button
+                    id="contact-topic"
                     type="button"
                     @click="showPopper = !showPopper"
                     class="select surface-overlay w-full text-left"
@@ -62,67 +64,49 @@
                     </ul>
                   </template>
                 </Popper>
-
-                <label
-                  class="peer-placeholder-shown:left-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-9 peer-focus:scale-75 peer-focus:text-primary"
-                  >{{ t("topic") }} *</label
-                >
               </div>
               <div class="input-group">
+                <label for="contact-name">{{ t("name") }} *</label>
                 <input
+                  id="contact-name"
                   type="text"
                   name="name"
-                  placeholder=" "
-                  class="surface-overlay peer"
+                  class="surface-overlay"
                   v-model="form.name"
                 />
-                <label
-                  class="peer-placeholder-shown:left-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-9 peer-focus:scale-75 peer-focus:text-primary"
-                  >{{ t("name") }} *</label
-                >
               </div>
 
               <div class="input-group">
+                <label for="contact-email">{{ t("email") }} *</label>
                 <input
+                  id="contact-email"
                   type="email"
                   name="email"
-                  placeholder=" "
-                  class="surface-overlay peer"
+                  class="surface-overlay"
                   v-model="form.email"
                 />
-                <label
-                  class="peer-placeholder-shown:left-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-9 peer-focus:scale-75 peer-focus:text-primary"
-                  >{{ t("email") }} *</label
-                >
               </div>
               <div class="input-group">
+                <label for="contact-phone">{{ t("phone") }}</label>
                 <input
+                  id="contact-phone"
                   type="text"
                   name="phone"
-                  placeholder=" "
-                  class="surface-overlay peer"
+                  class="surface-overlay"
                   v-model="form.phone"
                 />
-                <label
-                  class="peer-placeholder-shown:left-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-9 peer-focus:scale-75 peer-focus:text-primary"
-                  >{{ t("phone") }}</label
-                >
               </div>
               <div class="input-group">
+                <label for="contact-message">{{ t("message") }} *</label>
                 <textarea
-                  class="surface-overlay peer"
+                  id="contact-message"
+                  class="surface-overlay"
                   name="message"
-                  id=""
-                  placeholder=" "
                   cols="30"
-                  rows="2"
+                  rows="3"
                   ref="textarea"
                   v-model="input"
                 ></textarea>
-                <label
-                  class="peer-placeholder-shown:left-4 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-9 peer-focus:scale-75 peer-focus:text-primary"
-                  >Message *</label
-                >
               </div>
               <div
                 class="pointer-events-none right-5 mb-14 flex translate-y-10 justify-end md:sticky md:bottom-0"
@@ -297,6 +281,13 @@ watch(
   overflow-x: hidden;
   overflow-y: auto;
 }
+.dialog__media :deep(picture),
+.dialog__media :deep(img) {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
 @media (width >= 48rem) {
   .dialog__inner {
     height: min(100vh - 2rem, 40rem);
@@ -310,8 +301,8 @@ watch(
 }
 
 .input-group {
-  position: relative;
-  isolation: isolate;
+  display: grid;
+  gap: 0.375rem;
 }
 .input-group input,
 .input-group textarea,
@@ -320,16 +311,14 @@ watch(
   width: 100%;
   border-radius: 1rem;
   padding: 0.625rem 0.75rem;
+  line-height: 1.5;
+}
+.input-group textarea {
+  /* 3 rows of text + vertical padding */
+  min-height: calc(3lh + 1.25rem);
+  resize: vertical;
 }
 .input-group label {
-  pointer-events: none;
-  position: absolute;
-  left: 0;
-  top: 0.75rem;
-  z-index: 10;
-  transform-origin: 0;
-  transform: translateY(-2.25rem) scale(0.75);
   font-size: 0.875rem;
-  transition-duration: 300ms;
 }
 </style>

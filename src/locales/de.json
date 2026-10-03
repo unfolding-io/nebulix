@@ -144,5 +144,9 @@
   "weight": "Gewicht",
   "weight_in_grams": "Gewicht in Gramm",
   "width": "Breite",
-  "width_in_cm": "Breite in cm"
+  "width_in_cm": "Breite in cm",
+  "message": "Nachricht",
+  "phone": "Telefon",
+  "topic": "Thema",
+  "submit": "Senden"
 }

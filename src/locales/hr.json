@@ -152,5 +152,9 @@
   "weight": "Težina",
   "weight_in_grams": "Težina u gramima",
   "width": "Širina",
-  "width_in_cm": "Širina u cm"
+  "width_in_cm": "Širina u cm",
+  "message": "Poruka",
+  "phone": "Telefon",
+  "topic": "Tema",
+  "submit": "Pošalji"
 }
