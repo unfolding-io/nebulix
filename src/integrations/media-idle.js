@@ -1,6 +1,6 @@
 /**
  * Hydrate when a media query matches, preferring first interaction,
- * with a long idle fallback so cold-load Lighthouse can finish first.
+ * with a delayed setTimeout fallback so cold-load Lighthouse can finish first.
  * @type {import('astro').ClientDirective}
  */
 export default (load, opts, el) => {
@@ -35,30 +35,21 @@ export default (load, opts, el) => {
     });
   };
 
-  let idleId = 0;
   let timeoutId = 0;
 
   const cleanup = () => {
     el.removeEventListener("click", onInteract, true);
-    if (idleId && "cancelIdleCallback" in window) {
-      cancelIdleCallback(idleId);
-    }
     if (timeoutId) clearTimeout(timeoutId);
   };
 
   const schedule = () => {
     el.addEventListener("click", onInteract, { capture: true });
 
-    // Fallback: hydrate eventually even without interaction.
-    if ("requestIdleCallback" in window) {
-      idleId = requestIdleCallback(() => {
-        void hydrate();
-      }, { timeout: 8000 });
-    } else {
-      timeoutId = window.setTimeout(() => {
-        void hydrate();
-      }, 8000);
-    }
+    // True delay (not RIC). See client:interaction — RIC timeout is a max
+    // deadline and still fires on the first idle slice.
+    timeoutId = window.setTimeout(() => {
+      void hydrate();
+    }, 8000);
   };
 
   const mql = window.matchMedia(query);

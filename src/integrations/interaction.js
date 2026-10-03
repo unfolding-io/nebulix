@@ -41,26 +41,20 @@ export default (load, opts, el) => {
     });
   };
 
-  let idleId = 0;
   let timeoutId = 0;
 
   const cleanup = () => {
     el.removeEventListener("click", onInteract, true);
-    if (idleId && "cancelIdleCallback" in window) {
-      cancelIdleCallback(idleId);
-    }
     if (timeoutId) clearTimeout(timeoutId);
   };
 
   el.addEventListener("click", onInteract, { capture: true });
 
-  if ("requestIdleCallback" in window) {
-    idleId = requestIdleCallback(() => {
-      void hydrate();
-    }, { timeout });
-  } else {
-    timeoutId = window.setTimeout(() => {
-      void hydrate();
-    }, timeout);
-  }
+  // True delay (not RIC). requestIdleCallback({ timeout }) is a *max*
+  // deadline and still fires on the first idle slice (~1s), which pulls
+  // Vue into the Lighthouse network dependency tree. setTimeout keeps
+  // islands off the critical path until click or this fallback.
+  timeoutId = window.setTimeout(() => {
+    void hydrate();
+  }, timeout);
 };

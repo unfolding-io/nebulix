@@ -2,8 +2,8 @@ import type { AstroIntegration } from "astro";
 import { fileURLToPath } from "node:url";
 
 /**
- * Registers `client:interaction` — hydrate on first click, with a long
- * idle fallback (default 8s) so cold-load Lighthouse can finish first.
+ * Registers `client:interaction` — hydrate on first click, with a delayed
+ * setTimeout fallback (default 8s) so cold-load Lighthouse can finish first.
  */
 export default function clientInteraction(): AstroIntegration {
   return {
